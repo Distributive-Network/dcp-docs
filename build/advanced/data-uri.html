@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Deploying jobs with remote input data &mdash; Distributive Compute Protocol  documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/tabs.css" type="text/css" />
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../_static/doctools.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="dcp-client" href="../api/dcp-client/index.html" />
+    <link rel="prev" title="Google Colabs" href="../tutorials/colab.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #0e2439" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Distributive Compute Protocol
+              <img src="../_static/dcl-logo.svg" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Introduction</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../intro/getting-setup.html">Getting setup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../intro/getting-started.html">Getting started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../intro/workers.html">Setting up <code class="docutils literal notranslate"><span class="pre">DCP</span> <span class="pre">workers</span></code></a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/node/index.html">DCP on Node.js</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/web/index.html">DCP on the Web</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/colab.html">DCP on Google Colabs</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Advanced Guides</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Deploying jobs with remote input data</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#input-data">Input data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#compute-for"><code class="docutils literal notranslate"><span class="pre">compute.for</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#worker">Worker</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api/dcp-client/index.html"><code class="docutils literal notranslate"><span class="pre">dcp-client</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/compute/index.html"><code class="docutils literal notranslate"><span class="pre">dcp/compute</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/wallet/index.html"><code class="docutils literal notranslate"><span class="pre">dcp/wallet</span></code></a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Support</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../support/faq.html">FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../support/contact.html">Contact us</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Indices and tables</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../glossary.html">Glossary</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Full DCP Specifications</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../specs/compute-api.html">   Compute</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../specs/protocol-api.html">   Protocol</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../specs/wallet-api.html">   Wallet</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../specs/worker-api.html">   Worker</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #0e2439" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Distributive Compute Protocol</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Deploying jobs with remote input data</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="deploying-jobs-with-remote-input-data">
+<h1>Deploying jobs with remote input data<a class="headerlink" href="#deploying-jobs-with-remote-input-data" title="Permalink to this heading"></a></h1>
+<p>To deploy a job with a large amount of input data, you may want to avoid uploading it to the scheduler, from which the workers executing slices of your job fetch from. Instead, you can have the workers directly fetch the job from a remote location specified as a <span class="xref myst">Remote Data Set</span>.</p>
+<p>To deploy a job using input data specified with <code class="docutils literal notranslate"><span class="pre">URL</span></code> objects, there are two ways to stringify input-data before sending the data to workers from the web server:</p>
+<ul>
+<li><p>JSON: A common method for serializing data in network requests.</p></li>
+<li><p><a class="reference external" href="https://www.npmjs.com/package/kvin">KVIN</a>: A comprehensive library that serializes JavaScript types for transmission over a network in a way that co-exists peacefully with JSON, but it supports more data types (for example, Typed Arrays, values with circular references, etc.). It’s a Content-Type that DCP workers understand for the express purpose of being able to fetch said complex data types.</p>
+<p>To let workers know about it, you need to define the Content-Type (for example, in an Express app: <code class="docutils literal notranslate"><span class="pre">res.header(&quot;Content-Type&quot;,</span> <span class="pre">&quot;application/x-kvin&quot;)</span></code>), when using <code class="docutils literal notranslate"><span class="pre">kvin.serialize(inputData)</span></code>.</p>
+</li>
+</ul>
+<p>Note that specifying the <code class="docutils literal notranslate"><span class="pre">Access-Control-Allow-Headers</span></code> and <code class="docutils literal notranslate"><span class="pre">Access-Control-Allow-Origin</span></code> headers are also necessary so that workers on web browsers can fetch the data.</p>
+<section id="input-data">
+<h2>Input data<a class="headerlink" href="#input-data" title="Permalink to this heading"></a></h2>
+<p>The input data in this example is an array of <code class="docutils literal notranslate"><span class="pre">URL</span></code> objects. For demonstration purposes, the example represents the input data as a basic data structure.</p>
+<div class="highlight-js notranslate"><div class="highlight"><pre><span></span><span class="c1">// INPUT DATA WITH JSON(default)</span>
+<span class="kd">const</span> <span class="nx">express</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;express&#39;</span><span class="p">);</span>
+
+<span class="kd">const</span> <span class="nx">app</span> <span class="o">=</span> <span class="nx">express</span><span class="p">();</span>
+<span class="kd">const</span> <span class="nx">port</span> <span class="o">=</span> <span class="mf">12345</span><span class="p">;</span>
+<span class="nx">app</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">,</span> <span class="p">(</span><span class="nx">req</span><span class="p">,</span> <span class="nx">res</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="p">{</span>
+  <span class="nx">res</span><span class="p">.</span><span class="nx">header</span><span class="p">(</span><span class="s1">&#39;Access-Control-Allow-Headers&#39;</span><span class="p">,</span> <span class="s1">&#39;content-type&#39;</span><span class="p">);</span>
+  <span class="nx">res</span><span class="p">.</span><span class="nx">header</span><span class="p">(</span><span class="s1">&#39;Access-Control-Allow-Origin&#39;</span><span class="p">,</span> <span class="s1">&#39;*&#39;</span><span class="p">);</span>
+  <span class="kd">const</span> <span class="nx">inputData</span> <span class="o">=</span> <span class="p">{</span> <span class="nx">x</span><span class="o">:</span> <span class="mf">1</span><span class="p">,</span> <span class="nx">y</span><span class="o">:</span> <span class="mf">2</span> <span class="p">};</span>
+  <span class="nx">res</span><span class="p">.</span><span class="nx">send</span><span class="p">(</span><span class="nx">inputData</span><span class="p">);</span>
+<span class="p">});</span>
+
+<span class="nx">app</span><span class="p">.</span><span class="nx">listen</span><span class="p">(</span><span class="nx">port</span><span class="p">,</span> <span class="p">()</span> <span class="p">=&gt;</span> <span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="sb">`port </span><span class="si">${</span><span class="nx">port</span><span class="si">}</span><span class="sb"> is ready!`</span><span class="p">);</span>
+<span class="p">});</span>
+
+<span class="kd">const</span> <span class="nx">inputSet</span> <span class="o">=</span> <span class="p">[</span><span class="ow">new</span> <span class="nx">URL</span><span class="p">(</span><span class="s1">&#39;http://localhost:12345/&#39;</span><span class="p">)];</span>
+</pre></div>
+</div>
+<div class="highlight-js notranslate"><div class="highlight"><pre><span></span><span class="c1">// INPUT DATA WITH KVIN</span>
+<span class="kd">const</span> <span class="nx">express</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;express&#39;</span><span class="p">);</span>
+<span class="kd">const</span> <span class="nx">kvin</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;kvin&#39;</span><span class="p">);</span>
+
+<span class="kd">const</span> <span class="nx">app</span> <span class="o">=</span> <span class="nx">express</span><span class="p">();</span>
+<span class="kd">const</span> <span class="nx">port</span> <span class="o">=</span> <span class="mf">12345</span><span class="p">;</span>
+<span class="nx">app</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">,</span> <span class="p">(</span><span class="nx">req</span><span class="p">,</span> <span class="nx">res</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="p">{</span>
+  <span class="nx">res</span><span class="p">.</span><span class="nx">header</span><span class="p">(</span><span class="s1">&#39;Access-Control-Allow-Headers&#39;</span><span class="p">,</span> <span class="s1">&#39;content-type&#39;</span><span class="p">);</span>
+  <span class="nx">res</span><span class="p">.</span><span class="nx">header</span><span class="p">(</span><span class="s1">&#39;Access-Control-Allow-Origin&#39;</span><span class="p">,</span> <span class="s1">&#39;*&#39;</span><span class="p">);</span>
+  <span class="nx">res</span><span class="p">.</span><span class="nx">header</span><span class="p">(</span><span class="s1">&#39;Content-Type&#39;</span><span class="p">,</span> <span class="s1">&#39;application/x-kvin&#39;</span><span class="p">);</span>
+  <span class="kd">const</span> <span class="nx">inputData</span> <span class="o">=</span> <span class="p">{</span> <span class="nx">x</span><span class="o">:</span> <span class="mf">1</span><span class="p">,</span> <span class="nx">y</span><span class="o">:</span> <span class="mf">2</span> <span class="p">};</span>
+  <span class="nx">res</span><span class="p">.</span><span class="nx">send</span><span class="p">(</span><span class="nx">kvin</span><span class="p">.</span><span class="nx">serialize</span><span class="p">(</span><span class="nx">inputData</span><span class="p">));</span>
+<span class="p">});</span>
+
+<span class="nx">app</span><span class="p">.</span><span class="nx">listen</span><span class="p">(</span><span class="nx">port</span><span class="p">,</span> <span class="p">()</span> <span class="p">=&gt;</span> <span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="sb">`port </span><span class="si">${</span><span class="nx">port</span><span class="si">}</span><span class="sb"> is ready!`</span><span class="p">);</span>
+<span class="p">});</span>
+
+<span class="kd">const</span> <span class="nx">inputSet</span> <span class="o">=</span> <span class="p">[</span><span class="ow">new</span> <span class="nx">URL</span><span class="p">(</span><span class="s1">&#39;http://localhost:12345/&#39;</span><span class="p">)];</span>
+</pre></div>
+</div>
+</section>
+<section id="compute-for">
+<h2><code class="docutils literal notranslate"><span class="pre">compute.for</span></code><a class="headerlink" href="#compute-for" title="Permalink to this heading"></a></h2>
+<div class="highlight-js notranslate"><div class="highlight"><pre><span></span><span class="kd">const</span> <span class="nx">job</span> <span class="o">=</span> <span class="nx">compute</span><span class="p">.</span><span class="k">for</span><span class="p">(</span><span class="nx">inputSet</span><span class="p">,</span> <span class="nx">workFn</span><span class="p">,</span> <span class="nx">args</span><span class="p">);</span>
+</pre></div>
+</div>
+</section>
+<section id="worker">
+<h2>Worker<a class="headerlink" href="#worker" title="Permalink to this heading"></a></h2>
+<p>To allow workers to fetch specific URLs, add the URL’s <code class="docutils literal notranslate"><span class="pre">origin</span></code> to the worker’s configured <code class="docutils literal notranslate"><span class="pre">allowOrigins</span></code> list.</p>
+<p>The worker’s <code class="docutils literal notranslate"><span class="pre">allowOrigins</span></code> list specifies which origins the worker can accept data from. Allowing all makes the worker vulnerable to cross-origin attacks, so add just trustworthy origins.</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="../intro/workers.html"><span class="doc std std-doc">Web worker</span></a>: Type into the browser console (Press F12, or “Inspect” the page then press the ‘Console’ tab) <code class="docutils literal notranslate"><span class="pre">dcpConfig.worker.allowOrigins.any.push('http://localhost:12345')</span></code>.</p></li>
+<li><p><a class="reference internal" href="../intro/workers.html"><span class="doc std std-doc">localExec()</span></a>: Add the following in your JS code before calling job.localExec():</p></li>
+</ul>
+<div class="highlight-js notranslate"><div class="highlight"><pre><span></span><span class="kd">const</span> <span class="nx">dcpConfig</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;dcp/dcp-config&#39;</span><span class="p">);</span>
+
+<span class="nx">dcpConfig</span><span class="p">.</span><span class="nx">worker</span><span class="p">.</span><span class="nx">allowOrigins</span><span class="p">.</span><span class="nx">any</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span>
+  <span class="s1">&#39;https://localhost:12345&#39;</span><span class="p">,</span>
+  <span class="s1">&#39;https://localhost:12346&#39;</span><span class="p">,</span>
+<span class="p">);</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The URL’s <code class="docutils literal notranslate"><span class="pre">origin</span></code> is the protocol (ex: <code class="docutils literal notranslate"><span class="pre">https://</span></code> or <code class="docutils literal notranslate"><span class="pre">http://</span></code>), the host name (ex: <code class="docutils literal notranslate"><span class="pre">example.com</span></code>), and the port if specified (ex: <code class="docutils literal notranslate"><span class="pre">:443</span></code>). For example, the <code class="docutils literal notranslate"><span class="pre">origin</span></code> of the site <code class="docutils literal notranslate"><span class="pre">https://example.com:443/foo</span></code> would just be <code class="docutils literal notranslate"><span class="pre">https://example.com:443</span></code>.</p>
+<p class="rubric">Remote data set</p>
+<p>A class that stores <code class="docutils literal notranslate"><span class="pre">URI</span></code>s representing data, arguments, etc. You can define an array of <code class="docutils literal notranslate"><span class="pre">URL</span></code> objects or use:</p>
+<div class="highlight-js notranslate"><div class="highlight"><pre><span></span><span class="kd">const</span> <span class="p">{</span> <span class="nx">RemoteDataSet</span> <span class="p">}</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;dcp/compute&#39;</span><span class="p">);</span>
+
+<span class="kd">const</span> <span class="nx">inputSet</span> <span class="o">=</span> <span class="ow">new</span> <span class="nx">RemoteDataSet</span><span class="p">(</span>
+  <span class="sb">`http://localhost:12345`</span><span class="p">,</span>
+  <span class="sb">`http://localhost:12346`</span><span class="p">,</span>
+<span class="p">);</span>
+</pre></div>
+</div>
+<p>Use <code class="docutils literal notranslate"><span class="pre">RemoteDataSet</span></code> as an argument for the worker function to accept a mix of remote and local shared arguments. Push the local argument URI to the defined remoteDataSet.</p>
+<div class="highlight-js notranslate"><div class="highlight"><pre><span></span><span class="kd">const</span> <span class="nx">args</span> <span class="o">=</span> <span class="ow">new</span> <span class="nx">RemoteDataSet</span><span class="p">(</span>
+  <span class="sb">`http://localhost:1234`</span><span class="p">,</span>
+  <span class="sb">`http://localhost:1235`</span><span class="p">,</span>
+<span class="p">);</span>
+<span class="nx">args</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="s1">&#39;data:,hello-world&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">RemoteDataPattern</span></code> is another remote class that’s available (for input data) to prevent repeating <code class="docutils literal notranslate"><span class="pre">URI</span></code>’s that have the similar pattern (example: <code class="docutils literal notranslate"><span class="pre">http://site.com/1.json</span></code>,<code class="docutils literal notranslate"><span class="pre">http://site.com/2.json</span></code>) and allow passing the pattern and the number of slices.</p>
+<div class="highlight-js notranslate"><div class="highlight"><pre><span></span><span class="kd">const</span> <span class="p">{</span> <span class="nx">RemoteDataPattern</span> <span class="p">}</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;dcp/compute&#39;</span><span class="p">);</span>
+
+<span class="kd">const</span> <span class="nx">pattern</span> <span class="o">=</span> <span class="s1">&#39;http://site.com/{slice}.json&#39;</span><span class="p">;</span>
+<span class="kd">const</span> <span class="nx">b</span> <span class="o">=</span> <span class="ow">new</span> <span class="nx">RemoteDataPattern</span><span class="p">(</span><span class="nx">pattern</span><span class="p">,</span> <span class="mf">2</span><span class="p">);</span>
+<span class="kd">const</span> <span class="nx">job</span> <span class="o">=</span> <span class="nx">compute</span><span class="p">.</span><span class="k">for</span><span class="p">(</span><span class="nx">b</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">el</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">el</span><span class="p">);</span>
+<span class="p">});</span>
+</pre></div>
+</div>
+<p class="rubric">Full code</p>
+<details><summary>Click to see full code</summary>
+<div class="highlight-js notranslate"><div class="highlight"><pre><span></span><span class="kd">const</span> <span class="nx">express</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;express&#39;</span><span class="p">);</span>
+
+<span class="k">async</span> <span class="kd">function</span> <span class="nx">main</span><span class="p">()</span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="nx">compute</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;dcp/compute&#39;</span><span class="p">);</span>
+  <span class="kd">const</span> <span class="nx">app</span> <span class="o">=</span> <span class="nx">express</span><span class="p">();</span>
+
+  <span class="cm">/* INPUT SET */</span>
+  <span class="kd">const</span> <span class="nx">port1</span> <span class="o">=</span> <span class="mf">12345</span><span class="p">;</span>
+  <span class="nx">app</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">,</span> <span class="p">(</span><span class="nx">req</span><span class="p">,</span> <span class="nx">res</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="p">{</span>
+    <span class="nx">res</span><span class="p">.</span><span class="nx">header</span><span class="p">(</span><span class="s1">&#39;Access-Control-Allow-Headers&#39;</span><span class="p">,</span> <span class="s1">&#39;content-type&#39;</span><span class="p">);</span>
+    <span class="nx">res</span><span class="p">.</span><span class="nx">header</span><span class="p">(</span><span class="s1">&#39;Access-Control-Allow-Origin&#39;</span><span class="p">,</span> <span class="s1">&#39;*&#39;</span><span class="p">);</span>
+    <span class="kd">const</span> <span class="nx">inputData</span> <span class="o">=</span> <span class="p">{</span> <span class="nx">x</span><span class="o">:</span> <span class="mf">1</span><span class="p">,</span> <span class="nx">y</span><span class="o">:</span> <span class="mf">2</span> <span class="p">};</span>
+    <span class="nx">res</span><span class="p">.</span><span class="nx">send</span><span class="p">(</span><span class="nx">inputData</span><span class="p">);</span>
+  <span class="p">});</span>
+
+  <span class="nx">app</span><span class="p">.</span><span class="nx">listen</span><span class="p">(</span><span class="nx">port1</span><span class="p">,</span> <span class="p">()</span> <span class="p">=&gt;</span> <span class="p">{</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="sb">`port </span><span class="si">${</span><span class="nx">port1</span><span class="si">}</span><span class="sb"> is ready!`</span><span class="p">);</span>
+  <span class="p">});</span>
+
+  <span class="kd">const</span> <span class="nx">port2</span> <span class="o">=</span> <span class="mf">12346</span><span class="p">;</span>
+  <span class="nx">app</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">,</span> <span class="p">(</span><span class="nx">req</span><span class="p">,</span> <span class="nx">res</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="p">{</span>
+    <span class="nx">res</span><span class="p">.</span><span class="nx">header</span><span class="p">(</span><span class="s1">&#39;Access-Control-Allow-Headers&#39;</span><span class="p">,</span> <span class="s1">&#39;content-type&#39;</span><span class="p">);</span>
+    <span class="nx">res</span><span class="p">.</span><span class="nx">header</span><span class="p">(</span><span class="s1">&#39;Access-Control-Allow-Origin&#39;</span><span class="p">,</span> <span class="s1">&#39;*&#39;</span><span class="p">);</span>
+    <span class="kd">const</span> <span class="nx">inputData</span> <span class="o">=</span> <span class="p">{</span> <span class="nx">x</span><span class="o">:</span> <span class="mf">101</span><span class="p">,</span> <span class="nx">y</span><span class="o">:</span> <span class="mf">201</span> <span class="p">};</span>
+    <span class="nx">res</span><span class="p">.</span><span class="nx">send</span><span class="p">(</span><span class="nx">inputData</span><span class="p">);</span>
+  <span class="p">});</span>
+
+  <span class="nx">app</span><span class="p">.</span><span class="nx">listen</span><span class="p">(</span><span class="nx">port2</span><span class="p">,</span> <span class="p">()</span> <span class="p">=&gt;</span> <span class="p">{</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="sb">`port </span><span class="si">${</span><span class="nx">port2</span><span class="si">}</span><span class="sb"> is ready!`</span><span class="p">);</span>
+  <span class="p">});</span>
+
+  <span class="kd">const</span> <span class="nx">inputSet</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="ow">new</span> <span class="nx">URL</span><span class="p">(</span><span class="s1">&#39;http://localhost:12345/&#39;</span><span class="p">),</span>
+    <span class="ow">new</span> <span class="nx">URL</span><span class="p">(</span><span class="s1">&#39;http://localhost:12346/&#39;</span><span class="p">),</span>
+  <span class="p">];</span>
+
+  <span class="cm">/* WORK FUNCTION */</span>
+  <span class="k">async</span> <span class="kd">function</span> <span class="nx">workFn</span><span class="p">(</span><span class="nx">data</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">progress</span><span class="p">();</span>
+    <span class="kd">let</span> <span class="nx">sum</span> <span class="o">=</span> <span class="mf">0</span><span class="p">;</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kd">let</span> <span class="nx">i</span> <span class="o">=</span> <span class="mf">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="mf">10000000</span><span class="p">;</span> <span class="nx">i</span> <span class="o">+=</span> <span class="mf">1</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">progress</span><span class="p">(</span><span class="nx">i</span> <span class="o">/</span> <span class="mf">10000000</span><span class="p">);</span>
+      <span class="nx">sum</span> <span class="o">+=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">random</span><span class="p">();</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="nx">data</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="c1">// Create new job.</span>
+  <span class="kd">const</span> <span class="nx">job</span> <span class="o">=</span> <span class="nx">compute</span><span class="p">.</span><span class="k">for</span><span class="p">(</span><span class="nx">inputSet</span><span class="p">,</span> <span class="nx">workFn</span><span class="p">);</span>
+  <span class="nx">job</span><span class="p">.</span><span class="kr">public</span><span class="p">.</span><span class="nx">name</span> <span class="o">=</span> <span class="s1">&#39;dataURL-example&#39;</span><span class="p">;</span>
+
+  <span class="c1">// Adding Job Listeners.</span>
+  <span class="nx">job</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;accepted&#39;</span><span class="p">,</span> <span class="p">()</span> <span class="p">=&gt;</span> <span class="p">{</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="sb">` - Job accepted by scheduler, waiting for results`</span><span class="p">);</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="sb">` - Job has address </span><span class="si">${</span><span class="nx">job</span><span class="p">.</span><span class="nx">id</span><span class="si">}</span><span class="sb">`</span><span class="p">);</span>
+    <span class="nx">startTime</span> <span class="o">=</span> <span class="nb">Date</span><span class="p">.</span><span class="nx">now</span><span class="p">();</span>
+  <span class="p">});</span>
+
+  <span class="nx">job</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;readystatechange&#39;</span><span class="p">,</span> <span class="p">(</span><span class="nx">arg</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="p">{</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="sb">`new ready state: </span><span class="si">${</span><span class="nx">arg</span><span class="si">}</span><span class="sb">`</span><span class="p">);</span>
+  <span class="p">});</span>
+
+  <span class="nx">job</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;result&#39;</span><span class="p">,</span> <span class="p">(</span><span class="nx">ev</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="p">{</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span>
+      <span class="sb">` - Received result for slice </span><span class="si">${</span><span class="nx">ev</span><span class="p">.</span><span class="nx">sliceNumber</span><span class="si">}</span><span class="sb"> at </span><span class="si">${</span>
+        <span class="nb">Math</span><span class="p">.</span><span class="nx">round</span><span class="p">((</span><span class="nb">Date</span><span class="p">.</span><span class="nx">now</span><span class="p">()</span> <span class="o">-</span> <span class="nx">startTime</span><span class="p">)</span> <span class="o">/</span> <span class="mf">100</span><span class="p">)</span> <span class="o">/</span> <span class="mf">10</span>
+      <span class="si">}</span><span class="sb">s`</span><span class="p">,</span>
+    <span class="p">);</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span>
+      <span class="sb">` * Wow! </span><span class="si">${</span><span class="nb">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span><span class="nx">ev</span><span class="p">.</span><span class="nx">result</span><span class="p">)</span><span class="si">}</span><span class="sb"> is such a pretty object!`</span><span class="p">,</span>
+    <span class="p">);</span>
+  <span class="p">});</span>
+
+  <span class="c1">// SKIP IF: you do not need a Compute Group</span>
+  <span class="c1">// job.computeGroups = [{ joinKey: &#39;KEY&#39;, joinSecret: &#39;SECRET&#39; }];</span>
+
+  <span class="cm">/* PROCESS RESULTS */</span>
+  <span class="kd">let</span> <span class="nx">resultSet</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">job</span><span class="p">.</span><span class="nx">exec</span><span class="p">();</span>
+  <span class="nx">resultSet</span> <span class="o">=</span> <span class="nb">Array</span><span class="p">.</span><span class="kr">from</span><span class="p">(</span><span class="nx">resultSet</span><span class="p">);</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">resultSet</span><span class="p">.</span><span class="nx">toString</span><span class="p">().</span><span class="nx">replace</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">));</span>
+<span class="p">}</span>
+
+<span class="nx">require</span><span class="p">(</span><span class="s1">&#39;dcp-client&#39;</span><span class="p">)</span>
+  <span class="p">.</span><span class="nx">init</span><span class="p">(</span><span class="s1">&#39;https://scheduler.distributed.computer&#39;</span><span class="p">)</span>
+  <span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="nx">main</span><span class="p">)</span>
+  <span class="p">.</span><span class="k">catch</span><span class="p">(</span><span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">);</span>
+</pre></div>
+</div>
+</details>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../tutorials/colab.html" class="btn btn-neutral float-left" title="Google Colabs" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../api/dcp-client/index.html" class="btn btn-neutral float-right" title="dcp-client" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Distributive.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+    <!-- Theme Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-0N557JP49X"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-0N557JP49X', {
+          'anonymize_ip': false,
+      });
+    </script> 
+
+</body>
+</html>

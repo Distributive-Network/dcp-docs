@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>get &mdash; Distributive Compute Protocol  documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/tabs.css" type="text/css" />
+    <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="load" href="load.html" />
+    <link rel="prev" title="Functions" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #0e2439" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            Distributive Compute Protocol
+              <img src="../../../_static/dcl-logo.svg" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Introduction</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../intro/getting-setup.html">Getting setup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../intro/getting-started.html">Getting started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../intro/workers.html">Setting up <code class="docutils literal notranslate"><span class="pre">DCP</span> <span class="pre">workers</span></code></a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorials/node/index.html">DCP on Node.js</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorials/web/index.html">DCP on the Web</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorials/colab.html">DCP on Google Colabs</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Advanced Guides</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced/data-uri.html">Deploying jobs with remote input data</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../dcp-client/index.html"><code class="docutils literal notranslate"><span class="pre">dcp-client</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../compute/index.html"><code class="docutils literal notranslate"><span class="pre">dcp/compute</span></code></a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html"><code class="docutils literal notranslate"><span class="pre">dcp/wallet</span></code></a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Functions</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#"><code class="docutils literal notranslate"><span class="pre">get</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="load.html"><code class="docutils literal notranslate"><span class="pre">load</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Support</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../support/faq.html">FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../support/contact.html">Contact us</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Indices and tables</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../glossary.html">Glossary</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Full DCP Specifications</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../specs/compute-api.html">   Compute</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../specs/protocol-api.html">   Protocol</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../specs/wallet-api.html">   Wallet</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../specs/worker-api.html">   Worker</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #0e2439" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">Distributive Compute Protocol</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html"><code class="docutils literal notranslate"><span class="pre">dcp/wallet</span></code></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Functions</a></li>
+      <li class="breadcrumb-item active"><code class="docutils literal notranslate"><span class="pre">get</span></code></li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="get">
+<h1><code class="docutils literal notranslate"><span class="pre">get</span></code><a class="headerlink" href="#get" title="Permalink to this heading"></a></h1>
+<dl class="js function">
+<dt class="sig sig-object js" id="wallet.get">
+<span class="sig-prename descclassname"><span class="n"><span class="pre">wallet</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">get</span></span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">{</span> <span class="pre">options.name</span> <span class="pre">=</span> <span class="pre">'default'[,</span> <span class="pre">options.contextId[,</span> <span class="pre">options.jobName]],</span> <span class="pre">options.checkEmpty</span> <span class="pre">=</span> <span class="pre">true[,</span> <span class="pre">options.KeystoreConstructor]</span> <span class="pre">}</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wallet.get" title="Permalink to this definition"></a></dt>
+<dd><p>This loads a Keystore File via <a class="reference internal" href="load.html#load" title="load"><code class="xref js js-func docutils literal notranslate"><span class="pre">load()</span></code></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Arguments</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>options.name</strong> (<em>string</em>) – The keystore name.</p></li>
+<li><p><strong>options.contextId</strong> (<em>string</em>) – An optional, user-defined identifier used for caching keystores.</p></li>
+<li><p><strong>options.jobName</strong> (<em>string</em>) – An optional name for the job that they keystore is being requested for.</p></li>
+<li><p><strong>options.checkEmpty</strong> (<em>boolean</em>) – Try an empty password before prompting user. Defaults to <cite>true</cite>.</p></li>
+<li><p><strong>options.KeystoreConstructor</strong> (<em>function</em>) – The constructor to use for the keystore. Defaults to default DCP Keystore constructor.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>Promise&lt;AuthKeystore&gt;</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="Functions" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="load.html" class="btn btn-neutral float-right" title="load" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Distributive.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+    <!-- Theme Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-0N557JP49X"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-0N557JP49X', {
+          'anonymize_ip': false,
+      });
+    </script> 
+
+</body>
+</html>

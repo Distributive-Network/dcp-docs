@@ -1,0 +1,1210 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The mandelbrot set &mdash; Distributive Compute Protocol  documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/tabs.css" type="text/css" />
+    <link rel="shortcut icon" href="../../_static/favicon.ico"/>
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="toUpperCase" href="to-upper-case.html" />
+    <link rel="prev" title="dcp-sort" href="dcp-sort.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #0e2439" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            Distributive Compute Protocol
+              <img src="../../_static/dcl-logo.svg" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Introduction</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../intro/getting-setup.html">Getting setup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../intro/getting-started.html">Getting started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../intro/workers.html">Setting up <code class="docutils literal notranslate"><span class="pre">DCP</span> <span class="pre">workers</span></code></a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">DCP on Node.js</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="dcp-sort.html"><code class="docutils literal notranslate"><span class="pre">dcp-sort</span></code></a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">The mandelbrot set</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#a-refresher">A refresher</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#background">Background</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#prep-installation">Prep installation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#setting-up-files">Setting up files</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#main-js">main.js</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#mandelbrot-set-js">mandelbrot-set.js</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#calculate-escape-time">Calculate escape time</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#complex-coordinates-to-feature">Complex coordinates to feature</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#coordinates-to-complex">Coordinates to complex</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#make-frame">Make frame</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#make-frames">Make frames</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#k-complex-coordinate">K complex coordinate</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#escape-time-to-colour">Escape time to colour</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#zoom-in">Zoom in</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-export-mandelbrot-set">Module export mandelbrot-set</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#image-animation-js"><code class="docutils literal notranslate"><span class="pre">image-animation.js</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#image-animation-requirements">Image animation requirements</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#save-image">Save image</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#create-gif">Create <code class="docutils literal notranslate"><span class="pre">GIF</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-export-image-animation">Module export image animation</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#returning-to-main-js">Returning to main.js</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#requirements">Requirements</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#main-function">Main function</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#initialize-dcp">Initialize <code class="docutils literal notranslate"><span class="pre">DCP</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#next-steps">Next steps</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#final-code">Final code</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="to-upper-case.html"><code class="docutils literal notranslate"><span class="pre">toUpperCase</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#tutorial-descriptions">Tutorial descriptions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#environment">Environment</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../web/index.html">DCP on the Web</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../colab.html">DCP on Google Colabs</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Advanced Guides</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../advanced/data-uri.html">Deploying jobs with remote input data</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../api/dcp-client/index.html"><code class="docutils literal notranslate"><span class="pre">dcp-client</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/compute/index.html"><code class="docutils literal notranslate"><span class="pre">dcp/compute</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/wallet/index.html"><code class="docutils literal notranslate"><span class="pre">dcp/wallet</span></code></a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Support</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../support/faq.html">FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../support/contact.html">Contact us</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Indices and tables</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../glossary.html">Glossary</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Full DCP Specifications</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../specs/compute-api.html">   Compute</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../specs/protocol-api.html">   Protocol</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../specs/wallet-api.html">   Wallet</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../specs/worker-api.html">   Worker</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #0e2439" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Distributive Compute Protocol</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Node.js tutorials</a></li>
+      <li class="breadcrumb-item active">The mandelbrot set</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="the-mandelbrot-set">
+<h1>The mandelbrot set<a class="headerlink" href="#the-mandelbrot-set" title="Permalink to this heading"></a></h1>
+<p>This DCP app demonstrates how to create a mandelbrot set zoom GIF in a distributed manner using the Distributive Compute Protocol (DCP). If you have a good understanding of how DCP works and the terminology already please feel free to skip the refresher and jump straight to the background.</p>
+<section id="a-refresher">
+<h2>A refresher<a class="headerlink" href="#a-refresher" title="Permalink to this heading"></a></h2>
+<details><summary>Click to see the refresher</summary>
+<p>DCP is a distributed computing framework made from web-based technology.</p>
+<p>Computers and devices in classrooms, computer labs, households, and enterprises become computing clusters with a single click with DCP. The entire workload, a <strong>job</strong>, is sub-divided into smaller parts, called <strong>slices</strong>. Slices execute in parallel using DCP. Each slice of the job corresponds to a frame in the final mandelbrot zoom. Slices deploy to different <strong>Workers</strong> (for example, laptops, desktops, cell phones, etc.) which contain sandboxes. A <strong>sandbox</strong> is a clean environment on your Worker that runs your work function.</p>
+<p>DCP is a powerful parallel computing framework that allows users to express a computational job as effortlessly as:</p>
+<div class="highlight-js notranslate"><div class="highlight"><pre><span></span><span class="nx">job</span> <span class="o">=</span> <span class="nx">compute</span><span class="p">.</span><span class="k">for</span><span class="p">(</span><span class="nx">inputSet</span><span class="p">,</span> <span class="nx">workFunction</span><span class="p">);</span>
+
+<span class="nx">resultSet</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">job</span><span class="p">.</span><span class="nx">exec</span><span class="p">();</span>
+</pre></div>
+</div>
+<p>A <code class="docutils literal notranslate"><span class="pre">workFunction</span></code> is mapped onto each element in an <code class="docutils literal notranslate"><span class="pre">inputSet</span></code>. Each mapping represents a slice. Slices are distributed across DCP networks for computation. Results are returned to the user from DCP networks coherently.</p>
+<p>Remember, the work function must contain <code class="docutils literal notranslate"><span class="pre">progress();</span></code>. Progress is a call made to tell the scheduler that the job is still alive and running. Progress is considered the heart beat of the job, without it the job would die and no results would be returned.</p>
+<ol class="arabic">
+<li><p>Create compute nodes: go to <a class="reference external" href="https://dcp.work">https://dcp.work</a> on as many devices as you want and click Start to join the public Compute Group, or to dcp.work/<code class="docutils literal notranslate"><span class="pre">joinKey</span></code> if you have a private Compute Group <code class="docutils literal notranslate"><span class="pre">joinKey</span></code> and <code class="docutils literal notranslate"><span class="pre">joinSecret</span></code>.</p></li>
+<li><p>Configure dev environment: load <code class="docutils literal notranslate"><span class="pre">dcp-client</span></code> and any required packages.</p></li>
+<li><p>Specify the <code class="docutils literal notranslate"><span class="pre">inputSet</span></code>: an arbitrary, but enumerable input dataset (parameters, mp3 files, images, blender project file, etc)</p></li>
+<li><p>Specify the <code class="docutils literal notranslate"><span class="pre">workFunction</span></code>: an arbitrary work function (physics simulation, inference model, rendering process, etc)</p></li>
+<li><p>Express the job: Map the <code class="docutils literal notranslate"><span class="pre">workFunction</span></code> onto the <code class="docutils literal notranslate"><span class="pre">inputSet</span></code> with</p>
+<div class="highlight-js notranslate"><div class="highlight"><pre><span></span><span class="nx">job</span> <span class="o">=</span> <span class="nx">compute</span><span class="p">.</span><span class="k">for</span><span class="p">(</span><span class="nx">inputSet</span><span class="p">,</span> <span class="nx">workFunction</span><span class="p">);</span>
+</pre></div>
+</div>
+</li>
+<li><p>(optional) Specify a Compute Group with</p>
+<div class="highlight-js notranslate"><div class="highlight"><pre><span></span><span class="nx">job</span><span class="p">.</span><span class="nx">computeGroups</span> <span class="o">=</span> <span class="p">[{</span> <span class="nx">joinKey</span><span class="o">:</span> <span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="nx">joinSecret</span><span class="o">:</span> <span class="s1">&#39;passphrase&#39;</span> <span class="p">}];</span>
+</pre></div>
+</div>
+</li>
+<li><p>Await the <code class="docutils literal notranslate"><span class="pre">resultSet</span></code>: Execute the job in parallel on DCP via</p>
+<div class="highlight-js notranslate"><div class="highlight"><pre><span></span><span class="nx">resultSet</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">job</span><span class="p">.</span><span class="nx">exec</span><span class="p">();</span>
+</pre></div>
+</div>
+</li>
+</ol>
+</details>
+<br/>
+</section>
+<section id="background">
+<h2>Background<a class="headerlink" href="#background" title="Permalink to this heading"></a></h2>
+<p>The mandelbrot set is a set of complex numbers that gained popularity because of the beautiful fractal images it produces. You can find videos online of infinite mandelbrot zooms with appealing colours. This tutorial walks you through creating your own mandelbrot zoom.</p>
+<p>To begin, the mandelbrot set is the set of complex numbers c for which the following function, <span class="math notranslate nohighlight">\(f_c (z) = z^2 + c\)</span> doesn’t diverge when iterated from z = 0.</p>
+<p>There exist two cases with this function,</p>
+<ol class="arabic simple">
+<li><p>The value gets arbitrarily large</p></li>
+<li><p>The value gets bounded by 2</p></li>
+</ol>
+<p>Here are examples of both of these cases.</p>
+<ul class="simple">
+<li><p>c = 1</p></li>
+</ul>
+<p><span class="math notranslate nohighlight">\(f_1 (0) = 0^2 + 1 = 1\)</span></p>
+<p><span class="math notranslate nohighlight">\(f_1 (1) = 1^2 + 1 = 2\)</span></p>
+<p><span class="math notranslate nohighlight">\(f_1 (2) = 2^2 + 1 = 5\)</span></p>
+<p><span class="math notranslate nohighlight">\(f_1 (5) = 5^2 + 1 = 26\)</span></p>
+<p>Here the values blow up past 2 and so c = 1 <strong>isn’t</strong> in the mandelbrot set.</p>
+<ul class="simple">
+<li><p>c = -1</p></li>
+</ul>
+<p><span class="math notranslate nohighlight">\(f_{-1} (0) = 0^2 + (-1) = -1\)</span></p>
+<p><span class="math notranslate nohighlight">\(f_{-1} (-1) = -1^2 + (-1) = 0\)</span></p>
+<p><span class="math notranslate nohighlight">\(f_{-1} (0) = 0^2 + (-1) = -1\)</span></p>
+<p><span class="math notranslate nohighlight">\(f_{-1} (-1) = -1^2 + (-1) = 0\)</span></p>
+<p>C =-1 continues to repeat and never blow up past 2, hence c =-1 <strong>is</strong> in the mandelbrot set.</p>
+<p>Now that you understand what the mandelbrot set is, it’s time to start creating your own mandelbrot set zoom on DCP. Establish a canvas size and run each point in that canvas through the function <span class="math notranslate nohighlight">\(f_c(z)\)</span>. Each point iterates through that function until it goes toward infinity or it reaches a set max number of iterations without the points value going passed 2. Then the colour of each point depends on what category it falls into, going up to infinity or staying below 2. This process creates one frame. To create a zoom these steps repeat for any number of canvases as desired.</p>
+</section>
+<section id="prep-installation">
+<h2>Prep installation<a class="headerlink" href="#prep-installation" title="Permalink to this heading"></a></h2>
+<p>Before you begin, set up your workspace.</p>
+<ol class="arabic simple">
+<li><p>Download <a class="reference external" href="https://code.visualstudio.com/download">VS Code</a></p></li>
+<li><p>Install npm</p></li>
+<li><p>Install node <a class="reference external" href="https://nodejs.org/en/download/">npm and node</a> In terminal</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">npm</span> <span class="pre">init</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">npm</span> <span class="pre">install</span> <span class="pre">sharp</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">npm</span> <span class="pre">install</span> <span class="pre">png-file-stream</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">npm</span> <span class="pre">install</span> <span class="pre">gifencoder</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">npm</span> <span class="pre">install</span> <span class="pre">fs</span></code></p></li>
+<li><p>Set up <span class="xref myst">DCP</span></p></li>
+</ol>
+</section>
+<section id="setting-up-files">
+<h2>Setting up files<a class="headerlink" href="#setting-up-files" title="Permalink to this heading"></a></h2>
+<p>Start by creating a new folder called “mandelbrot-set.” Then create three files, “main.js,” “image-animation.js” and “mandelbrot-set.js.” Lastly, make another folder called “mandelbrot_images.”</p>
+</section>
+<section id="main-js">
+<h2>main.js<a class="headerlink" href="#main-js" title="Permalink to this heading"></a></h2>
+<p>You’ll start by setting some variables that you’ll need.</p>
+<p>First, boundary points for the axes you’ll be plotting on. The code here uses the traditional boundary points, but feel free to play around with them.</p>
+<p>Open your main.js file and copy the following code.</p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="k">async</span> <span class="kd">function</span> <span class="nx">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kd">let</span> <span class="nx">complex_coordinates</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="nx">x1</span><span class="o">:</span> <span class="o">-</span><span class="mf">2.5</span><span class="p">,</span>
+        <span class="nx">y1</span><span class="o">:</span> <span class="o">-</span><span class="mf">1</span><span class="p">,</span>
+        <span class="nx">x2</span><span class="o">:</span> <span class="mf">1</span><span class="p">,</span>
+        <span class="nx">y2</span><span class="o">:</span> <span class="mf">1</span>
+    <span class="p">}</span>
+</pre></div>
+</div>
+<p>Next you’ll set up the size of your canvas. You can change this, but the bigger the canvas size the longer to compute.</p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="kd">const</span> <span class="nx">canvas_size</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="nx">height</span><span class="o">:</span> <span class="mf">800</span><span class="p">,</span>
+  <span class="nx">width</span><span class="o">:</span> <span class="mf">1200</span><span class="p">,</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+<p>Next, set up the point to zoom to, the speed of zoom, the max number of iterations through the function .. math:: f_c(z), the number of frames you want to produce and the number of frames each slice creates.</p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="kd">const</span> <span class="nx">z0</span> <span class="o">=</span> <span class="p">{</span> <span class="nx">re</span><span class="o">:</span> <span class="mf">0.42884</span><span class="p">,</span> <span class="nx">im</span><span class="o">:</span> <span class="o">-</span><span class="mf">0.231345</span> <span class="p">};</span>
+<span class="kd">const</span> <span class="nx">speed</span> <span class="o">=</span> <span class="mf">0.4</span><span class="p">;</span>
+<span class="kd">const</span> <span class="nx">max_iterations</span> <span class="o">=</span> <span class="mf">1000</span><span class="p">;</span>
+<span class="kd">const</span> <span class="nx">frames_num</span> <span class="o">=</span> <span class="mf">25</span><span class="p">;</span>
+<span class="kd">const</span> <span class="nx">frames_per_worker</span> <span class="o">=</span> <span class="mf">3</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="mandelbrot-set-js">
+<h2>mandelbrot-set.js<a class="headerlink" href="#mandelbrot-set-js" title="Permalink to this heading"></a></h2>
+<p>Next, open the mandelbrot-set.js file.</p>
+<section id="calculate-escape-time">
+<h3>Calculate escape time<a class="headerlink" href="#calculate-escape-time" title="Permalink to this heading"></a></h3>
+<p>The following calculates which points are in the mandelbrot set and which aren’t.</p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="cm">/**</span>
+<span class="cm"> * Determines how many iterations of the function fc(z) before the point escapes</span>
+<span class="cm"> * @param {int} z</span>
+<span class="cm"> * @param {int} max_iterations</span>
+<span class="cm"> * @returns k</span>
+<span class="cm"> */</span>
+<span class="kd">function</span> <span class="nx">calculate_escape_time</span><span class="p">(</span><span class="nx">z</span><span class="p">,</span> <span class="nx">max_iterations</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">c</span> <span class="o">=</span> <span class="nx">z</span><span class="p">;</span>
+  <span class="kd">var</span> <span class="nx">k</span> <span class="o">=</span> <span class="mf">0</span><span class="p">;</span>
+  <span class="k">while</span> <span class="p">(</span><span class="nx">k</span> <span class="o">&lt;</span> <span class="nx">max_iterations</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">real</span> <span class="o">=</span> <span class="nx">z</span><span class="p">.</span><span class="nx">re</span> <span class="o">*</span> <span class="nx">z</span><span class="p">.</span><span class="nx">re</span> <span class="o">-</span> <span class="nx">z</span><span class="p">.</span><span class="nx">im</span> <span class="o">*</span> <span class="nx">z</span><span class="p">.</span><span class="nx">im</span> <span class="o">+</span> <span class="nx">c</span><span class="p">.</span><span class="nx">re</span><span class="p">;</span>
+    <span class="nx">imaginary</span> <span class="o">=</span> <span class="mf">2</span> <span class="o">*</span> <span class="nx">z</span><span class="p">.</span><span class="nx">re</span> <span class="o">*</span> <span class="nx">z</span><span class="p">.</span><span class="nx">im</span> <span class="o">+</span> <span class="nx">c</span><span class="p">.</span><span class="nx">im</span><span class="p">;</span>
+    <span class="nx">z</span> <span class="o">=</span> <span class="p">{</span> <span class="nx">re</span><span class="o">:</span> <span class="nx">real</span><span class="p">,</span> <span class="nx">im</span><span class="o">:</span> <span class="nx">imaginary</span> <span class="p">};</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="nx">z</span><span class="p">.</span><span class="nx">re</span> <span class="o">*</span> <span class="nx">z</span><span class="p">.</span><span class="nx">re</span> <span class="o">+</span> <span class="nx">z</span><span class="p">.</span><span class="nx">im</span> <span class="o">*</span> <span class="nx">z</span><span class="p">.</span><span class="nx">im</span> <span class="o">&gt;=</span> <span class="mf">4</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">break</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="nx">k</span><span class="o">++</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="k">return</span> <span class="nx">k</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="complex-coordinates-to-feature">
+<h3>Complex coordinates to feature<a class="headerlink" href="#complex-coordinates-to-feature" title="Permalink to this heading"></a></h3>
+<p>Next, create a function called <code class="docutils literal notranslate"><span class="pre">complex_coordinates_to_features()</span></code>.</p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="cm">/**</span>
+<span class="cm"> * Calculates the deltas needed to convert a point on the canvas to a point on the real and imaginary axes being plotted on.</span>
+<span class="cm"> * @param {int} complex_coordinates</span>
+<span class="cm"> * @param {int} canvas_size</span>
+<span class="cm"> * @returns x1</span>
+<span class="cm"> * @returns y1</span>
+<span class="cm"> * @returns delta_x</span>
+<span class="cm"> * @returns delta_y</span>
+<span class="cm"> */</span>
+<span class="kd">function</span> <span class="nx">complex_coordinates_to_features</span><span class="p">(</span><span class="nx">complex_coordinates</span><span class="p">,</span> <span class="nx">canvas_size</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kd">let</span> <span class="nx">delta_x</span> <span class="o">=</span>
+    <span class="p">(</span><span class="nx">complex_coordinates</span><span class="p">.</span><span class="nx">x2</span> <span class="o">-</span> <span class="nx">complex_coordinates</span><span class="p">.</span><span class="nx">x1</span><span class="p">)</span> <span class="o">/</span> <span class="nx">canvas_size</span><span class="p">.</span><span class="nx">width</span><span class="p">;</span>
+  <span class="kd">let</span> <span class="nx">delta_y</span> <span class="o">=</span>
+    <span class="p">(</span><span class="nx">complex_coordinates</span><span class="p">.</span><span class="nx">y2</span> <span class="o">-</span> <span class="nx">complex_coordinates</span><span class="p">.</span><span class="nx">y1</span><span class="p">)</span> <span class="o">/</span> <span class="nx">canvas_size</span><span class="p">.</span><span class="nx">height</span><span class="p">;</span>
+
+  <span class="kd">let</span> <span class="nx">x1</span> <span class="o">=</span> <span class="nx">complex_coordinates</span><span class="p">.</span><span class="nx">x1</span><span class="p">;</span>
+  <span class="kd">let</span> <span class="nx">y1</span> <span class="o">=</span> <span class="nx">complex_coordinates</span><span class="p">.</span><span class="nx">y1</span><span class="p">;</span>
+
+  <span class="k">return</span> <span class="p">{</span>
+    <span class="nx">x1</span><span class="o">:</span> <span class="nx">x1</span><span class="p">,</span>
+    <span class="nx">y1</span><span class="o">:</span> <span class="nx">y1</span><span class="p">,</span>
+    <span class="nx">delta_x</span><span class="o">:</span> <span class="nx">delta_x</span><span class="p">,</span>
+    <span class="nx">delta_y</span><span class="o">:</span> <span class="nx">delta_y</span><span class="p">,</span>
+  <span class="p">};</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="coordinates-to-complex">
+<h3>Coordinates to complex<a class="headerlink" href="#coordinates-to-complex" title="Permalink to this heading"></a></h3>
+<p>Next, create a function <code class="docutils literal notranslate"><span class="pre">coordinates_to_complex()</span></code>, and copy the following code to your mandelbrot-set.js file.</p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="cm">/**</span>
+<span class="cm"> * Translates any point on the canvas to a point on the real and imaginary axes. Takes in a point x, y on the canvas and the lower left deltas that were calcualted. It will then return the real and imaginary components of the point.</span>
+<span class="cm"> * @param {int} x</span>
+<span class="cm"> * @param {int} y</span>
+<span class="cm"> * @param {int} lower_left_deltas</span>
+<span class="cm"> * @returns re</span>
+<span class="cm"> * @returns im</span>
+<span class="cm"> */</span>
+<span class="kd">function</span> <span class="nx">coordinates_to_complex</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="p">,</span> <span class="nx">lower_left_deltas</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kd">let</span> <span class="nx">re</span> <span class="o">=</span> <span class="nx">lower_left_deltas</span><span class="p">.</span><span class="nx">x1</span> <span class="o">+</span> <span class="nx">x</span> <span class="o">*</span> <span class="nx">lower_left_deltas</span><span class="p">.</span><span class="nx">delta_x</span><span class="p">;</span>
+  <span class="kd">let</span> <span class="nx">im</span> <span class="o">=</span> <span class="nx">lower_left_deltas</span><span class="p">.</span><span class="nx">y1</span> <span class="o">+</span> <span class="nx">y</span> <span class="o">*</span> <span class="nx">lower_left_deltas</span><span class="p">.</span><span class="nx">delta_y</span><span class="p">;</span>
+
+  <span class="k">return</span> <span class="p">{</span>
+    <span class="nx">re</span><span class="o">:</span> <span class="nx">re</span><span class="p">,</span>
+    <span class="nx">im</span><span class="o">:</span> <span class="nx">im</span><span class="p">,</span>
+  <span class="p">};</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="make-frame">
+<h3>Make frame<a class="headerlink" href="#make-frame" title="Permalink to this heading"></a></h3>
+<p>The next function makes a matrix for every frame that contains the escape time for points in that frame.</p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="cm">/**</span>
+<span class="cm"> * Creates a matrix for every frame which will contain the escape time of every point in the frame. That current escape time will then be replaced with the colour of the specific point. This is also where progress will be called which is needed to run on DCP.</span>
+<span class="cm"> * @param {int} canvas_size</span>
+<span class="cm"> * @param {int} complex_coordinates</span>
+<span class="cm"> * @param {int} max_iterations</span>
+<span class="cm"> * @returns frame</span>
+<span class="cm"> */</span>
+<span class="kd">function</span> <span class="nx">make_frame</span><span class="p">(</span><span class="nx">canvas_size</span><span class="p">,</span> <span class="nx">complex_coordinates</span><span class="p">,</span> <span class="nx">max_iterations</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="nx">rows</span> <span class="o">=</span> <span class="nx">canvas_size</span><span class="p">.</span><span class="nx">height</span><span class="p">;</span>
+  <span class="kd">const</span> <span class="nx">cols</span> <span class="o">=</span> <span class="nx">canvas_size</span><span class="p">.</span><span class="nx">width</span><span class="p">;</span>
+  <span class="kd">let</span> <span class="nx">frame</span> <span class="o">=</span> <span class="nb">Array</span><span class="p">.</span><span class="kr">from</span><span class="p">({</span> <span class="nx">length</span><span class="o">:</span> <span class="nx">rows</span> <span class="p">},</span> <span class="p">()</span> <span class="p">=&gt;</span>
+    <span class="nb">Array</span><span class="p">.</span><span class="kr">from</span><span class="p">({</span> <span class="nx">length</span><span class="o">:</span> <span class="nx">cols</span> <span class="p">},</span> <span class="p">()</span> <span class="p">=&gt;</span> <span class="p">[</span><span class="mf">0</span><span class="p">,</span> <span class="mf">0</span><span class="p">,</span> <span class="mf">0</span><span class="p">]),</span>
+  <span class="p">);</span>
+
+  <span class="kd">let</span> <span class="nx">lower_left_deltas</span> <span class="o">=</span> <span class="nx">complex_coordinates_to_features</span><span class="p">(</span>
+    <span class="nx">complex_coordinates</span><span class="p">,</span>
+    <span class="nx">canvas_size</span><span class="p">,</span>
+  <span class="p">);</span>
+
+  <span class="k">for</span> <span class="p">(</span><span class="kd">let</span> <span class="nx">y</span> <span class="o">=</span> <span class="mf">0</span><span class="p">;</span> <span class="nx">y</span> <span class="o">&lt;</span> <span class="nx">rows</span><span class="p">;</span> <span class="nx">y</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kd">let</span> <span class="nx">x</span> <span class="o">=</span> <span class="mf">0</span><span class="p">;</span> <span class="nx">x</span> <span class="o">&lt;</span> <span class="nx">cols</span><span class="p">;</span> <span class="nx">x</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+      <span class="kd">let</span> <span class="nx">z</span> <span class="o">=</span> <span class="nx">coordinates_to_complex</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="p">,</span> <span class="nx">lower_left_deltas</span><span class="p">);</span>
+      <span class="kd">let</span> <span class="nx">current_escape_time</span> <span class="o">=</span>
+        <span class="nx">calculate_escape_time</span><span class="p">(</span><span class="nx">z</span><span class="p">,</span> <span class="nx">max_iterations</span><span class="p">)</span> <span class="o">/</span> <span class="nx">max_iterations</span><span class="p">;</span>
+      <span class="nx">frame</span><span class="p">[</span><span class="nx">y</span><span class="p">][</span><span class="nx">x</span><span class="p">]</span> <span class="o">=</span> <span class="nx">escape_time_to_colour</span><span class="p">(</span><span class="nx">current_escape_time</span><span class="p">,</span> <span class="nx">max_iterations</span><span class="p">);</span>
+    <span class="p">}</span>
+    <span class="nx">progress</span><span class="p">();</span>
+  <span class="p">}</span>
+  <span class="k">return</span> <span class="nx">frame</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="make-frames">
+<h3>Make frames<a class="headerlink" href="#make-frames" title="Permalink to this heading"></a></h3>
+<p>Copy the following code.</p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="cm">/**</span>
+<span class="cm"> * For every frame each worker will calculate the complex coordinates for that frame and then make that frame by calling the make_frame function. Frames will be an array of matrices where each entry of the matrix is the color of the point.</span>
+<span class="cm"> * @param {int} canvas_size</span>
+<span class="cm"> * @param {int} max_iterations</span>
+<span class="cm"> * @param {int} first_complex_coordinates</span>
+<span class="cm"> * @param {int} last_complex_coordinates</span>
+<span class="cm"> * @param {int} total_frames</span>
+<span class="cm"> * @returns frames</span>
+<span class="cm"> */</span>
+<span class="kd">function</span> <span class="nx">make_frames</span><span class="p">(</span>
+  <span class="nx">canvas_size</span><span class="p">,</span>
+  <span class="nx">max_iterations</span><span class="p">,</span>
+  <span class="nx">first_complex_coordinates</span><span class="p">,</span>
+  <span class="nx">last_complex_coordinates</span><span class="p">,</span>
+  <span class="nx">total_frames</span><span class="p">,</span>
+<span class="p">)</span> <span class="p">{</span>
+  <span class="nx">frames</span> <span class="o">=</span> <span class="p">[];</span>
+
+  <span class="k">for</span> <span class="p">(</span><span class="kd">let</span> <span class="nx">k</span> <span class="o">=</span> <span class="mf">0</span><span class="p">;</span> <span class="nx">k</span> <span class="o">&lt;</span> <span class="nx">total_frames</span><span class="p">;</span> <span class="nx">k</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">let</span> <span class="nx">current_complex_coordinates</span> <span class="o">=</span> <span class="nx">kth_complex_coordinate</span><span class="p">(</span>
+      <span class="nx">first_complex_coordinates</span><span class="p">,</span>
+      <span class="nx">last_complex_coordinates</span><span class="p">,</span>
+      <span class="nx">total_frames</span><span class="p">,</span>
+      <span class="nx">k</span><span class="p">,</span>
+    <span class="p">);</span>
+    <span class="kd">let</span> <span class="nx">current_frame</span> <span class="o">=</span> <span class="nx">make_frame</span><span class="p">(</span>
+      <span class="nx">canvas_size</span><span class="p">,</span>
+      <span class="nx">current_complex_coordinates</span><span class="p">,</span>
+      <span class="nx">max_iterations</span><span class="p">,</span>
+    <span class="p">);</span>
+    <span class="nx">frames</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">current_frame</span><span class="p">);</span>
+  <span class="p">}</span>
+  <span class="k">return</span> <span class="nx">frames</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="k-complex-coordinate">
+<h3>K complex coordinate<a class="headerlink" href="#k-complex-coordinate" title="Permalink to this heading"></a></h3>
+<p>Copy the following code.</p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="cm">/**</span>
+<span class="cm"> * Calculates the new complex coordinates for each frame per slice.</span>
+<span class="cm"> * @param {int} first_complex_coordinates</span>
+<span class="cm"> * @param {int} last_complex_coordiantes</span>
+<span class="cm"> * @param {int} total_frames</span>
+<span class="cm"> * @param {int} k</span>
+<span class="cm"> * @returns x1</span>
+<span class="cm"> * @returns x2</span>
+<span class="cm"> * @returns y1</span>
+<span class="cm"> * @returns y2</span>
+<span class="cm"> */</span>
+<span class="kd">function</span> <span class="nx">kth_complex_coordinate</span><span class="p">(</span>
+  <span class="nx">first_complex_coordinates</span><span class="p">,</span>
+  <span class="nx">last_complex_coordinates</span><span class="p">,</span>
+  <span class="nx">total_frames</span><span class="p">,</span>
+  <span class="nx">k</span><span class="p">,</span>
+<span class="p">)</span> <span class="p">{</span>
+  <span class="kd">let</span> <span class="nx">alpha</span> <span class="o">=</span> <span class="nx">k</span> <span class="o">/</span> <span class="nx">total_frames</span><span class="p">;</span>
+  <span class="kd">let</span> <span class="nx">x1</span> <span class="o">=</span>
+    <span class="p">(</span><span class="mf">1</span> <span class="o">-</span> <span class="nx">alpha</span><span class="p">)</span> <span class="o">*</span> <span class="nx">first_complex_coordinates</span><span class="p">.</span><span class="nx">x1</span> <span class="o">+</span>
+    <span class="nx">alpha</span> <span class="o">*</span> <span class="nx">last_complex_coordinates</span><span class="p">.</span><span class="nx">x1</span><span class="p">;</span>
+  <span class="kd">let</span> <span class="nx">x2</span> <span class="o">=</span>
+    <span class="p">(</span><span class="mf">1</span> <span class="o">-</span> <span class="nx">alpha</span><span class="p">)</span> <span class="o">*</span> <span class="nx">first_complex_coordinates</span><span class="p">.</span><span class="nx">x2</span> <span class="o">+</span>
+    <span class="nx">alpha</span> <span class="o">*</span> <span class="nx">last_complex_coordinates</span><span class="p">.</span><span class="nx">x2</span><span class="p">;</span>
+  <span class="kd">let</span> <span class="nx">y1</span> <span class="o">=</span>
+    <span class="p">(</span><span class="mf">1</span> <span class="o">-</span> <span class="nx">alpha</span><span class="p">)</span> <span class="o">*</span> <span class="nx">first_complex_coordinates</span><span class="p">.</span><span class="nx">y1</span> <span class="o">+</span>
+    <span class="nx">alpha</span> <span class="o">*</span> <span class="nx">last_complex_coordinates</span><span class="p">.</span><span class="nx">y1</span><span class="p">;</span>
+  <span class="kd">let</span> <span class="nx">y2</span> <span class="o">=</span>
+    <span class="p">(</span><span class="mf">1</span> <span class="o">-</span> <span class="nx">alpha</span><span class="p">)</span> <span class="o">*</span> <span class="nx">first_complex_coordinates</span><span class="p">.</span><span class="nx">y2</span> <span class="o">+</span>
+    <span class="nx">alpha</span> <span class="o">*</span> <span class="nx">last_complex_coordinates</span><span class="p">.</span><span class="nx">y2</span><span class="p">;</span>
+  <span class="k">return</span> <span class="p">{</span>
+    <span class="nx">x1</span><span class="o">:</span> <span class="nx">x1</span><span class="p">,</span>
+    <span class="nx">x2</span><span class="o">:</span> <span class="nx">x2</span><span class="p">,</span>
+    <span class="nx">y1</span><span class="o">:</span> <span class="nx">y1</span><span class="p">,</span>
+    <span class="nx">y2</span><span class="o">:</span> <span class="nx">y2</span><span class="p">,</span>
+  <span class="p">};</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="escape-time-to-colour">
+<h3>Escape time to colour<a class="headerlink" href="#escape-time-to-colour" title="Permalink to this heading"></a></h3>
+<p>Copy the following code.</p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="cm">/**</span>
+<span class="cm"> * Translates an escape time to an array of three values that will determine the colour of that point. The colour of the points will be determined by how many iterations it took before the point escaped.</span>
+<span class="cm"> * @param {*} current_escape_time</span>
+<span class="cm"> * @returns colour</span>
+<span class="cm"> */</span>
+<span class="kd">function</span> <span class="nx">escape_time_to_colour</span><span class="p">(</span><span class="nx">current_escape_time</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kd">let</span> <span class="nx">R</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">floor</span><span class="p">(</span><span class="mf">255</span> <span class="o">*</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">log10</span><span class="p">(</span><span class="nx">current_escape_time</span><span class="p">));</span>
+  <span class="kd">let</span> <span class="nx">B</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">floor</span><span class="p">(</span><span class="mf">255</span> <span class="o">*</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">pow</span><span class="p">(</span><span class="nx">current_escape_time</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">));</span>
+  <span class="kd">let</span> <span class="nx">G</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">floor</span><span class="p">(</span>
+    <span class="mf">255</span> <span class="o">*</span>
+      <span class="mf">3</span> <span class="o">*</span>
+      <span class="p">(</span><span class="nx">current_escape_time</span> <span class="o">*</span> <span class="p">(</span><span class="mf">1</span> <span class="o">-</span> <span class="nx">current_escape_time</span><span class="p">)</span> <span class="o">+</span>
+        <span class="mf">0.25</span> <span class="o">*</span> <span class="nx">current_escape_time</span><span class="p">),</span>
+  <span class="p">);</span>
+
+  <span class="k">return</span> <span class="p">[</span><span class="nx">R</span><span class="p">,</span> <span class="nx">G</span><span class="p">,</span> <span class="nx">B</span><span class="p">];</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="zoom-in">
+<h3>Zoom in<a class="headerlink" href="#zoom-in" title="Permalink to this heading"></a></h3>
+<p>Lastly, create the zoom in function. Copy the following code.</p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="cm">/**</span>
+<span class="cm"> * Creates new axes boundaries based off of the speed and the point it&#39;s zooming towards.</span>
+<span class="cm"> * @param {int} complex_coordinates</span>
+<span class="cm"> * @param {int} z0</span>
+<span class="cm"> * @param {int} speed</span>
+<span class="cm"> * @returns x1</span>
+<span class="cm"> * @returns x2</span>
+<span class="cm"> * @returns y1</span>
+<span class="cm"> * @returns y2</span>
+<span class="cm"> */</span>
+
+<span class="kd">function</span> <span class="nx">zoom_in</span><span class="p">(</span><span class="nx">complex_coordinates</span><span class="p">,</span> <span class="nx">z0</span><span class="p">,</span> <span class="nx">speed</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kd">let</span> <span class="nx">x1</span> <span class="o">=</span> <span class="nx">complex_coordinates</span><span class="p">.</span><span class="nx">x1</span> <span class="o">*</span> <span class="p">(</span><span class="mf">1</span> <span class="o">-</span> <span class="nx">speed</span><span class="p">)</span> <span class="o">+</span> <span class="nx">z0</span><span class="p">.</span><span class="nx">re</span> <span class="o">*</span> <span class="nx">speed</span><span class="p">;</span>
+  <span class="kd">let</span> <span class="nx">x2</span> <span class="o">=</span> <span class="nx">complex_coordinates</span><span class="p">.</span><span class="nx">x2</span> <span class="o">*</span> <span class="p">(</span><span class="mf">1</span> <span class="o">-</span> <span class="nx">speed</span><span class="p">)</span> <span class="o">+</span> <span class="nx">z0</span><span class="p">.</span><span class="nx">re</span> <span class="o">*</span> <span class="nx">speed</span><span class="p">;</span>
+  <span class="kd">let</span> <span class="nx">y1</span> <span class="o">=</span> <span class="nx">complex_coordinates</span><span class="p">.</span><span class="nx">y1</span> <span class="o">*</span> <span class="p">(</span><span class="mf">1</span> <span class="o">-</span> <span class="nx">speed</span><span class="p">)</span> <span class="o">+</span> <span class="nx">z0</span><span class="p">.</span><span class="nx">im</span> <span class="o">*</span> <span class="nx">speed</span><span class="p">;</span>
+  <span class="kd">let</span> <span class="nx">y2</span> <span class="o">=</span> <span class="nx">complex_coordinates</span><span class="p">.</span><span class="nx">y2</span> <span class="o">*</span> <span class="p">(</span><span class="mf">1</span> <span class="o">-</span> <span class="nx">speed</span><span class="p">)</span> <span class="o">+</span> <span class="nx">z0</span><span class="p">.</span><span class="nx">im</span> <span class="o">*</span> <span class="nx">speed</span><span class="p">;</span>
+
+  <span class="k">return</span> <span class="p">{</span>
+    <span class="nx">x1</span><span class="o">:</span> <span class="nx">x1</span><span class="p">,</span>
+    <span class="nx">x2</span><span class="o">:</span> <span class="nx">x2</span><span class="p">,</span>
+    <span class="nx">y1</span><span class="o">:</span> <span class="nx">y1</span><span class="p">,</span>
+    <span class="nx">y2</span><span class="o">:</span> <span class="nx">y2</span><span class="p">,</span>
+  <span class="p">};</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="module-export-mandelbrot-set">
+<h3>Module export mandelbrot-set<a class="headerlink" href="#module-export-mandelbrot-set" title="Permalink to this heading"></a></h3>
+<p>In the last line of this file, you’ll export the functions you’ll need in the main.js file.</p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="p">{</span> <span class="nx">make_frames</span><span class="p">,</span> <span class="nx">zoom_in</span> <span class="p">};</span>
+</pre></div>
+</div>
+<p>Now your mandelbrot-set.js file is complete.</p>
+</section>
+</section>
+<section id="image-animation-js">
+<h2><code class="docutils literal notranslate"><span class="pre">image-animation.js</span></code><a class="headerlink" href="#image-animation-js" title="Permalink to this heading"></a></h2>
+<p>Next, open the image-animation.js file.</p>
+<section id="image-animation-requirements">
+<h3>Image animation requirements<a class="headerlink" href="#image-animation-requirements" title="Permalink to this heading"></a></h3>
+<p>Copy the following requirements needed for saving the images and GIF.</p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="kd">const</span> <span class="nx">sharp</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;sharp&#39;</span><span class="p">);</span>
+<span class="kd">const</span> <span class="nx">pngFileStream</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;png-file-stream&#39;</span><span class="p">);</span>
+<span class="kd">const</span> <span class="nx">GIFEncoder</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;gifencoder&#39;</span><span class="p">);</span>
+<span class="kd">const</span> <span class="nx">fs</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;fs&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+</section>
+<section id="save-image">
+<h3>Save image<a class="headerlink" href="#save-image" title="Permalink to this heading"></a></h3>
+<p>Copy the following code to save the images.</p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="cm">/**</span>
+<span class="cm"> * take in the frame which is a Uint8 array and saves each frame as a png.</span>
+<span class="cm"> * @param {int} frame</span>
+<span class="cm"> * @param {int} width</span>
+<span class="cm"> * @param {int} height</span>
+<span class="cm"> * @param {string} folder</span>
+<span class="cm"> * @param {string} name</span>
+<span class="cm"> * @returns image</span>
+<span class="cm"> */</span>
+<span class="k">async</span> <span class="kd">function</span> <span class="nx">save_image</span><span class="p">(</span><span class="nx">frame</span><span class="p">,</span> <span class="nx">width</span><span class="p">,</span> <span class="nx">height</span><span class="p">,</span> <span class="nx">folder</span><span class="p">,</span> <span class="nx">name</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">image</span> <span class="o">=</span> <span class="nx">sharp</span><span class="p">(</span><span class="nx">frame</span><span class="p">,</span> <span class="p">{</span>
+    <span class="nx">raw</span><span class="o">:</span> <span class="p">{</span>
+      <span class="nx">width</span><span class="o">:</span> <span class="nx">width</span><span class="p">,</span>
+      <span class="nx">height</span><span class="o">:</span> <span class="nx">height</span><span class="p">,</span>
+      <span class="nx">channels</span><span class="o">:</span> <span class="mf">3</span><span class="p">,</span>
+    <span class="p">},</span>
+  <span class="p">});</span>
+  <span class="k">await</span> <span class="nx">image</span><span class="p">.</span><span class="nx">toFile</span><span class="p">(</span><span class="nx">folder</span> <span class="o">+</span> <span class="nx">name</span><span class="p">);</span>
+  <span class="k">return</span> <span class="nx">image</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="create-gif">
+<h3>Create <code class="docutils literal notranslate"><span class="pre">GIF</span></code><a class="headerlink" href="#create-gif" title="Permalink to this heading"></a></h3>
+<p>Copy the following code to create the GIF.</p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="cm">/**</span>
+<span class="cm"> * Take the pngs created and turns them into a gif.</span>
+<span class="cm"> * @param {int} width</span>
+<span class="cm"> * @param {int} height</span>
+<span class="cm"> * @param {string} folder</span>
+<span class="cm"> * @param {string} name</span>
+<span class="cm"> */</span>
+<span class="k">async</span> <span class="kd">function</span> <span class="nx">create_gif</span><span class="p">(</span><span class="nx">width</span><span class="p">,</span> <span class="nx">height</span><span class="p">,</span> <span class="nx">folder</span><span class="p">,</span> <span class="nx">name</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="nx">encoder</span> <span class="o">=</span> <span class="ow">new</span> <span class="nx">GIFEncoder</span><span class="p">(</span><span class="nx">width</span><span class="p">,</span> <span class="nx">height</span><span class="p">);</span>
+  <span class="kd">const</span> <span class="nx">image_names</span> <span class="o">=</span> <span class="nx">folder</span> <span class="o">+</span> <span class="nx">name</span> <span class="o">+</span> <span class="s1">&#39;*.png&#39;</span><span class="p">;</span>
+  <span class="kd">const</span> <span class="nx">stream</span> <span class="o">=</span> <span class="nx">pngFileStream</span><span class="p">(</span><span class="nx">folder</span> <span class="o">+</span> <span class="nx">name</span> <span class="o">+</span> <span class="s1">&#39;*.png&#39;</span><span class="p">)</span>
+    <span class="p">.</span><span class="nx">pipe</span><span class="p">(</span><span class="nx">encoder</span><span class="p">.</span><span class="nx">createWriteStream</span><span class="p">({</span> <span class="nx">repeat</span><span class="o">:</span> <span class="mf">0</span><span class="p">,</span> <span class="nx">delay</span><span class="o">:</span> <span class="mf">500</span><span class="p">,</span> <span class="nx">quality</span><span class="o">:</span> <span class="mf">10</span> <span class="p">}))</span>
+    <span class="p">.</span><span class="nx">pipe</span><span class="p">(</span><span class="nx">fs</span><span class="p">.</span><span class="nx">createWriteStream</span><span class="p">(</span><span class="nx">folder</span> <span class="o">+</span> <span class="nx">name</span> <span class="o">+</span> <span class="s1">&#39;.gif&#39;</span><span class="p">));</span>
+
+  <span class="k">await</span> <span class="ow">new</span> <span class="nb">Promise</span><span class="p">((</span><span class="nx">resolve</span><span class="p">,</span> <span class="nx">reject</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="p">{</span>
+    <span class="nx">stream</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;finish&#39;</span><span class="p">,</span> <span class="nx">resolve</span><span class="p">);</span>
+    <span class="nx">stream</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;error&#39;</span><span class="p">,</span> <span class="nx">reject</span><span class="p">);</span>
+  <span class="p">});</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="module-export-image-animation">
+<h3>Module export image animation<a class="headerlink" href="#module-export-image-animation" title="Permalink to this heading"></a></h3>
+<p>The last line exports both of these functions so that you can use them in main.js.</p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="p">{</span> <span class="nx">save_image</span><span class="p">,</span> <span class="nx">create_gif</span> <span class="p">};</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="returning-to-main-js">
+<h2>Returning to main.js<a class="headerlink" href="#returning-to-main-js" title="Permalink to this heading"></a></h2>
+<p>Lastly, go back to main.js file and tie everything together.</p>
+<section id="requirements">
+<h3>Requirements<a class="headerlink" href="#requirements" title="Permalink to this heading"></a></h3>
+<p>Add the requirements for the files you just made, mandelbrot-set.js and image-animation.js. Also add the DCP scheduler.</p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="kd">const</span> <span class="nx">mandelbrot</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;./mandelbrot-set.js&#39;</span><span class="p">);</span>
+<span class="kd">const</span> <span class="nx">create_image</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;./image-animation.js&#39;</span><span class="p">);</span>
+
+<span class="kd">const</span> <span class="nx">SCHEDULER_URL</span> <span class="o">=</span> <span class="ow">new</span> <span class="nx">URL</span><span class="p">(</span><span class="s1">&#39;https://scheduler.distributed.computer&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+</section>
+<section id="main-function">
+<h3>Main function<a class="headerlink" href="#main-function" title="Permalink to this heading"></a></h3>
+<p>Then, alter what you added to main.js earlier by adding to your main function.</p>
+<p>In your main function, create an array the same size as the number of frames you have. Each entry in the array is the plots boundary points for each new frame after zooming.</p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="kd">let</span> <span class="nx">complex_coordinates_new</span><span class="p">;</span>
+<span class="kd">let</span> <span class="nx">pre_frames</span> <span class="o">=</span> <span class="ow">new</span> <span class="nb">Array</span><span class="p">(</span><span class="nx">frames_num</span><span class="p">);</span>
+<span class="k">for</span> <span class="p">(</span><span class="kd">let</span> <span class="nx">i</span> <span class="o">=</span> <span class="mf">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">frames_num</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">complex_coordinates_new</span> <span class="o">=</span> <span class="nx">mandelbrot</span><span class="p">.</span><span class="nx">zoom_in</span><span class="p">(</span><span class="nx">complex_coordinates</span><span class="p">,</span> <span class="nx">z0</span><span class="p">,</span> <span class="nx">speed</span><span class="p">);</span>
+  <span class="nx">pre_frames</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="nx">complex_coordinates</span><span class="p">,</span> <span class="nx">complex_coordinates_new</span><span class="p">];</span>
+  <span class="nx">complex_coordinates</span> <span class="o">=</span> <span class="nx">complex_coordinates_new</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Require the DCP compute and wallet. The following code allows you to run your program on DCP. You have the option to switch between running on DCP or your local computer by changing the value of the variable <code class="docutils literal notranslate"><span class="pre">do_it_on_dcp</span></code>. If set to true the program runs on DCP, otherwise it just runs locally. You’ll need to remember to un-comment that line <code class="docutils literal notranslate"><span class="pre">progress()</span></code> in the mandelbrot-set.js file in the function <code class="docutils literal notranslate"><span class="pre">make_frame()</span></code> if you wish to run this program without DCP.</p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span>    <span class="kd">const</span> <span class="nx">compute</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;dcp/compute&#39;</span><span class="p">);</span>
+    <span class="kd">const</span> <span class="nx">wallet</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;dcp/wallet&#39;</span><span class="p">);</span>
+    <span class="kd">let</span> <span class="nx">startTime</span><span class="p">;</span>
+
+    <span class="kd">let</span> <span class="nx">do_it_on_dcp</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+    <span class="kd">let</span> <span class="nx">array_results</span> <span class="o">=</span> <span class="nb">Array</span><span class="p">();</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">do_it_on_dcp</span><span class="p">)</span> <span class="p">{</span>
+
+        <span class="kd">const</span> <span class="nx">job</span> <span class="o">=</span> <span class="nx">compute</span><span class="p">.</span><span class="k">for</span><span class="p">(</span>
+            <span class="nx">pre_frames</span><span class="p">,</span>
+            <span class="p">(</span><span class="nx">pre_frame</span><span class="p">,</span> <span class="nx">canvas_size</span><span class="p">,</span> <span class="nx">max_iterations</span><span class="p">,</span> <span class="nx">frames_per_worker</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="p">{</span>
+                <span class="kd">const</span> <span class="nx">mandelbrot</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;./mandelbrot-set&quot;</span><span class="p">)</span>
+                <span class="kd">const</span> <span class="nx">frames</span> <span class="o">=</span> <span class="nx">mandelbrot</span><span class="p">.</span><span class="nx">make_frames</span><span class="p">(</span><span class="nx">canvas_size</span><span class="p">,</span> <span class="nx">max_iterations</span><span class="p">,</span> <span class="nx">pre_frame</span><span class="p">[</span><span class="mf">0</span><span class="p">],</span> <span class="nx">pre_frame</span><span class="p">[</span><span class="mf">1</span><span class="p">],</span> <span class="nx">frames_per_worker</span><span class="p">);</span>
+                <span class="k">return</span> <span class="nx">frames</span><span class="p">;</span>
+            <span class="p">},</span> <span class="p">[</span><span class="nx">canvas_size</span><span class="p">,</span> <span class="nx">max_iterations</span><span class="p">,</span> <span class="nx">frames_per_worker</span><span class="p">]</span>
+        <span class="p">);</span>
+
+
+        <span class="nx">job</span><span class="p">.</span><span class="nx">requires</span><span class="p">(</span><span class="s2">&quot;./mandelbrot-set&quot;</span><span class="p">)</span>
+
+        <span class="nx">job</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;accepted&#39;</span><span class="p">,</span> <span class="p">()</span> <span class="p">=&gt;</span> <span class="p">{</span>
+            <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="sb">` - Job accepted by scheduler, waiting for results`</span><span class="p">);</span>
+            <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="sb">` - Job has id </span><span class="si">${</span><span class="nx">job</span><span class="p">.</span><span class="nx">id</span><span class="si">}</span><span class="sb">`</span><span class="p">);</span>
+            <span class="nx">startTime</span> <span class="o">=</span> <span class="nb">Date</span><span class="p">.</span><span class="nx">now</span><span class="p">();</span>
+        <span class="p">});</span>
+
+        <span class="nx">job</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;readystatechange&#39;</span><span class="p">,</span> <span class="p">(</span><span class="nx">arg</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="p">{</span>
+            <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="sb">`new ready state: </span><span class="si">${</span><span class="nx">arg</span><span class="si">}</span><span class="sb">`</span><span class="p">);</span>
+        <span class="p">});</span>
+
+        <span class="nx">job</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;result&#39;</span><span class="p">,</span> <span class="p">(</span><span class="nx">ev</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="p">{</span>
+            <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span>
+                <span class="sb">` - Received result for slice </span><span class="si">${</span><span class="nx">ev</span><span class="p">.</span><span class="nx">sliceNumber</span><span class="si">}</span><span class="sb"> at </span><span class="si">${</span><span class="nb">Math</span><span class="p">.</span><span class="nx">round</span><span class="p">((</span><span class="nb">Date</span><span class="p">.</span><span class="nx">now</span><span class="p">()</span> <span class="o">-</span> <span class="nx">startTime</span><span class="p">)</span> <span class="o">/</span> <span class="mf">100</span><span class="p">)</span> <span class="o">/</span> <span class="mf">10</span>
+                <span class="si">}</span><span class="sb">s`</span><span class="p">,</span>
+            <span class="p">);</span>
+        <span class="p">});</span>
+        <span class="nx">job</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;status&#39;</span><span class="p">,</span> <span class="p">(</span><span class="nx">ev</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="p">{</span>
+            <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;Got status update: &#39;</span><span class="p">,</span> <span class="nx">ev</span><span class="p">)</span>
+        <span class="p">})</span>
+
+        <span class="nx">job</span><span class="p">.</span><span class="kr">public</span><span class="p">.</span><span class="nx">name</span> <span class="o">=</span> <span class="s1">&#39;mandelbrot set, nodejs&#39;</span><span class="p">;</span>
+
+        <span class="c1">// SKIP IF: you don&#39;t need a Compute Group</span>
+        <span class="c1">//job.computeGroups = [{ joinKey: &quot;&quot;, joinSecret: &quot;&quot; }]</span>
+
+        <span class="kd">const</span> <span class="nx">ks</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">wallet</span><span class="p">.</span><span class="nx">get</span><span class="p">();</span> <span class="cm">/* usually loads ~/.dcp/default.keystore */</span>
+        <span class="nx">job</span><span class="p">.</span><span class="nx">setPaymentAccountKeystore</span><span class="p">(</span><span class="nx">ks</span><span class="p">);</span>
+        <span class="kd">const</span> <span class="nx">results</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">job</span><span class="p">.</span><span class="nx">exec</span><span class="p">();</span> <span class="c1">//compute.marketValue</span>
+        <span class="c1">//console.log(&#39;results=&#39;, Array.from(results));</span>
+        <span class="nx">array_results</span> <span class="o">=</span> <span class="nb">Array</span><span class="p">.</span><span class="kr">from</span><span class="p">(</span><span class="nx">results</span><span class="p">);</span>
+        <span class="k">debugger</span><span class="p">;</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+
+        <span class="k">for</span> <span class="p">(</span><span class="kd">let</span> <span class="nx">idx</span> <span class="o">=</span> <span class="mf">0</span><span class="p">;</span> <span class="nx">idx</span> <span class="o">&lt;</span> <span class="nx">pre_frames</span><span class="p">.</span><span class="nx">length</span> <span class="o">-</span> <span class="mf">1</span><span class="p">;</span> <span class="nx">idx</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+            <span class="kd">const</span> <span class="nx">frames</span> <span class="o">=</span> <span class="nx">mandelbrot</span><span class="p">.</span><span class="nx">make_frames</span><span class="p">(</span><span class="nx">canvas_size</span><span class="p">,</span> <span class="nx">max_iterations</span><span class="p">,</span> <span class="nx">pre_frames</span><span class="p">[</span><span class="nx">idx</span><span class="p">][</span><span class="mf">0</span><span class="p">],</span> <span class="nx">pre_frames</span><span class="p">[</span><span class="nx">idx</span><span class="p">][</span><span class="mf">1</span><span class="p">],</span> <span class="nx">frames_per_worker</span><span class="p">);</span>
+            <span class="nx">array_results</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">frames</span><span class="p">);</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="k">for</span> <span class="p">(</span><span class="kd">let</span> <span class="nx">i</span> <span class="o">=</span> <span class="mf">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">array_results</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kd">let</span> <span class="nx">j</span> <span class="o">=</span> <span class="mf">0</span><span class="p">;</span> <span class="nx">j</span> <span class="o">&lt;</span> <span class="nx">array_results</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">length</span><span class="p">;</span> <span class="nx">j</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+            <span class="kd">let</span> <span class="nx">idx</span> <span class="o">=</span> <span class="nx">i</span> <span class="o">*</span> <span class="nx">array_results</span><span class="p">.</span><span class="nx">length</span> <span class="o">+</span> <span class="nx">j</span>
+            <span class="kd">let</span> <span class="nx">image</span> <span class="o">=</span> <span class="nb">Uint8Array</span><span class="p">.</span><span class="kr">from</span><span class="p">(</span><span class="nx">array_results</span><span class="p">[</span><span class="nx">i</span><span class="p">][</span><span class="nx">j</span><span class="p">].</span><span class="nx">flat</span><span class="p">(</span><span class="mf">3</span><span class="p">))</span>
+            <span class="nx">create_image</span><span class="p">.</span><span class="nx">save_image</span><span class="p">(</span><span class="nx">image</span><span class="p">,</span> <span class="nx">canvas_size</span><span class="p">.</span><span class="nx">width</span><span class="p">,</span> <span class="nx">canvas_size</span><span class="p">.</span><span class="nx">height</span><span class="p">,</span> <span class="s2">&quot;./mandelbrot_images&quot;</span><span class="p">,</span> <span class="s2">&quot;/mandelbrot&quot;</span> <span class="o">+</span> <span class="nb">String</span><span class="p">(</span><span class="nx">idx</span><span class="p">).</span><span class="nx">padStart</span><span class="p">(</span><span class="mf">3</span><span class="p">,</span> <span class="s2">&quot;0&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;.png&#39;</span><span class="p">)</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="nx">create_image</span><span class="p">.</span><span class="nx">create_gif</span><span class="p">(</span><span class="nx">canvas_size</span><span class="p">.</span><span class="nx">width</span><span class="p">,</span> <span class="nx">canvas_size</span><span class="p">.</span><span class="nx">height</span><span class="p">,</span> <span class="s1">&#39;./mandelbrot_images&#39;</span><span class="p">,</span> <span class="s1">&#39;/mandelbrot&#39;</span><span class="p">)</span>
+
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>You can see in the last for loop it’s saying that for each result, which is the array of colours for each point, turn that into a Uint8Array. Then create PNG files in the mandelbrot image folder with the filename <code class="docutils literal notranslate"><span class="pre">mandelbrot[x].png</span></code>. Then, create a GIF and send it to the mandelbrot image folder with the name <code class="docutils literal notranslate"><span class="pre">mandelbrot.gif</span></code>.</p>
+</section>
+<section id="initialize-dcp">
+<h3>Initialize <code class="docutils literal notranslate"><span class="pre">DCP</span></code><a class="headerlink" href="#initialize-dcp" title="Permalink to this heading"></a></h3>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="cm">/* Initialize DCP Client and run main() */</span>
+<span class="nx">require</span><span class="p">(</span><span class="s1">&#39;dcp-client&#39;</span><span class="p">).</span><span class="nx">initSync</span><span class="p">(</span><span class="nx">SCHEDULER_URL</span><span class="p">);</span>
+<span class="nx">main</span><span class="p">();</span>
+</pre></div>
+</div>
+<p>Now wait for your slices and then look in the mandelbrot image folder for your GIF.</p>
+</section>
+</section>
+<section id="next-steps">
+<h2>Next steps<a class="headerlink" href="#next-steps" title="Permalink to this heading"></a></h2>
+<p>Thank you for following along and if you’d like to continue to play with the mandelbrot set you can try zooming towards different points. In this tutorial you zoomed towards (0.42884, -0.231345) but there are various interesting points to zoom to. You can also try changing the colouring of the image.</p>
+</section>
+<section id="final-code">
+<h2>Final code<a class="headerlink" href="#final-code" title="Permalink to this heading"></a></h2>
+<details>
+<summary>Click to see the full code. </summary>
+<p>main.js</p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/usr/bin/env node</span>
+
+<span class="kd">const</span> <span class="nx">mandelbrot</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;./mandelbrot-set.js&#39;</span><span class="p">);</span>
+<span class="c1">//const set_up = require(&quot;./set-up.js&quot;);</span>
+<span class="kd">const</span> <span class="nx">create_image</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;./image-animation.js&#39;</span><span class="p">);</span>
+
+<span class="kd">const</span> <span class="nx">SCHEDULER_URL</span> <span class="o">=</span> <span class="ow">new</span> <span class="nx">URL</span><span class="p">(</span><span class="s1">&#39;https://scheduler.distributed.computer&#39;</span><span class="p">);</span>
+
+<span class="cm">/** Main program entry point */</span>
+<span class="kd">function</span> <span class="nx">set_up</span><span class="p">()</span> <span class="p">{</span>
+  <span class="kd">let</span> <span class="nx">complex_coordinates</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="nx">x1</span><span class="o">:</span> <span class="o">-</span><span class="mf">2.5</span><span class="p">,</span>
+    <span class="nx">y1</span><span class="o">:</span> <span class="o">-</span><span class="mf">1</span><span class="p">,</span>
+    <span class="nx">x2</span><span class="o">:</span> <span class="mf">1</span><span class="p">,</span>
+    <span class="nx">y2</span><span class="o">:</span> <span class="mf">1</span><span class="p">,</span>
+  <span class="p">};</span>
+
+  <span class="kd">const</span> <span class="nx">canvas_size</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="nx">height</span><span class="o">:</span> <span class="mf">400</span><span class="p">,</span>
+    <span class="nx">width</span><span class="o">:</span> <span class="mf">600</span><span class="p">,</span>
+  <span class="p">};</span>
+
+  <span class="kd">const</span> <span class="nx">z0</span> <span class="o">=</span> <span class="p">{</span> <span class="nx">re</span><span class="o">:</span> <span class="mf">0.42884</span><span class="p">,</span> <span class="nx">im</span><span class="o">:</span> <span class="o">-</span><span class="mf">0.231345</span> <span class="p">};</span>
+  <span class="kd">const</span> <span class="nx">speed</span> <span class="o">=</span> <span class="mf">0.4</span><span class="p">;</span>
+  <span class="kd">const</span> <span class="nx">max_iterations</span> <span class="o">=</span> <span class="mf">1000</span><span class="p">;</span>
+  <span class="kd">const</span> <span class="nx">frames_num</span> <span class="o">=</span> <span class="mf">10</span><span class="p">;</span>
+  <span class="kd">const</span> <span class="nx">frames_per_worker</span> <span class="o">=</span> <span class="mf">2</span><span class="p">;</span>
+
+  <span class="kd">let</span> <span class="nx">complex_coordinates_new</span><span class="p">;</span>
+  <span class="kd">let</span> <span class="nx">pre_frames</span> <span class="o">=</span> <span class="ow">new</span> <span class="nb">Array</span><span class="p">(</span><span class="nx">frames_num</span><span class="p">);</span>
+  <span class="k">for</span> <span class="p">(</span><span class="kd">let</span> <span class="nx">i</span> <span class="o">=</span> <span class="mf">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">frames_num</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">complex_coordinates_new</span> <span class="o">=</span> <span class="nx">mandelbrot</span><span class="p">.</span><span class="nx">zoom_in</span><span class="p">(</span>
+      <span class="nx">complex_coordinates</span><span class="p">,</span>
+      <span class="nx">z0</span><span class="p">,</span>
+      <span class="nx">speed</span><span class="p">,</span>
+    <span class="p">);</span>
+    <span class="nx">pre_frames</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="nx">complex_coordinates</span><span class="p">,</span> <span class="nx">complex_coordinates_new</span><span class="p">];</span>
+    <span class="nx">complex_coordinates</span> <span class="o">=</span> <span class="nx">complex_coordinates_new</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="k">return</span> <span class="p">{</span>
+    <span class="nx">canvas_size</span><span class="o">:</span> <span class="nx">canvas_size</span><span class="p">,</span>
+    <span class="nx">max_iterations</span><span class="o">:</span> <span class="nx">max_iterations</span><span class="p">,</span>
+    <span class="nx">frames_per_worker</span><span class="o">:</span> <span class="nx">frames_per_worker</span><span class="p">,</span>
+    <span class="nx">pre_frames</span><span class="o">:</span> <span class="nx">pre_frames</span><span class="p">,</span>
+  <span class="p">};</span>
+<span class="p">}</span>
+
+<span class="k">async</span> <span class="kd">function</span> <span class="nx">main</span><span class="p">()</span> <span class="p">{</span>
+  <span class="kd">let</span> <span class="nx">canvas_size</span><span class="p">,</span>
+    <span class="nx">max_iterations</span><span class="p">,</span>
+    <span class="nx">frames_per_worker</span><span class="p">,</span>
+    <span class="nx">pre_frames</span> <span class="o">=</span> <span class="nx">set_up</span><span class="p">();</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">canvas_size</span><span class="p">);</span>
+  <span class="kd">let</span> <span class="nx">do_it_on_dcp</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+  <span class="kd">let</span> <span class="nx">array_results</span> <span class="o">=</span> <span class="nb">Array</span><span class="p">();</span>
+
+  <span class="k">if</span> <span class="p">(</span><span class="nx">do_it_on_dcp</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">let</span> <span class="nx">startTime</span><span class="p">;</span>
+
+    <span class="kd">const</span> <span class="nx">compute</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;dcp/compute&#39;</span><span class="p">);</span>
+    <span class="kd">const</span> <span class="nx">wallet</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;dcp/wallet&#39;</span><span class="p">);</span>
+
+    <span class="kd">const</span> <span class="nx">job</span> <span class="o">=</span> <span class="nx">compute</span><span class="p">.</span><span class="k">for</span><span class="p">(</span>
+      <span class="nx">pre_frames</span><span class="p">,</span>
+      <span class="p">(</span><span class="nx">pre_frame</span><span class="p">,</span> <span class="nx">canvas_size</span><span class="p">,</span> <span class="nx">max_iterations</span><span class="p">,</span> <span class="nx">frames_per_worker</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="p">{</span>
+        <span class="kd">const</span> <span class="nx">mandelbrot</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;./mandelbrot-set&#39;</span><span class="p">);</span>
+        <span class="nx">progress</span><span class="p">();</span>
+        <span class="kd">const</span> <span class="nx">frames</span> <span class="o">=</span> <span class="nx">mandelbrot</span><span class="p">.</span><span class="nx">make_frames</span><span class="p">(</span>
+          <span class="nx">canvas_size</span><span class="p">,</span>
+          <span class="nx">max_iterations</span><span class="p">,</span>
+          <span class="nx">pre_frame</span><span class="p">[</span><span class="mf">0</span><span class="p">],</span>
+          <span class="nx">pre_frame</span><span class="p">[</span><span class="mf">1</span><span class="p">],</span>
+          <span class="nx">frames_per_worker</span><span class="p">,</span>
+        <span class="p">);</span>
+        <span class="k">return</span> <span class="nx">frames</span><span class="p">;</span>
+      <span class="p">},</span>
+      <span class="p">[</span><span class="nx">canvas_size</span><span class="p">,</span> <span class="nx">max_iterations</span><span class="p">,</span> <span class="nx">frames_per_worker</span><span class="p">],</span>
+    <span class="p">);</span>
+
+    <span class="nx">job</span><span class="p">.</span><span class="nx">requires</span><span class="p">(</span><span class="s1">&#39;./mandelbrot-set&#39;</span><span class="p">);</span>
+    <span class="nx">job</span><span class="p">.</span><span class="nx">requirements</span><span class="p">.</span><span class="nx">discrete</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+
+    <span class="nx">job</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;accepted&#39;</span><span class="p">,</span> <span class="p">()</span> <span class="p">=&gt;</span> <span class="p">{</span>
+      <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="sb">` - Job accepted by scheduler, waiting for results`</span><span class="p">);</span>
+      <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="sb">` - Job has id </span><span class="si">${</span><span class="nx">job</span><span class="p">.</span><span class="nx">id</span><span class="si">}</span><span class="sb">`</span><span class="p">);</span>
+      <span class="nx">startTime</span> <span class="o">=</span> <span class="nb">Date</span><span class="p">.</span><span class="nx">now</span><span class="p">();</span>
+    <span class="p">});</span>
+
+    <span class="nx">job</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;readystatechange&#39;</span><span class="p">,</span> <span class="p">(</span><span class="nx">arg</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="p">{</span>
+      <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="sb">`new ready state: </span><span class="si">${</span><span class="nx">arg</span><span class="si">}</span><span class="sb">`</span><span class="p">);</span>
+    <span class="p">});</span>
+
+    <span class="nx">job</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;result&#39;</span><span class="p">,</span> <span class="p">(</span><span class="nx">ev</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="p">{</span>
+      <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span>
+        <span class="sb">` - Received result for slice </span><span class="si">${</span><span class="nx">ev</span><span class="p">.</span><span class="nx">sliceNumber</span><span class="si">}</span><span class="sb"> at </span><span class="si">${</span>
+          <span class="nb">Math</span><span class="p">.</span><span class="nx">round</span><span class="p">((</span><span class="nb">Date</span><span class="p">.</span><span class="nx">now</span><span class="p">()</span> <span class="o">-</span> <span class="nx">startTime</span><span class="p">)</span> <span class="o">/</span> <span class="mf">100</span><span class="p">)</span> <span class="o">/</span> <span class="mf">10</span>
+        <span class="si">}</span><span class="sb">s`</span><span class="p">,</span>
+      <span class="p">);</span>
+    <span class="p">});</span>
+    <span class="nx">job</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;status&#39;</span><span class="p">,</span> <span class="p">(</span><span class="nx">ev</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="p">{</span>
+      <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;Got status update: &#39;</span><span class="p">,</span> <span class="nx">ev</span><span class="p">);</span>
+    <span class="p">});</span>
+
+    <span class="nx">job</span><span class="p">.</span><span class="kr">public</span><span class="p">.</span><span class="nx">name</span> <span class="o">=</span> <span class="s1">&#39;mandelbrot Set&#39;</span><span class="p">;</span>
+
+    <span class="c1">// SKIP IF: you don&#39;t need a Compute Group</span>
+    <span class="c1">//job.computeGroups = [{ joinKey: &#39;&#39;, joinSecret: &#39;&#39; }];</span>
+
+    <span class="kd">const</span> <span class="nx">ks</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">wallet</span><span class="p">.</span><span class="nx">get</span><span class="p">();</span> <span class="cm">/* usually loads ~/.dcp/default.keystore */</span>
+    <span class="nx">job</span><span class="p">.</span><span class="nx">setPaymentAccountKeystore</span><span class="p">(</span><span class="nx">ks</span><span class="p">);</span>
+    <span class="kd">const</span> <span class="nx">results</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">job</span><span class="p">.</span><span class="nx">exec</span><span class="p">();</span> <span class="c1">//compute.marketValue</span>
+    <span class="c1">//console.log(&#39;results=&#39;, Array.from(results));</span>
+    <span class="nx">array_results</span> <span class="o">=</span> <span class="nb">Array</span><span class="p">.</span><span class="kr">from</span><span class="p">(</span><span class="nx">results</span><span class="p">);</span>
+    <span class="k">debugger</span><span class="p">;</span>
+  <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kd">let</span> <span class="nx">idx</span> <span class="o">=</span> <span class="mf">0</span><span class="p">;</span> <span class="nx">idx</span> <span class="o">&lt;</span> <span class="nx">pre_frames</span><span class="p">.</span><span class="nx">length</span> <span class="o">-</span> <span class="mf">1</span><span class="p">;</span> <span class="nx">idx</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+      <span class="kd">const</span> <span class="nx">frames</span> <span class="o">=</span> <span class="nx">mandelbrot</span><span class="p">.</span><span class="nx">make_frames</span><span class="p">(</span>
+        <span class="nx">canvas_size</span><span class="p">,</span>
+        <span class="nx">max_iterations</span><span class="p">,</span>
+        <span class="nx">pre_frames</span><span class="p">[</span><span class="nx">idx</span><span class="p">][</span><span class="mf">0</span><span class="p">],</span>
+        <span class="nx">pre_frames</span><span class="p">[</span><span class="nx">idx</span><span class="p">][</span><span class="mf">1</span><span class="p">],</span>
+        <span class="nx">frames_per_worker</span><span class="p">,</span>
+      <span class="p">);</span>
+      <span class="nx">array_results</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">frames</span><span class="p">);</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+  <span class="nx">image_gif_creation</span><span class="p">(</span><span class="nx">array_results</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kd">function</span> <span class="nx">image_gif_creation</span><span class="p">(</span><span class="nx">array_results</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kd">let</span> <span class="nx">canvas_size</span><span class="p">,</span>
+    <span class="nx">max_iterations</span><span class="p">,</span>
+    <span class="nx">frames_per_worker</span><span class="p">,</span>
+    <span class="nx">pre_frames</span> <span class="o">=</span> <span class="nx">set_up</span><span class="p">();</span>
+  <span class="kd">let</span> <span class="nx">frame_size</span> <span class="o">=</span> <span class="nx">canvas_size</span><span class="p">.</span><span class="nx">height</span> <span class="o">*</span> <span class="nx">canvas_size</span><span class="p">.</span><span class="nx">width</span> <span class="o">*</span> <span class="mf">3</span><span class="p">;</span>
+
+  <span class="k">for</span> <span class="p">(</span><span class="kd">let</span> <span class="nx">i</span> <span class="o">=</span> <span class="mf">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">array_results</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kd">let</span> <span class="nx">j</span> <span class="o">=</span> <span class="mf">0</span><span class="p">;</span> <span class="nx">j</span> <span class="o">&lt;</span> <span class="nx">frames_per_worker</span><span class="p">;</span> <span class="nx">j</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+      <span class="kd">let</span> <span class="nx">idx</span> <span class="o">=</span> <span class="nx">i</span> <span class="o">*</span> <span class="nx">frames_per_worker</span> <span class="o">+</span> <span class="nx">j</span><span class="p">;</span>
+      <span class="kd">let</span> <span class="nx">image</span> <span class="o">=</span> <span class="nx">array_results</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">slice</span><span class="p">(</span><span class="nx">j</span> <span class="o">*</span> <span class="nx">frame_size</span><span class="p">,</span> <span class="p">(</span><span class="nx">j</span> <span class="o">+</span> <span class="mf">1</span><span class="p">)</span> <span class="o">*</span> <span class="nx">frame_size</span><span class="p">);</span>
+      <span class="nx">create_image</span><span class="p">.</span><span class="nx">save_image</span><span class="p">(</span>
+        <span class="nx">image</span><span class="p">,</span>
+        <span class="nx">canvas_size</span><span class="p">.</span><span class="nx">width</span><span class="p">,</span>
+        <span class="nx">canvas_size</span><span class="p">.</span><span class="nx">height</span><span class="p">,</span>
+        <span class="s1">&#39;/mandelbrot&#39;</span> <span class="o">+</span> <span class="nb">String</span><span class="p">(</span><span class="nx">idx</span><span class="p">).</span><span class="nx">padStart</span><span class="p">(</span><span class="mf">3</span><span class="p">,</span> <span class="s1">&#39;0&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;.png&#39;</span><span class="p">,</span>
+      <span class="p">);</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+
+  <span class="nx">create_image</span><span class="p">.</span><span class="nx">create_gif</span><span class="p">(</span><span class="nx">canvas_size</span><span class="p">.</span><span class="nx">width</span><span class="p">,</span> <span class="nx">canvas_size</span><span class="p">.</span><span class="nx">height</span><span class="p">,</span> <span class="s1">&#39;/mandelbrot&#39;</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="cm">/* Initialize DCP Client and run main() */</span>
+<span class="nx">require</span><span class="p">(</span><span class="s1">&#39;dcp-client&#39;</span><span class="p">).</span><span class="nx">initSync</span><span class="p">(</span><span class="nx">SCHEDULER_URL</span><span class="p">);</span>
+<span class="nx">main</span><span class="p">();</span>
+<span class="c1">//exports.main = main;</span>
+<span class="c1">// .catch(console.error)</span>
+<span class="c1">// .finally(() =&gt; {console.log(&quot;came here&quot;)})</span>
+</pre></div>
+</div>
+<p>image-animation.js</p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="kd">const</span> <span class="nx">sharp</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;sharp&#39;</span><span class="p">);</span>
+<span class="kd">const</span> <span class="nx">pngFileStream</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;png-file-stream&#39;</span><span class="p">);</span>
+<span class="kd">const</span> <span class="nx">GIFEncoder</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;gifencoder&#39;</span><span class="p">);</span>
+<span class="kd">const</span> <span class="nx">fs</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;fs&#39;</span><span class="p">);</span>
+
+<span class="cm">/**</span>
+<span class="cm"> * take in the frame which is a Uint8 array and saves each frame as a png.</span>
+<span class="cm"> * @param {int} frame</span>
+<span class="cm"> * @param {int} width</span>
+<span class="cm"> * @param {int} height</span>
+<span class="cm"> * @param {string} folder</span>
+<span class="cm"> * @param {string} name</span>
+<span class="cm"> * @returns image</span>
+<span class="cm"> */</span>
+<span class="k">async</span> <span class="kd">function</span> <span class="nx">save_image</span><span class="p">(</span><span class="nx">frame</span><span class="p">,</span> <span class="nx">width</span><span class="p">,</span> <span class="nx">height</span><span class="p">,</span> <span class="nx">name</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">image</span> <span class="o">=</span> <span class="nx">sharp</span><span class="p">(</span><span class="nx">frame</span><span class="p">,</span> <span class="p">{</span>
+    <span class="nx">raw</span><span class="o">:</span> <span class="p">{</span>
+      <span class="nx">width</span><span class="o">:</span> <span class="nx">width</span><span class="p">,</span>
+      <span class="nx">height</span><span class="o">:</span> <span class="nx">height</span><span class="p">,</span>
+      <span class="nx">channels</span><span class="o">:</span> <span class="mf">3</span><span class="p">,</span>
+    <span class="p">},</span>
+  <span class="p">});</span>
+  <span class="k">await</span> <span class="nx">image</span><span class="p">.</span><span class="nx">toFile</span><span class="p">(</span><span class="nx">name</span><span class="p">);</span>
+  <span class="k">return</span> <span class="nx">image</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="cm">/**</span>
+<span class="cm"> * Take the pngs created and turns them into a gif.</span>
+<span class="cm"> * @param {int} width</span>
+<span class="cm"> * @param {int} height</span>
+<span class="cm"> * @param {string} folder</span>
+<span class="cm"> * @param {string} name</span>
+<span class="cm"> */</span>
+<span class="k">async</span> <span class="kd">function</span> <span class="nx">create_gif</span><span class="p">(</span><span class="nx">width</span><span class="p">,</span> <span class="nx">height</span><span class="p">,</span> <span class="nx">name</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="nx">encoder</span> <span class="o">=</span> <span class="ow">new</span> <span class="nx">GIFEncoder</span><span class="p">(</span><span class="nx">width</span><span class="p">,</span> <span class="nx">height</span><span class="p">);</span>
+  <span class="kd">const</span> <span class="nx">image_names</span> <span class="o">=</span> <span class="nx">folder</span> <span class="o">+</span> <span class="nx">name</span> <span class="o">+</span> <span class="s1">&#39;*.png&#39;</span><span class="p">;</span>
+  <span class="kd">const</span> <span class="nx">stream</span> <span class="o">=</span> <span class="nx">pngFileStream</span><span class="p">(</span><span class="nx">folder</span> <span class="o">+</span> <span class="nx">name</span> <span class="o">+</span> <span class="s1">&#39;*.png&#39;</span><span class="p">)</span>
+    <span class="p">.</span><span class="nx">pipe</span><span class="p">(</span><span class="nx">encoder</span><span class="p">.</span><span class="nx">createWriteStream</span><span class="p">({</span> <span class="nx">repeat</span><span class="o">:</span> <span class="mf">0</span><span class="p">,</span> <span class="nx">delay</span><span class="o">:</span> <span class="mf">500</span><span class="p">,</span> <span class="nx">quality</span><span class="o">:</span> <span class="mf">10</span> <span class="p">}))</span>
+    <span class="p">.</span><span class="nx">pipe</span><span class="p">(</span><span class="nx">fs</span><span class="p">.</span><span class="nx">createWriteStream</span><span class="p">(</span><span class="nx">name</span> <span class="o">+</span> <span class="s1">&#39;.gif&#39;</span><span class="p">));</span>
+
+  <span class="k">await</span> <span class="ow">new</span> <span class="nb">Promise</span><span class="p">((</span><span class="nx">resolve</span><span class="p">,</span> <span class="nx">reject</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="p">{</span>
+    <span class="nx">stream</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;finish&#39;</span><span class="p">,</span> <span class="nx">resolve</span><span class="p">);</span>
+    <span class="nx">stream</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;error&#39;</span><span class="p">,</span> <span class="nx">reject</span><span class="p">);</span>
+  <span class="p">});</span>
+<span class="p">}</span>
+
+<span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="p">{</span> <span class="nx">save_image</span><span class="p">,</span> <span class="nx">create_gif</span> <span class="p">};</span>
+</pre></div>
+</div>
+<p>mandelbrot-set.js</p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="cm">/**</span>
+<span class="cm"> * Determines how many iterations of the function fc(z) before the point escapes</span>
+<span class="cm"> * @param {int} z</span>
+<span class="cm"> * @param {int} max_iterations</span>
+<span class="cm"> * @returns k</span>
+<span class="cm"> */</span>
+<span class="kd">function</span> <span class="nx">calculate_escape_time</span><span class="p">(</span><span class="nx">z</span><span class="p">,</span> <span class="nx">max_iterations</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">c</span> <span class="o">=</span> <span class="nx">z</span><span class="p">;</span>
+  <span class="kd">var</span> <span class="nx">k</span> <span class="o">=</span> <span class="mf">0</span><span class="p">;</span>
+  <span class="k">while</span> <span class="p">(</span><span class="nx">k</span> <span class="o">&lt;</span> <span class="nx">max_iterations</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">real</span> <span class="o">=</span> <span class="nx">z</span><span class="p">.</span><span class="nx">re</span> <span class="o">*</span> <span class="nx">z</span><span class="p">.</span><span class="nx">re</span> <span class="o">-</span> <span class="nx">z</span><span class="p">.</span><span class="nx">im</span> <span class="o">*</span> <span class="nx">z</span><span class="p">.</span><span class="nx">im</span> <span class="o">+</span> <span class="nx">c</span><span class="p">.</span><span class="nx">re</span><span class="p">;</span>
+    <span class="nx">imaginary</span> <span class="o">=</span> <span class="mf">2</span> <span class="o">*</span> <span class="nx">z</span><span class="p">.</span><span class="nx">re</span> <span class="o">*</span> <span class="nx">z</span><span class="p">.</span><span class="nx">im</span> <span class="o">+</span> <span class="nx">c</span><span class="p">.</span><span class="nx">im</span><span class="p">;</span>
+    <span class="nx">z</span> <span class="o">=</span> <span class="p">{</span> <span class="nx">re</span><span class="o">:</span> <span class="nx">real</span><span class="p">,</span> <span class="nx">im</span><span class="o">:</span> <span class="nx">imaginary</span> <span class="p">};</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="nx">z</span><span class="p">.</span><span class="nx">re</span> <span class="o">*</span> <span class="nx">z</span><span class="p">.</span><span class="nx">re</span> <span class="o">+</span> <span class="nx">z</span><span class="p">.</span><span class="nx">im</span> <span class="o">*</span> <span class="nx">z</span><span class="p">.</span><span class="nx">im</span> <span class="o">&gt;=</span> <span class="mf">4</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">break</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="nx">k</span><span class="o">++</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="k">return</span> <span class="nx">k</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="cm">/**</span>
+<span class="cm"> * Calculates the deltas needed to convert a point on the canvas to a point on the real and imaginary axes being plotted on.</span>
+<span class="cm"> * @param {int} complex_coordinates</span>
+<span class="cm"> * @param {int} canvas_size</span>
+<span class="cm"> * @returns x1</span>
+<span class="cm"> * @returns y1</span>
+<span class="cm"> * @returns delta_x</span>
+<span class="cm"> * @returns delta_y</span>
+<span class="cm"> */</span>
+<span class="kd">function</span> <span class="nx">complex_coordinates_to_features</span><span class="p">(</span><span class="nx">complex_coordinates</span><span class="p">,</span> <span class="nx">canvas_size</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kd">let</span> <span class="nx">delta_x</span> <span class="o">=</span>
+    <span class="p">(</span><span class="nx">complex_coordinates</span><span class="p">.</span><span class="nx">x2</span> <span class="o">-</span> <span class="nx">complex_coordinates</span><span class="p">.</span><span class="nx">x1</span><span class="p">)</span> <span class="o">/</span> <span class="nx">canvas_size</span><span class="p">.</span><span class="nx">width</span><span class="p">;</span>
+  <span class="kd">let</span> <span class="nx">delta_y</span> <span class="o">=</span>
+    <span class="p">(</span><span class="nx">complex_coordinates</span><span class="p">.</span><span class="nx">y2</span> <span class="o">-</span> <span class="nx">complex_coordinates</span><span class="p">.</span><span class="nx">y1</span><span class="p">)</span> <span class="o">/</span> <span class="nx">canvas_size</span><span class="p">.</span><span class="nx">height</span><span class="p">;</span>
+
+  <span class="kd">let</span> <span class="nx">x1</span> <span class="o">=</span> <span class="nx">complex_coordinates</span><span class="p">.</span><span class="nx">x1</span><span class="p">;</span>
+  <span class="kd">let</span> <span class="nx">y1</span> <span class="o">=</span> <span class="nx">complex_coordinates</span><span class="p">.</span><span class="nx">y1</span><span class="p">;</span>
+
+  <span class="k">return</span> <span class="p">{</span>
+    <span class="nx">x1</span><span class="o">:</span> <span class="nx">x1</span><span class="p">,</span>
+    <span class="nx">y1</span><span class="o">:</span> <span class="nx">y1</span><span class="p">,</span>
+    <span class="nx">delta_x</span><span class="o">:</span> <span class="nx">delta_x</span><span class="p">,</span>
+    <span class="nx">delta_y</span><span class="o">:</span> <span class="nx">delta_y</span><span class="p">,</span>
+  <span class="p">};</span>
+<span class="p">}</span>
+
+<span class="cm">/**</span>
+<span class="cm"> * Translates any point on the canvas to a point on the real and imaginary axes. Takes in a point x, y on the canvas and the lower left deltas that were calcualted. It will then return the real and imaginary components of the point.</span>
+<span class="cm"> * @param {int} x</span>
+<span class="cm"> * @param {int} y</span>
+<span class="cm"> * @param {int} lower_left_deltas</span>
+<span class="cm"> * @returns re</span>
+<span class="cm"> * @returns im</span>
+<span class="cm"> */</span>
+<span class="kd">function</span> <span class="nx">coordinates_to_complex</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="p">,</span> <span class="nx">lower_left_deltas</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kd">let</span> <span class="nx">re</span> <span class="o">=</span> <span class="nx">lower_left_deltas</span><span class="p">.</span><span class="nx">x1</span> <span class="o">+</span> <span class="nx">x</span> <span class="o">*</span> <span class="nx">lower_left_deltas</span><span class="p">.</span><span class="nx">delta_x</span><span class="p">;</span>
+  <span class="kd">let</span> <span class="nx">im</span> <span class="o">=</span> <span class="nx">lower_left_deltas</span><span class="p">.</span><span class="nx">y1</span> <span class="o">+</span> <span class="nx">y</span> <span class="o">*</span> <span class="nx">lower_left_deltas</span><span class="p">.</span><span class="nx">delta_y</span><span class="p">;</span>
+
+  <span class="k">return</span> <span class="p">{</span>
+    <span class="nx">re</span><span class="o">:</span> <span class="nx">re</span><span class="p">,</span>
+    <span class="nx">im</span><span class="o">:</span> <span class="nx">im</span><span class="p">,</span>
+  <span class="p">};</span>
+<span class="p">}</span>
+
+<span class="cm">/**</span>
+<span class="cm"> * Creates a matrix for every frame which will contain the escape time of every point in the frame. That current escape time will then be replaced with the colour of the specific point. This is also where progress will be called which is needed to run on DCP.</span>
+<span class="cm"> * @param {int} canvas_size</span>
+<span class="cm"> * @param {int} complex_coordinates</span>
+<span class="cm"> * @param {int} max_iterations</span>
+<span class="cm"> * @returns frame</span>
+<span class="cm"> */</span>
+<span class="kd">function</span> <span class="nx">make_frame</span><span class="p">(</span><span class="nx">canvas_size</span><span class="p">,</span> <span class="nx">complex_coordinates</span><span class="p">,</span> <span class="nx">max_iterations</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="nx">rows</span> <span class="o">=</span> <span class="nx">canvas_size</span><span class="p">.</span><span class="nx">height</span><span class="p">;</span>
+  <span class="kd">const</span> <span class="nx">cols</span> <span class="o">=</span> <span class="nx">canvas_size</span><span class="p">.</span><span class="nx">width</span><span class="p">;</span>
+  <span class="kd">const</span> <span class="nx">frame_size</span> <span class="o">=</span> <span class="nx">rows</span> <span class="o">*</span> <span class="nx">cols</span> <span class="o">*</span> <span class="mf">3</span><span class="p">;</span>
+  <span class="kd">let</span> <span class="nx">frame</span> <span class="o">=</span> <span class="ow">new</span> <span class="nb">Uint8Array</span><span class="p">(</span><span class="nx">frame_size</span><span class="p">);</span>
+
+  <span class="kd">let</span> <span class="nx">lower_left_deltas</span> <span class="o">=</span> <span class="nx">complex_coordinates_to_features</span><span class="p">(</span>
+    <span class="nx">complex_coordinates</span><span class="p">,</span>
+    <span class="nx">canvas_size</span><span class="p">,</span>
+  <span class="p">);</span>
+
+  <span class="k">for</span> <span class="p">(</span><span class="kd">let</span> <span class="nx">y</span> <span class="o">=</span> <span class="mf">0</span><span class="p">;</span> <span class="nx">y</span> <span class="o">&lt;</span> <span class="nx">rows</span><span class="p">;</span> <span class="nx">y</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kd">let</span> <span class="nx">x</span> <span class="o">=</span> <span class="mf">0</span><span class="p">;</span> <span class="nx">x</span> <span class="o">&lt;</span> <span class="nx">cols</span><span class="p">;</span> <span class="nx">x</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+      <span class="kd">let</span> <span class="nx">z</span> <span class="o">=</span> <span class="nx">coordinates_to_complex</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="p">,</span> <span class="nx">lower_left_deltas</span><span class="p">);</span>
+      <span class="kd">let</span> <span class="nx">current_escape_time</span> <span class="o">=</span>
+        <span class="nx">calculate_escape_time</span><span class="p">(</span><span class="nx">z</span><span class="p">,</span> <span class="nx">max_iterations</span><span class="p">)</span> <span class="o">/</span> <span class="nx">max_iterations</span><span class="p">;</span>
+      <span class="kd">let</span> <span class="nx">colours</span> <span class="o">=</span> <span class="nx">escape_time_to_colour</span><span class="p">(</span><span class="nx">current_escape_time</span><span class="p">,</span> <span class="nx">max_iterations</span><span class="p">);</span>
+      <span class="nx">frame</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="nx">colours</span><span class="p">,</span> <span class="mf">3</span> <span class="o">*</span> <span class="p">(</span><span class="nx">y</span> <span class="o">*</span> <span class="nx">cols</span> <span class="o">+</span> <span class="nx">x</span><span class="p">));</span>
+    <span class="p">}</span>
+    <span class="c1">//if (y % rows/4 == 0){</span>
+    <span class="c1">//  progress();</span>
+    <span class="c1">//}</span>
+    <span class="nx">progress</span><span class="p">();</span>
+  <span class="p">}</span>
+
+  <span class="k">return</span> <span class="nx">frame</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="cm">/**</span>
+<span class="cm"> * For every frame each worker will calculate the complex coordinates for that frame and then make that frame by calling the make_frame function. Frames will be an array of matrices where each entry of the matrix is the color of the point.</span>
+<span class="cm"> * @param {int} canvas_size</span>
+<span class="cm"> * @param {int} max_iterations</span>
+<span class="cm"> * @param {int} first_complex_coordinates</span>
+<span class="cm"> * @param {int} last_complex_coordinates</span>
+<span class="cm"> * @param {int} total_frames</span>
+<span class="cm"> * @returns frames</span>
+<span class="cm"> */</span>
+<span class="kd">function</span> <span class="nx">make_frames</span><span class="p">(</span>
+  <span class="nx">canvas_size</span><span class="p">,</span>
+  <span class="nx">max_iterations</span><span class="p">,</span>
+  <span class="nx">first_complex_coordinates</span><span class="p">,</span>
+  <span class="nx">last_complex_coordinates</span><span class="p">,</span>
+  <span class="nx">total_frames</span><span class="p">,</span>
+<span class="p">)</span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="nx">rows</span> <span class="o">=</span> <span class="nx">canvas_size</span><span class="p">.</span><span class="nx">height</span><span class="p">;</span>
+  <span class="kd">const</span> <span class="nx">cols</span> <span class="o">=</span> <span class="nx">canvas_size</span><span class="p">.</span><span class="nx">width</span><span class="p">;</span>
+  <span class="kd">const</span> <span class="nx">frame_size</span> <span class="o">=</span> <span class="nx">rows</span> <span class="o">*</span> <span class="nx">cols</span> <span class="o">*</span> <span class="mf">3</span><span class="p">;</span>
+  <span class="kd">let</span> <span class="nx">frames</span> <span class="o">=</span> <span class="ow">new</span> <span class="nb">Uint8Array</span><span class="p">(</span><span class="nx">total_frames</span> <span class="o">*</span> <span class="nx">frame_size</span><span class="p">);</span>
+
+  <span class="k">for</span> <span class="p">(</span><span class="kd">let</span> <span class="nx">k</span> <span class="o">=</span> <span class="mf">0</span><span class="p">;</span> <span class="nx">k</span> <span class="o">&lt;</span> <span class="nx">total_frames</span><span class="p">;</span> <span class="nx">k</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">let</span> <span class="nx">current_complex_coordinates</span> <span class="o">=</span> <span class="nx">kth_complex_coordinate</span><span class="p">(</span>
+      <span class="nx">first_complex_coordinates</span><span class="p">,</span>
+      <span class="nx">last_complex_coordinates</span><span class="p">,</span>
+      <span class="nx">total_frames</span><span class="p">,</span>
+      <span class="nx">k</span><span class="p">,</span>
+    <span class="p">);</span>
+    <span class="kd">let</span> <span class="nx">current_frame</span> <span class="o">=</span> <span class="nx">make_frame</span><span class="p">(</span>
+      <span class="nx">canvas_size</span><span class="p">,</span>
+      <span class="nx">current_complex_coordinates</span><span class="p">,</span>
+      <span class="nx">max_iterations</span><span class="p">,</span>
+    <span class="p">);</span>
+    <span class="nx">frames</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="nx">current_frame</span><span class="p">,</span> <span class="nx">k</span> <span class="o">*</span> <span class="nx">frame_size</span><span class="p">);</span>
+    <span class="c1">//progress();</span>
+  <span class="p">}</span>
+
+  <span class="k">return</span> <span class="nx">frames</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="cm">/**</span>
+<span class="cm"> * Calculates the new complex coordinates for each frame per slice.</span>
+<span class="cm"> * @param {int} first_complex_coordinates</span>
+<span class="cm"> * @param {int} last_complex_coordiantes</span>
+<span class="cm"> * @param {int} total_frames</span>
+<span class="cm"> * @param {int} k</span>
+<span class="cm"> * @returns x1</span>
+<span class="cm"> * @returns x2</span>
+<span class="cm"> * @returns y1</span>
+<span class="cm"> * @returns y2</span>
+<span class="cm"> */</span>
+<span class="kd">function</span> <span class="nx">kth_complex_coordinate</span><span class="p">(</span>
+  <span class="nx">first_complex_coordinates</span><span class="p">,</span>
+  <span class="nx">last_complex_coordinates</span><span class="p">,</span>
+  <span class="nx">total_frames</span><span class="p">,</span>
+  <span class="nx">k</span><span class="p">,</span>
+<span class="p">)</span> <span class="p">{</span>
+  <span class="kd">let</span> <span class="nx">alpha</span> <span class="o">=</span> <span class="nx">k</span> <span class="o">/</span> <span class="nx">total_frames</span><span class="p">;</span>
+  <span class="kd">let</span> <span class="nx">x1</span> <span class="o">=</span>
+    <span class="p">(</span><span class="mf">1</span> <span class="o">-</span> <span class="nx">alpha</span><span class="p">)</span> <span class="o">*</span> <span class="nx">first_complex_coordinates</span><span class="p">.</span><span class="nx">x1</span> <span class="o">+</span>
+    <span class="nx">alpha</span> <span class="o">*</span> <span class="nx">last_complex_coordinates</span><span class="p">.</span><span class="nx">x1</span><span class="p">;</span>
+  <span class="kd">let</span> <span class="nx">x2</span> <span class="o">=</span>
+    <span class="p">(</span><span class="mf">1</span> <span class="o">-</span> <span class="nx">alpha</span><span class="p">)</span> <span class="o">*</span> <span class="nx">first_complex_coordinates</span><span class="p">.</span><span class="nx">x2</span> <span class="o">+</span>
+    <span class="nx">alpha</span> <span class="o">*</span> <span class="nx">last_complex_coordinates</span><span class="p">.</span><span class="nx">x2</span><span class="p">;</span>
+  <span class="kd">let</span> <span class="nx">y1</span> <span class="o">=</span>
+    <span class="p">(</span><span class="mf">1</span> <span class="o">-</span> <span class="nx">alpha</span><span class="p">)</span> <span class="o">*</span> <span class="nx">first_complex_coordinates</span><span class="p">.</span><span class="nx">y1</span> <span class="o">+</span>
+    <span class="nx">alpha</span> <span class="o">*</span> <span class="nx">last_complex_coordinates</span><span class="p">.</span><span class="nx">y1</span><span class="p">;</span>
+  <span class="kd">let</span> <span class="nx">y2</span> <span class="o">=</span>
+    <span class="p">(</span><span class="mf">1</span> <span class="o">-</span> <span class="nx">alpha</span><span class="p">)</span> <span class="o">*</span> <span class="nx">first_complex_coordinates</span><span class="p">.</span><span class="nx">y2</span> <span class="o">+</span>
+    <span class="nx">alpha</span> <span class="o">*</span> <span class="nx">last_complex_coordinates</span><span class="p">.</span><span class="nx">y2</span><span class="p">;</span>
+  <span class="k">return</span> <span class="p">{</span>
+    <span class="nx">x1</span><span class="o">:</span> <span class="nx">x1</span><span class="p">,</span>
+    <span class="nx">x2</span><span class="o">:</span> <span class="nx">x2</span><span class="p">,</span>
+    <span class="nx">y1</span><span class="o">:</span> <span class="nx">y1</span><span class="p">,</span>
+    <span class="nx">y2</span><span class="o">:</span> <span class="nx">y2</span><span class="p">,</span>
+  <span class="p">};</span>
+<span class="p">}</span>
+
+<span class="cm">/**</span>
+<span class="cm"> * Translates an escape time to an array of three values that will determine the colour of that point. The colour of the points will be determined by how many iterations it took before the point escaped.</span>
+<span class="cm"> * @param {*} current_escape_time</span>
+<span class="cm"> * @returns colour</span>
+<span class="cm"> */</span>
+<span class="kd">function</span> <span class="nx">escape_time_to_colour</span><span class="p">(</span><span class="nx">current_escape_time</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kd">let</span> <span class="nx">R</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">floor</span><span class="p">(</span><span class="mf">255</span> <span class="o">*</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">log10</span><span class="p">(</span><span class="nx">current_escape_time</span><span class="p">));</span>
+  <span class="kd">let</span> <span class="nx">B</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">floor</span><span class="p">(</span><span class="mf">255</span> <span class="o">*</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">pow</span><span class="p">(</span><span class="nx">current_escape_time</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">));</span>
+  <span class="kd">let</span> <span class="nx">G</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">floor</span><span class="p">(</span>
+    <span class="mf">255</span> <span class="o">*</span>
+      <span class="mf">3</span> <span class="o">*</span>
+      <span class="p">(</span><span class="nx">current_escape_time</span> <span class="o">*</span> <span class="p">(</span><span class="mf">1</span> <span class="o">-</span> <span class="nx">current_escape_time</span><span class="p">)</span> <span class="o">+</span>
+        <span class="mf">0.25</span> <span class="o">*</span> <span class="nx">current_escape_time</span><span class="p">),</span>
+  <span class="p">);</span>
+
+  <span class="kd">let</span> <span class="nx">colours</span> <span class="o">=</span> <span class="ow">new</span> <span class="nb">Uint8Array</span><span class="p">([</span><span class="nx">R</span><span class="p">,</span> <span class="nx">G</span><span class="p">,</span> <span class="nx">B</span><span class="p">]);</span>
+  <span class="k">return</span> <span class="nx">colours</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="cm">/**</span>
+<span class="cm"> * Creates new axes boundaries based off of the speed and the point it&#39;s zooming towards.</span>
+<span class="cm"> * @param {int} complex_coordinates</span>
+<span class="cm"> * @param {int} z0</span>
+<span class="cm"> * @param {int} speed</span>
+<span class="cm"> * @returns x1</span>
+<span class="cm"> * @returns x2</span>
+<span class="cm"> * @returns y1</span>
+<span class="cm"> * @returns y2</span>
+<span class="cm"> */</span>
+
+<span class="kd">function</span> <span class="nx">zoom_in</span><span class="p">(</span><span class="nx">complex_coordinates</span><span class="p">,</span> <span class="nx">z0</span><span class="p">,</span> <span class="nx">speed</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kd">let</span> <span class="nx">x1</span> <span class="o">=</span> <span class="nx">complex_coordinates</span><span class="p">.</span><span class="nx">x1</span> <span class="o">*</span> <span class="p">(</span><span class="mf">1</span> <span class="o">-</span> <span class="nx">speed</span><span class="p">)</span> <span class="o">+</span> <span class="nx">z0</span><span class="p">.</span><span class="nx">re</span> <span class="o">*</span> <span class="nx">speed</span><span class="p">;</span>
+  <span class="kd">let</span> <span class="nx">x2</span> <span class="o">=</span> <span class="nx">complex_coordinates</span><span class="p">.</span><span class="nx">x2</span> <span class="o">*</span> <span class="p">(</span><span class="mf">1</span> <span class="o">-</span> <span class="nx">speed</span><span class="p">)</span> <span class="o">+</span> <span class="nx">z0</span><span class="p">.</span><span class="nx">re</span> <span class="o">*</span> <span class="nx">speed</span><span class="p">;</span>
+  <span class="kd">let</span> <span class="nx">y1</span> <span class="o">=</span> <span class="nx">complex_coordinates</span><span class="p">.</span><span class="nx">y1</span> <span class="o">*</span> <span class="p">(</span><span class="mf">1</span> <span class="o">-</span> <span class="nx">speed</span><span class="p">)</span> <span class="o">+</span> <span class="nx">z0</span><span class="p">.</span><span class="nx">im</span> <span class="o">*</span> <span class="nx">speed</span><span class="p">;</span>
+  <span class="kd">let</span> <span class="nx">y2</span> <span class="o">=</span> <span class="nx">complex_coordinates</span><span class="p">.</span><span class="nx">y2</span> <span class="o">*</span> <span class="p">(</span><span class="mf">1</span> <span class="o">-</span> <span class="nx">speed</span><span class="p">)</span> <span class="o">+</span> <span class="nx">z0</span><span class="p">.</span><span class="nx">im</span> <span class="o">*</span> <span class="nx">speed</span><span class="p">;</span>
+
+  <span class="k">return</span> <span class="p">{</span>
+    <span class="nx">x1</span><span class="o">:</span> <span class="nx">x1</span><span class="p">,</span>
+    <span class="nx">x2</span><span class="o">:</span> <span class="nx">x2</span><span class="p">,</span>
+    <span class="nx">y1</span><span class="o">:</span> <span class="nx">y1</span><span class="p">,</span>
+    <span class="nx">y2</span><span class="o">:</span> <span class="nx">y2</span><span class="p">,</span>
+  <span class="p">};</span>
+<span class="p">}</span>
+<span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="p">{</span> <span class="nx">make_frames</span><span class="p">,</span> <span class="nx">zoom_in</span> <span class="p">};</span>
+</pre></div>
+</div>
+</details>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="dcp-sort.html" class="btn btn-neutral float-left" title="dcp-sort" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="to-upper-case.html" class="btn btn-neutral float-right" title="toUpperCase" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Distributive.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+    <!-- Theme Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-0N557JP49X"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-0N557JP49X', {
+          'anonymize_ip': false,
+      });
+    </script> 
+
+</body>
+</html>

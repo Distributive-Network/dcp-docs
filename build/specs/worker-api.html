@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Worker API &mdash; Distributive Compute Protocol  documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/tabs.css" type="text/css" />
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../_static/doctools.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="Wallet API" href="wallet-api.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #0e2439" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Distributive Compute Protocol
+              <img src="../_static/dcl-logo.svg" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Introduction</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../intro/getting-setup.html">Getting setup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../intro/getting-started.html">Getting started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../intro/workers.html">Setting up <code class="docutils literal notranslate"><span class="pre">DCP</span> <span class="pre">workers</span></code></a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/node/index.html">DCP on Node.js</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/web/index.html">DCP on the Web</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/colab.html">DCP on Google Colabs</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Advanced Guides</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/data-uri.html">Deploying jobs with remote input data</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api/dcp-client/index.html"><code class="docutils literal notranslate"><span class="pre">dcp-client</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/compute/index.html"><code class="docutils literal notranslate"><span class="pre">dcp/compute</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/wallet/index.html"><code class="docutils literal notranslate"><span class="pre">dcp/wallet</span></code></a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Support</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../support/faq.html">FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../support/contact.html">Contact us</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Indices and tables</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../glossary.html">Glossary</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Full DCP Specifications</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="compute-api.html">   Compute</a></li>
+<li class="toctree-l1"><a class="reference internal" href="protocol-api.html">   Protocol</a></li>
+<li class="toctree-l1"><a class="reference internal" href="wallet-api.html">   Wallet</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">   Worker</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#glossary">Glossary</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id1">Worker API</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#constructor">Constructor</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#new-worker-options-object"><code class="docutils literal notranslate"><span class="pre">new</span> <span class="pre">Worker(options:</span> <span class="pre">object)</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#methods">Methods</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#worker-start-promise-void"><code class="docutils literal notranslate"><span class="pre">worker.start():</span> <span class="pre">Promise&lt;void&gt;</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#worker-stop-immediate-boolean-false-promise-void"><code class="docutils literal notranslate"><span class="pre">worker.stop(immediate:</span> <span class="pre">boolean</span> <span class="pre">=</span> <span class="pre">false):</span> <span class="pre">Promise&lt;void&gt;</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#worker-disableworker"><code class="docutils literal notranslate"><span class="pre">Worker.disableWorker()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#properties">Properties</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#events">Events</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#sandbox-api">Sandbox API</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id2">Events</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#overriding-schedmsg-handlers">Overriding SchedMsg Handlers</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#schedmsg-commands">SchedMsg Commands</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #0e2439" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Distributive Compute Protocol</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Worker API</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <!-- markdownlint-disable-file -->
+<section id="worker-api">
+<h1>Worker API<a class="headerlink" href="#worker-api" title="Permalink to this heading"></a></h1>
+<p>This API is used to instantiate DCP workers, which will perform compute tasks on the network in exchange for DCCs.</p>
+<p><strong>Record of Issue</strong></p>
+<table class="colwidths-auto docutils align-default">
+<thead>
+<tr class="row-odd"><th class="text-left head"><p>Date</p></th>
+<th class="text-left head"><p>Authors</p></th>
+<th class="text-left head"><p>Rev</p></th>
+<th class="text-left head"><p>Change</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p>May 20 2020</p></td>
+<td class="text-left"><p>Ryan Rossiter</p></td>
+<td class="text-left"><p>1.0.0</p></td>
+<td class="text-left"><p>Initial Worker API impl</p></td>
+</tr>
+</tbody>
+</table>
+<section id="glossary">
+<h2>Glossary<a class="headerlink" href="#glossary" title="Permalink to this heading"></a></h2>
+<ul class="simple">
+<li><p><strong>Worker</strong> - The Worker is an entity representing a supervisor and any number of sandboxes. It connects to the distributed computer and performs work by assigning slices to sandboxes.</p></li>
+<li><p><strong>Supervisor</strong> - The supervisor is the entity responsible for managing sandboxes within the worker.</p></li>
+<li><p><strong>Sandbox</strong> - A sandbox is the environment in which a slice is computed. The supervisor instantiates and terminates these sandboxes, and assigns it work to be computed. A sandbox could be a web worker, a standalone V8 environment, or any other interface that implements the WebWorker spec.</p></li>
+</ul>
+</section>
+<section id="id1">
+<h2>Worker API<a class="headerlink" href="#id1" title="Permalink to this heading"></a></h2>
+<p>The Worker class is an <a class="reference external" href="https://nodejs.org/docs/latest/api/events.html">EventEmitter</a> instance, and it emits events that can be listened to with the standard EventEmitter methods. See <a class="reference internal" href="#events"><span class="std std-doc">Events</span></a> for the events it emits.</p>
+<section id="constructor">
+<h3>Constructor<a class="headerlink" href="#constructor" title="Permalink to this heading"></a></h3>
+<section id="new-worker-options-object">
+<h4><code class="docutils literal notranslate"><span class="pre">new</span> <span class="pre">Worker(options:</span> <span class="pre">object)</span></code><a class="headerlink" href="#new-worker-options-object" title="Permalink to this heading"></a></h4>
+<p>This contstructor instantiates a worker using the provided options object.
+<code class="docutils literal notranslate"><span class="pre">options:</span> <span class="pre">object</span></code>:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">paymentAddress?:</span> <span class="pre">string</span> <span class="pre">|</span> <span class="pre">Keystore</span></code>: Address used for depositing DCCs in after a slice is computed, will default to <code class="docutils literal notranslate"><span class="pre">(await</span> <span class="pre">wallet.get()).address</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">identityKeystore?:</span> <span class="pre">Keystore</span></code>: Keystore that will be used as the identity when communicating with the scheduler, will default to <code class="docutils literal notranslate"><span class="pre">wallet.getId()</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">schedulerURL?:</span> <span class="pre">URL</span> <span class="pre">|</span> <span class="pre">string</span></code>: URL to use when connecting to the scheduler, defaults to <code class="docutils literal notranslate"><span class="pre">dcpConfig.scheduler.location</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">jobAddress?:</span> <span class="pre">string</span></code>: When provided, this worker will only compute slices for the provided job. The job must have been deployed with the local exec flag set.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">maxWorkingSandboxes:</span> <span class="pre">number</span> <span class="pre">=</span> <span class="pre">1</span></code>: Maximum number of sandboxes that can be working at one time.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">sandboxOptions:</span> <span class="pre">object</span></code>:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">SandboxConstructor:</span> <span class="pre">constructor</span></code>: Constructor for the sandbox environment, it should implement the <a class="reference external" href="https://developer.mozilla.org/en-US/docs/Web/API/Worker/Worker">WebWorker API</a>. When not provided in the browser, it will default to the global <code class="docutils literal notranslate"><span class="pre">Worker</span></code> constructor.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ignoreNoProgress:</span> <span class="pre">boolean</span> <span class="pre">=</span> <span class="pre">false</span></code>: When true, the sandbox will ignore errors from the sandbox not firing progress events.</p></li>
+</ul>
+</li>
+</ul>
+</section>
+</section>
+<section id="methods">
+<h3>Methods<a class="headerlink" href="#methods" title="Permalink to this heading"></a></h3>
+<section id="worker-start-promise-void">
+<h4><code class="docutils literal notranslate"><span class="pre">worker.start():</span> <span class="pre">Promise&lt;void&gt;</span></code><a class="headerlink" href="#worker-start-promise-void" title="Permalink to this heading"></a></h4>
+<p>This method will start the worker. It will begin to fetch work from the supervisor and submit the computed results automatically. It will throw if the worker is already started.</p>
+</section>
+<section id="worker-stop-immediate-boolean-false-promise-void">
+<h4><code class="docutils literal notranslate"><span class="pre">worker.stop(immediate:</span> <span class="pre">boolean</span> <span class="pre">=</span> <span class="pre">false):</span> <span class="pre">Promise&lt;void&gt;</span></code><a class="headerlink" href="#worker-stop-immediate-boolean-false-promise-void" title="Permalink to this heading"></a></h4>
+<p>This method will stop the worker. If the <code class="docutils literal notranslate"><span class="pre">immediate</span></code> flag is true, the worker will terminate all working sandboxes without waiting for them to finish working.</p>
+<p>Implementation note: This method should wait for the remaining sandboxes to finish before resolving when <code class="docutils literal notranslate"><span class="pre">immediate</span></code> is false. At the moment it will resolve after terminating the idle workers then <code class="docutils literal notranslate"><span class="pre">immediate</span></code> is true.</p>
+</section>
+<section id="worker-disableworker">
+<h4><code class="docutils literal notranslate"><span class="pre">Worker.disableWorker()</span></code><a class="headerlink" href="#worker-disableworker" title="Permalink to this heading"></a></h4>
+<p>This static method will set a key in local storage (or on the file system on Node) to disable the worker. The user will need to manually intervene before the worker can be started again.</p>
+</section>
+</section>
+<section id="properties">
+<h3>Properties<a class="headerlink" href="#properties" title="Permalink to this heading"></a></h3>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">worker.working:</span> <span class="pre">boolean</span></code>: This boolean indicates the current status of the worker. It should not be set manually.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">worker.supervisor:</span> <span class="pre">Supervisor</span></code>: The internal supervisor instance.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">worker.schedMsg:</span> <span class="pre">SchedMsg</span></code>: The internal schedMsg client instance. Custom behaviour for schedMsg commands can be provided on this object, see <a class="reference internal" href="#overriding-schedmsg-handlers"><span class="std std-doc">Overriding SchedMsg Handlers</span></a>.</p></li>
+</ul>
+</section>
+<section id="events">
+<h3>Events<a class="headerlink" href="#events" title="Permalink to this heading"></a></h3>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">start</span></code>: Emitted when the worker is started.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">stop</span></code>: Emitted when the worker is stopped.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">sandbox</span></code>: Emitted when the worker instantiates a new sandbox. The argument provided to the callback is the <code class="docutils literal notranslate"><span class="pre">Sandbox</span></code> instance.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">payment</span></code>: Emitted when the worker submits a result. Contains the value of DCC earned.</p>
+<ul>
+<li><p><strong>Payload Object:</strong></p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">accepted:</span> <span class="pre">boolean</span></code>: Whether or not the slice was accepted, payment value will be 0 if not accepted.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">payment:</span> <span class="pre">string</span></code>: String representation of the DCC value that was paid out.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">reason:</span> <span class="pre">string</span></code>: Reason string for why the slice was accepted/rejected.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">paymentAddress:</span> <span class="pre">string</span></code>: Bank address that the payment was sent to.</p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">fetchStart</span></code>: Emitted when the worker starts a request to fetch slices from the scheduler.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">fetchEnd</span></code>: Emitted when the worker’s slice fetch request is finished, on both success and error. If it was emmitted due to an error, the callback argument will be the error instance.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">fetch</span></code>: Emitted when the worker successfully fetches slices from the scheduler.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">fetchError</span></code>: Emitted when the worker’s slice fetch request returns an error. The callback argument is the error instance.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">submitStart</span></code>: Emitted when the worker starts a request to submit a result to the scheduler.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">submitEnd</span></code>: Emitted when the worker’s result submit request is finished, on both success and error. If it was emitted due to an error, the callback argument wil be the error instance.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">submit</span></code>: Emitted when the worker successfully submits a result to the scheduler.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">submitError</span></code>: Emitted when the worker’s result submit request returns an error. The callback argument is the error instance.</p></li>
+</ul>
+</section>
+</section>
+<section id="sandbox-api">
+<h2>Sandbox API<a class="headerlink" href="#sandbox-api" title="Permalink to this heading"></a></h2>
+<p>The Sandbox is also an <a class="reference external" href="https://nodejs.org/docs/latest/api/events.html">EventEmitter</a>. See below for the events it provides.</p>
+<section id="id2">
+<h3>Events<a class="headerlink" href="#id2" title="Permalink to this heading"></a></h3>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">sliceStart</span></code>: Emitted when the sandbox begins working on a slice.<br />
+<strong>Payload Object:</strong></p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">job:</span> <span class="pre">object</span></code>: The job description object. Use <code class="docutils literal notranslate"><span class="pre">job.public</span></code> for accessing the job’s title/description.</p></li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">sliceFinish</span></code>: Emitted when the sandbox completes the slice it was working on.<br />
+<strong>Payload Object:</strong></p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">result:</span> <span class="pre">any</span></code>: The result returned from the slice.</p></li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">sliceError</span></code>: Emitted when the slice the sandbox was working on throws an error. The first argument is the same payload from <code class="docutils literal notranslate"><span class="pre">sliceStart</span></code>, the second argument is the error instance.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">sliceEnd</span></code>: Emitted when the slice either finishes or throws an error. The callback argument is the payload from <code class="docutils literal notranslate"><span class="pre">sliceStart</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">terminate</span></code>: Emitted when the sandbox environment is terminated. The sandbox will not be used after this event is emitted.</p></li>
+</ul>
+</section>
+</section>
+<section id="overriding-schedmsg-handlers">
+<h2>Overriding SchedMsg Handlers<a class="headerlink" href="#overriding-schedmsg-handlers" title="Permalink to this heading"></a></h2>
+<p>The worker’s SchedMsg instance (<code class="docutils literal notranslate"><span class="pre">worker.schedMsg</span></code>) subscribes to global commands from the scheduler. It contains default handlers for cross-platform handling of commands, but they can be overriden for clients to provide their own behaviour.</p>
+<p>The scheduler’s commands are propagated in the SchedMsg instance by means of it being an EventEmitter. Additional event listeners can be registered, and listeners will be executed in LIFO (last-in-first-out) order. This means that if you add your own listener, it will be run before the default one.</p>
+<p>If a command listener returns <code class="docutils literal notranslate"><span class="pre">false</span></code> then it will cancel the execution of the remaining listeners. This is the recommended method of overriding the default listener:</p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="kd">const</span> <span class="nx">worker</span> <span class="o">=</span> <span class="ow">new</span> <span class="nx">Worker</span><span class="p">();</span>
+<span class="nx">worker</span><span class="p">.</span><span class="nx">schedMsg</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s2">&quot;announce&quot;</span><span class="p">,</span> <span class="p">({</span> <span class="nx">message</span> <span class="p">})</span> <span class="p">=&gt;</span> <span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;The scheduler sent an announcement:&quot;</span><span class="p">,</span> <span class="nx">message</span><span class="p">);</span>
+  <span class="k">return</span> <span class="kc">false</span><span class="p">;</span> <span class="c1">// cancel the default behaviour</span>
+<span class="p">});</span>
+</pre></div>
+</div>
+<section id="schedmsg-commands">
+<h3>SchedMsg Commands<a class="headerlink" href="#schedmsg-commands" title="Permalink to this heading"></a></h3>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">kill</span></code>: This command instructs the worker to immediately stop working, and can optionally disable the worker to prevent restarting. The user will need to manually intervene to restart the worker.<br />
+<strong>Payload Object</strong>:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">temporary:</span> <span class="pre">boolean</span></code>: When false, the worker will be disabled.</p></li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">restart</span></code>: This command instructs the worker to restart, e.g. call <code class="docutils literal notranslate"><span class="pre">worker.stop()</span></code> then <code class="docutils literal notranslate"><span class="pre">worker.start()</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">remove</span></code>: This command instructs the worker to stop working on a specific job.<br />
+<strong>Payload Object</strong>:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">jobAddress:</span> <span class="pre">string</span></code>: The address of the job to stop working on.</p></li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">announce</span></code>: This command is an announcement from the scheduler, the provided message should be displayed to the user (modal on web, console on node).<br />
+<strong>Payload Object</strong>:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">message:</span> <span class="pre">string</span></code>: The message to be displayed to the user.</p></li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">reload</span></code>: This command instructs the worker to “hard” reload, in the browser this will trigger a page refresh and in node it will exit the process.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">openPopup</span></code>: This <em>web-only</em> command will open a new webpage to the provided URL.<br />
+<strong>Payload Object</strong>:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">href:</span> <span class="pre">string</span></code>: The URL to open the new page to.</p></li>
+</ul>
+</li>
+</ul>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="wallet-api.html" class="btn btn-neutral float-left" title="Wallet API" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Distributive.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+    <!-- Theme Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-0N557JP49X"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-0N557JP49X', {
+          'anonymize_ip': false,
+      });
+    </script> 
+
+</body>
+</html>

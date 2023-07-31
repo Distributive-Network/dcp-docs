@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Getting setup &mdash; Distributive Compute Protocol  documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/tabs.css" type="text/css" />
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../_static/doctools.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Getting started" href="getting-started.html" />
+    <link rel="prev" title="The Distributive Compute Protocol" href="../index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #0e2439" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Distributive Compute Protocol
+              <img src="../_static/dcl-logo.svg" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Introduction</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Getting setup</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#downloading-keystores">Downloading Keystores</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#identity-keystores">Identity Keystores</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#provisioning">Provisioning</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#downloading-identity-keystores">Downloading Identity Keystores</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#revoking">Revoking</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#account-keystores">Account Keystores</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#downloading-account-keystores">Downloading Account Keystores</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#using-keystores-in-web-apps">Using Keystores in web apps</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#using-keystores-in-node-js-apps">Using Keystores in Node.js apps</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#getting-started">Getting started</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="getting-started.html">Getting started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="workers.html">Setting up <code class="docutils literal notranslate"><span class="pre">DCP</span> <span class="pre">workers</span></code></a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/node/index.html">DCP on Node.js</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/web/index.html">DCP on the Web</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/colab.html">DCP on Google Colabs</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Advanced Guides</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/data-uri.html">Deploying jobs with remote input data</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api/dcp-client/index.html"><code class="docutils literal notranslate"><span class="pre">dcp-client</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/compute/index.html"><code class="docutils literal notranslate"><span class="pre">dcp/compute</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/wallet/index.html"><code class="docutils literal notranslate"><span class="pre">dcp/wallet</span></code></a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Support</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../support/faq.html">FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../support/contact.html">Contact us</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Indices and tables</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../glossary.html">Glossary</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Full DCP Specifications</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../specs/compute-api.html">   Compute</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../specs/protocol-api.html">   Protocol</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../specs/wallet-api.html">   Wallet</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../specs/worker-api.html">   Worker</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #0e2439" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Distributive Compute Protocol</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Getting setup</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="getting-setup">
+<h1>Getting setup<a class="headerlink" href="#getting-setup" title="Permalink to this heading"></a></h1>
+<p>Before you are able to deploy jobs on DCP, you need two types of API keys (called ‘keystores’).</p>
+<ul class="simple">
+<li><p>An <strong>Identity Keystore:</strong> This keystore acts as your personal credentials for using DCP. Identity Keystores are also called Identity Keys, ID Keys, etc.</p></li>
+<li><p>An <strong>Account Keystore:</strong> This keystore keeps track of the amount of value (called ‘credits’) that you have available.</p></li>
+</ul>
+<section id="downloading-keystores">
+<h2>Downloading Keystores<a class="headerlink" href="#downloading-keystores" title="Permalink to this heading"></a></h2>
+<p>You can download both Identity and Account keystores from the DCP <a class="reference external" href="https://portal.distributed.computer">Portal</a>, which also shows the amount left in your Account Keystore.</p>
+<section id="identity-keystores">
+<h3>Identity Keystores<a class="headerlink" href="#identity-keystores" title="Permalink to this heading"></a></h3>
+<p>From the <a class="reference external" href="https://portal.distributed.computer/#first%20devs">First Devs</a> tab in the Portal, you can provision, download, and revoke all Identity Keystores, once you have made an account.</p>
+<p><img alt="Download Identity Keystore" src="../_images/identity-keystores.png" /></p>
+<section id="provisioning">
+<h4>Provisioning<a class="headerlink" href="#provisioning" title="Permalink to this heading"></a></h4>
+<p>You can provision new Identity Keystores by clicking the green “+” in the top-right of the table on this page. This prompts you to enter a label (required) and then the generated key appears in the table.</p>
+</section>
+<section id="downloading-identity-keystores">
+<h4>Downloading Identity Keystores<a class="headerlink" href="#downloading-identity-keystores" title="Permalink to this heading"></a></h4>
+<p>You can download an Identity Keystore by clicking on the green download button. This prompts you to enter an optional passphrase to encrypt the keystore.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Hit ‘Continue’ without entering anything in the passphrase field to leave them unencrypted.</p>
+</div>
+<p>You are then prompted to save the keystore file with the default name <code class="docutils literal notranslate"><span class="pre">id.keystore</span></code>.</p>
+<p>It’s recommended to save your <code class="docutils literal notranslate"><span class="pre">id.keystore</span></code> file in your home directory at <code class="docutils literal notranslate"><span class="pre">/home/&lt;YOUR_USER_NAME&gt;/.dcp/id.keystore</span></code> (<em>Linux</em> &amp; <em>macOS</em>), or <code class="docutils literal notranslate"><span class="pre">C:\Users\&lt;YOUR_USER_NAME&gt;\.dcp\id.keystore</span></code> (<em>Windows</em>). This is the default location where DCP’s APIs look to find your identity keystore, which it needs to deploy a job.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>It’s recommended to not change the name of the <code class="docutils literal notranslate"><span class="pre">id.keystore</span></code> when you save it.</p>
+</div>
+</section>
+<section id="revoking">
+<h4>Revoking<a class="headerlink" href="#revoking" title="Permalink to this heading"></a></h4>
+<p>You can revoke Identity Keystores by clicking the red “-” to the right of the download button. Any keystore files that you have downloaded stop working.</p>
+</section>
+</section>
+<section id="account-keystores">
+<h3>Account Keystores<a class="headerlink" href="#account-keystores" title="Permalink to this heading"></a></h3>
+<p>Your Account Keystores are visible in the <a class="reference external" href="https://portal.distributed.computer/#Accounts">Accounts</a> page on the Portal. Your account comes with a ‘default’ Account Keystore, which has a balance of 0 credits.</p>
+<p><img alt="Accounts Tab UI" src="../_images/account-keystores.png" /></p>
+<p>You can use any Account Keystore to earn credits using the Portal’s in-built <a class="reference external" href="https://portal.distributed.computer/#Worker">Worker</a> tab. Go to the Worker tab and click the green “Start” button. The worker starts using your computer’s processing power to complete computational jobs in exchange for credits that you can use to deploy your own work. You can stop this at any time by clicking “Stop” or by exiting the browser tab. You can earn credits in more ways at no cost.</p>
+<section id="downloading-account-keystores">
+<h4>Downloading Account Keystores<a class="headerlink" href="#downloading-account-keystores" title="Permalink to this heading"></a></h4>
+<p>You can download your Account Keystores from the Accounts page by clicking the arrow at the bottom of the keystore card, and then clicking “Download.” It’s recommended to save this keystore file in your home directory at <code class="docutils literal notranslate"><span class="pre">/home/&lt;YOUR_USER_NAME&gt;/.dcp/default.keystore</span></code> (<em>Linux</em> &amp; <em>macOS</em>), or <code class="docutils literal notranslate"><span class="pre">C:\Users\&lt;YOUR_USER_NAME&gt;\.dcp\default.keystore</span></code> (<em>Windows</em>). This is the default location where DCP’s APIs look to find your Account Keystore, to deploy a job.</p>
+<p><img alt="Download Account Keystore" src="../_images/keystore-download.png" /></p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>It’s recommended to not change the name of the <code class="docutils literal notranslate"><span class="pre">default.keystore</span></code> file when you save it.</p>
+</div>
+</section>
+</section>
+</section>
+<section id="using-keystores-in-web-apps">
+<h2>Using Keystores in web apps<a class="headerlink" href="#using-keystores-in-web-apps" title="Permalink to this heading"></a></h2>
+<p>Providing the Account Keystore to deploy jobs from your browser is straightforward. The <code class="docutils literal notranslate"><span class="pre">dcp-client</span></code> APIs automatically prompt you to upload your Account Keystore when you start deploying the job.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The following is a temporary solution. It exposes your (revocable) Identity Keystore to the public. A planned long-term solution to this issue is to make DCP compatible with the <strong>OAuth</strong> protocol.</p>
+</div>
+<p>To provide your Identity Keystore to launch a job (which DCP requires alongside your Account Keystore), you must include your Identity Keystore in the web directory where your HTML file is. The <code class="docutils literal notranslate"><span class="pre">dcp-client</span></code> APIs looks for it when deploying your job, and warns you in the console if it couldn’t locate it.</p>
+<p>Here is an example of a directory structure and how it might lay out your app:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>public
+|-- index.html
+`-- id.keystore
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Most of the ‘vanilla web’ HTML examples in this documentation have already indicated the Identity Keystore. Hence, when an example asks you to upload your ‘keystore’ to launch a job, it’s asking for your <strong>Account Keystore</strong>. This isn’t the case for vanilla web jobs that you build yourself, which should follow the directory structure provided earlier.</p>
+</div>
+</section>
+<section id="using-keystores-in-node-js-apps">
+<h2>Using Keystores in Node.js apps<a class="headerlink" href="#using-keystores-in-node-js-apps" title="Permalink to this heading"></a></h2>
+<p>Using <code class="docutils literal notranslate"><span class="pre">dcp-client</span></code> APIs to build Node.js apps is even easier - the library looks for your keystores in the default location, <strong><code class="docutils literal notranslate"><span class="pre">.dcp</span></code> in your home folder</strong>. This is what your <code class="docutils literal notranslate"><span class="pre">.dcp</span></code> folder looks like:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>.dcp
+|-- default.keystore
+`-- id.keystore
+</pre></div>
+</div>
+<p>If the dcp-client APIs can’t find your keystores, it displays an error stating where dcp-client searched for the files. You have to move your keystores into the appropriate file locations described earlier to launch a job without error.</p>
+</section>
+<section id="getting-started">
+<h2>Getting started<a class="headerlink" href="#getting-started" title="Permalink to this heading"></a></h2>
+<p>You are now ready to start deploying DCP jobs. Follow through the rest of the <a class="reference internal" href="getting-started.html"><span class="doc std std-doc">getting started guide</span></a> to deploy your first DCP app.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../index.html" class="btn btn-neutral float-left" title="The Distributive Compute Protocol" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="getting-started.html" class="btn btn-neutral float-right" title="Getting started" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Distributive.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+    <!-- Theme Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-0N557JP49X"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-0N557JP49X', {
+          'anonymize_ip': false,
+      });
+    </script> 
+
+</body>
+</html>

@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Frequently asked questions &mdash; Distributive Compute Protocol  documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/tabs.css" type="text/css" />
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../_static/doctools.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Contact the team" href="contact.html" />
+    <link rel="prev" title="load" href="../api/wallet/functions/load.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #0e2439" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Distributive Compute Protocol
+              <img src="../_static/dcl-logo.svg" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Introduction</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../intro/getting-setup.html">Getting setup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../intro/getting-started.html">Getting started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../intro/workers.html">Setting up <code class="docutils literal notranslate"><span class="pre">DCP</span> <span class="pre">workers</span></code></a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/node/index.html">DCP on Node.js</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/web/index.html">DCP on the Web</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/colab.html">DCP on Google Colabs</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Advanced Guides</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/data-uri.html">Deploying jobs with remote input data</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api/dcp-client/index.html"><code class="docutils literal notranslate"><span class="pre">dcp-client</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/compute/index.html"><code class="docutils literal notranslate"><span class="pre">dcp/compute</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/wallet/index.html"><code class="docutils literal notranslate"><span class="pre">dcp/wallet</span></code></a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Support</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">FAQ</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#trying-to-deploy-a-job-throws-role-deploy-is-required">Trying to deploy a job throws <code class="docutils literal notranslate"><span class="pre">Role</span> <span class="pre">DEPLOY</span> <span class="pre">is</span> <span class="pre">required</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#console-log-in-the-worker-not-working"><code class="docutils literal notranslate"><span class="pre">console.log</span></code> in the worker not working</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#the-job-isnt-receiving-any-errors">The Job isn’t receiving any errors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#receiving-an-enoprogress-error">Receiving an <code class="docutils literal notranslate"><span class="pre">ENOPROGRESS</span></code> error</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="contact.html">Contact us</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Indices and tables</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../glossary.html">Glossary</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Full DCP Specifications</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../specs/compute-api.html">   Compute</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../specs/protocol-api.html">   Protocol</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../specs/wallet-api.html">   Wallet</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../specs/worker-api.html">   Worker</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #0e2439" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Distributive Compute Protocol</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Frequently asked questions</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="frequently-asked-questions">
+<h1>Frequently asked questions<a class="headerlink" href="#frequently-asked-questions" title="Permalink to this heading"></a></h1>
+<section id="trying-to-deploy-a-job-throws-role-deploy-is-required">
+<h2>Trying to deploy a job throws <code class="docutils literal notranslate"><span class="pre">Role</span> <span class="pre">DEPLOY</span> <span class="pre">is</span> <span class="pre">required</span></code><a class="headerlink" href="#trying-to-deploy-a-job-throws-role-deploy-is-required" title="Permalink to this heading"></a></h2>
+<p>This error means your account doesn’t have permission to access the “First Developers” program. If you haven’t yet, please <a class="reference external" href="https://docs.google.com/forms/d/e/1FAIpQLScj6g1PH7Nbejlj5XHrScvtBhTy-2A_l0A8sHMzzihQR79KYw/viewform">sign up</a>. If you have already done this and the system doesn’t resolve the issue after a couple of minutes, please send a message in the <code class="docutils literal notranslate"><span class="pre">#dev-connection</span></code> channel on <a class="reference external" href="https://join.slack.com/t/dcprotocol/shared_invite/enQtNDA2NzY5NzYzODU5LTdlNGE5OTM5NzE1NDk2Y2YyYjM3MzNiODliMTFkYTIwOTJlODM5ZTIzNmE0ZTg1YzZkZDZjNTU4ZWQxNWU5ODU">Slack</a> or by email at <a class="reference external" href="mailto:info&#37;&#52;&#48;distributed&#46;computer">info<span>&#64;</span>distributed<span>&#46;</span>computer</a>.</p>
+<p>In the event this error persists once your account gains approval, this error could signal that the Identity Keystore you are using isn’t associated with your Portal account. Check the Identity Keystore section of the <a class="reference external" href="https://portal.distributed.computer/#first%20devs">First Devs</a> tab in the Portal to confirm that the Identity Keystore you are trying to use is one of the ones listed in the table. If it’s not, try creating and downloading a new Identity Keystores following the instructions form earlier, and upload it when prompted instead of the one that caused the error.</p>
+</section>
+<section id="console-log-in-the-worker-not-working">
+<h2><code class="docutils literal notranslate"><span class="pre">console.log</span></code> in the worker not working<a class="headerlink" href="#console-log-in-the-worker-not-working" title="Permalink to this heading"></a></h2>
+<p>Every JavaScript programming environment features an implementation of <code class="docutils literal notranslate"><span class="pre">console.log</span></code>, and DCP is no different. When your work function invokes <code class="docutils literal notranslate"><span class="pre">console.log()</span></code>, DCP stringifies the log message and sends it over the network to the scheduler, which relays it to your DCP client app. To capture these events in your client program, do the following with your <a class="reference internal" href="../api/compute/classes/job.html#Job" title="Job"><code class="xref js js-class docutils literal notranslate"><span class="pre">Job()</span></code></a>:</p>
+<div class="highlight-js notranslate"><div class="highlight"><pre><span></span><span class="nx">job</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;console&#39;</span><span class="p">,</span> <span class="p">(</span><span class="nx">message</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">message</span><span class="p">));</span>
+</pre></div>
+</div>
+</section>
+<section id="the-job-isnt-receiving-any-errors">
+<h2>The Job isn’t receiving any errors<a class="headerlink" href="#the-job-isnt-receiving-any-errors" title="Permalink to this heading"></a></h2>
+<p>If your work function throws an uncaught exception, DCP relays its details back to your client app as an event.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Your job is cancelled by the scheduler if it does this too many times.</p>
+</div>
+<p>To capture these events and get details on the exception in your client program, do the following with your <a class="reference internal" href="../api/compute/classes/job.html#Job" title="Job"><code class="xref js js-class docutils literal notranslate"><span class="pre">Job()</span></code></a>:</p>
+<div class="highlight-js notranslate"><div class="highlight"><pre><span></span><span class="nx">job</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;error&#39;</span><span class="p">,</span> <span class="p">(</span><span class="nx">message</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">message</span><span class="p">));</span>
+</pre></div>
+</div>
+</section>
+<section id="receiving-an-enoprogress-error">
+<h2>Receiving an <code class="docutils literal notranslate"><span class="pre">ENOPROGRESS</span></code> error<a class="headerlink" href="#receiving-an-enoprogress-error" title="Permalink to this heading"></a></h2>
+<p>This happens when your work function hasn’t called the <code class="docutils literal notranslate"><span class="pre">progress()</span></code> function within 30 seconds.</p>
+<div class="admonition caution">
+<p class="admonition-title">Caution</p>
+<p>Remember that some worker computers can be much slower than yours!</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><em>Every work function must invoke <code class="docutils literal notranslate"><span class="pre">progress()</span></code> at least once.</em></p>
+</div>
+<p>The ideal way to invoke <code class="docutils literal notranslate"><span class="pre">progress()</span></code> is to place it somewhere in your inner loops where you can reasonably expect the work function to call it every 3 or 4 seconds. If your program invokes it too frequently, DCP throttles these calls to help your workload run faster.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Don’t be tempted to use <code class="docutils literal notranslate"><span class="pre">setInterval()</span></code> or <code class="docutils literal notranslate"><span class="pre">setTimeout()</span></code> to invoke <code class="docutils literal notranslate"><span class="pre">progress()</span></code> - it will not behave the way you think it will unless you are very familiar with the inner workings of the JavaScript event loop.</p>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../api/wallet/functions/load.html" class="btn btn-neutral float-left" title="load" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="contact.html" class="btn btn-neutral float-right" title="Contact the team" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Distributive.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+    <!-- Theme Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-0N557JP49X"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-0N557JP49X', {
+          'anonymize_ip': false,
+      });
+    </script> 
+
+</body>
+</html>

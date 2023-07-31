@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Wallet API &mdash; Distributive Compute Protocol  documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/tabs.css" type="text/css" />
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../_static/doctools.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Worker API" href="worker-api.html" />
+    <link rel="prev" title="Protocol API" href="protocol-api.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #0e2439" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Distributive Compute Protocol
+              <img src="../_static/dcl-logo.svg" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Introduction</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../intro/getting-setup.html">Getting setup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../intro/getting-started.html">Getting started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../intro/workers.html">Setting up <code class="docutils literal notranslate"><span class="pre">DCP</span> <span class="pre">workers</span></code></a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/node/index.html">DCP on Node.js</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/web/index.html">DCP on the Web</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/colab.html">DCP on Google Colabs</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Advanced Guides</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/data-uri.html">Deploying jobs with remote input data</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api/dcp-client/index.html"><code class="docutils literal notranslate"><span class="pre">dcp-client</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/compute/index.html"><code class="docutils literal notranslate"><span class="pre">dcp/compute</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/wallet/index.html"><code class="docutils literal notranslate"><span class="pre">dcp/wallet</span></code></a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Support</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../support/faq.html">FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../support/contact.html">Contact us</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Indices and tables</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../glossary.html">Glossary</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Full DCP Specifications</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="compute-api.html">   Compute</a></li>
+<li class="toctree-l1"><a class="reference internal" href="protocol-api.html">   Protocol</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">   Wallet</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#intended-audience">Intended Audience</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#definitions">Definitions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#address">Address</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#private-key">Private Key</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#unlock">Unlock</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#keystore-file">Keystore File</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#keystore-object">Keystore Object</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#idkeystore-object">IdKeystore Object</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#bankaccountkeystore-object">BankAccountKeystore Object</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#authkeystore-object">AuthKeystore Object</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#wallet">Wallet</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#distributed-computer-wallet">Distributed.Computer Wallet</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#bank-account">Bank Account</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#general-dcp-architecture-notes">General DCP Architecture Notes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#core-api">Core API</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#introduction">Introduction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#api-datatypes">API DataTypes</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id1">Address</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#privatekey">PrivateKey</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#keystore">Keystore</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#user-interface-hooks">User Interface Hooks</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#passphraseprompt-message">passphrasePrompt(message)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#api-functions-nodejs">API Functions - NodeJS</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#nodejs-platforms">NodeJS Platforms</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#web-platforms">Web Platforms</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#unified-platform">Unified Platform</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#load-async">load [async]</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#get">get</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#getid">getId()</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#add-keystore-name-default">add(keystore, name=‘default’)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#addid-keystore">addId(keystore)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#clear">clear</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="worker-api.html">   Worker</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #0e2439" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Distributive Compute Protocol</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Wallet API</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <!-- markdownlint-disable-file -->
+<section id="wallet-api">
+<h1>Wallet API<a class="headerlink" href="#wallet-api" title="Permalink to this heading"></a></h1>
+<p>The Wallet API is a library for working with DCP, the Distributed Compute Protocol, to perform operations related to Addresses, Keystores, Key Pairs, etc.</p>
+<p><strong>Record of Issue</strong></p>
+<table class="colwidths-auto docutils align-default">
+<thead>
+<tr class="row-odd"><th class="text-left head"><p>Date</p></th>
+<th class="text-left head"><p>Authors</p></th>
+<th class="text-left head"><p>Rev</p></th>
+<th class="text-left head"><p>Change</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p>May 13 2020</p></td>
+<td class="text-left"><p>Ryan Rossiter</p></td>
+<td class="text-left"><p>1.2.4</p></td>
+<td class="text-left"><p>Polish for First-Dev</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>Jan 14 2020</p></td>
+<td class="text-left"><p>Nazila Akhavan</p></td>
+<td class="text-left"><p>1.2.3</p></td>
+<td class="text-left"><p>Added Address.verifySignature, makeSignedMessage, makeSignature</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p>Dec 19 2020</p></td>
+<td class="text-left"><p>KC Erb</p></td>
+<td class="text-left"><p>1.2.2</p></td>
+<td class="text-left"><p>Clarified Keystore unlock duration behaviour</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>Sep 19 2019</p></td>
+<td class="text-left"><p>Wes Garland</p></td>
+<td class="text-left"><p>1.2.1</p></td>
+<td class="text-left"><p>Added Keystore constructor form 6</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p>Aug 1 2019</p></td>
+<td class="text-left"><p>Wes Garland</p></td>
+<td class="text-left"><p>1.2</p></td>
+<td class="text-left"><p>Renamed keystore types to AuthKeystore, IdKeystore, BankAccountKeystore. Disk-based APIs now only concerned with AuthKeys.</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>Jul 25 2019</p></td>
+<td class="text-left"><p>Wes Garland.</p></td>
+<td class="text-left"><p>1.1</p></td>
+<td class="text-left"><p>Changed definition of Wallet, renamed to Wallet API, introduced Keystore, PrivateKey, Address types</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p>May 24 2019</p></td>
+<td class="text-left"><p>Wes Garland</p></td>
+<td class="text-left"><p>1.0.1</p></td>
+<td class="text-left"><p>Added DataTypes</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>May 23 2019</p></td>
+<td class="text-left"><p>Wes Garland</p></td>
+<td class="text-left"><p>1.0</p></td>
+<td class="text-left"><p>Initial Revision - Keystore API</p></td>
+</tr>
+</tbody>
+</table>
+<section id="intended-audience">
+<h2>Intended Audience<a class="headerlink" href="#intended-audience" title="Permalink to this heading"></a></h2>
+<p>This document is intended for both the KDS DCP core team, application developer team, and external developers writing DCP applications.</p>
+</section>
+<section id="definitions">
+<h2>Definitions<a class="headerlink" href="#definitions" title="Permalink to this heading"></a></h2>
+<section id="address">
+<h3>Address<a class="headerlink" href="#address" title="Permalink to this heading"></a></h3>
+<p>A unique identifier in DCP which can be used as a Bank Account identifier (account number), Address on the Ethereum network, or as an identifier for any other arbitrary entity (eg. a user, the bank, an administrator, etc.).  DCP addresses are ERC-20 addresses.</p>
+<p>Addresses that leave internal data structures (i.e. displayed on screen or transmitted across the network) should always be represented in the mixed-case checksum address encoding described in EIP-55.</p>
+</section>
+<section id="private-key">
+<h3>Private Key<a class="headerlink" href="#private-key" title="Permalink to this heading"></a></h3>
+<p>A unique identifier in DCP which corresponds with an Address, which are used to sign messages.  Simply knowing a private key indicates that you are authorized to use it.</p>
+<p>Private Keys in DCP are 64-digit hexadecimal numbers chosen at random.  The Address is derived by extracting the last 20 digits of the result of applying the kekkak-256 hashing algorithm to this key.</p>
+</section>
+<section id="unlock">
+<h3>Unlock<a class="headerlink" href="#unlock" title="Permalink to this heading"></a></h3>
+<p>Unlocking refers to the decryption of an encrypted private key.</p>
+</section>
+<section id="keystore-file">
+<h3>Keystore File<a class="headerlink" href="#keystore-file" title="Permalink to this heading"></a></h3>
+<p>A file which stores a JSON-encoded Keystore Object.  This is the preferred method to store and reference private keys on disk. The file format is the UTC/JSON format used by geth and MyEtherWallet.  It contains an encrypted private key and an address.</p>
+</section>
+<section id="keystore-object">
+<h3>Keystore Object<a class="headerlink" href="#keystore-object" title="Permalink to this heading"></a></h3>
+<p>A data structure which can store a (public) Address and a private key.  This object is the preferred way to communicate both addresses and private keys through DCP APIs.  This is not the keystore object used by an underlying API / third-party library.</p>
+<section id="idkeystore-object">
+<h4>IdKeystore Object<a class="headerlink" href="#idkeystore-object" title="Permalink to this heading"></a></h4>
+<p>A Keystore Object which is used to represent addresses identifying entities, such as the Scheduler, the Portal or an end user.  Messages signed with identity keys belonging to end users have the same access privileges as the corresponding portal login.</p>
+</section>
+<section id="bankaccountkeystore-object">
+<h4>BankAccountKeystore Object<a class="headerlink" href="#bankaccountkeystore-object" title="Permalink to this heading"></a></h4>
+<p>A Keystore Object which is used to represent addresses corresponding to bank accounts. A message signed with a bank account’s private key has enough access to withdraw or escrow funds from the bank account.</p>
+</section>
+<section id="authkeystore-object">
+<h4>AuthKeystore Object<a class="headerlink" href="#authkeystore-object" title="Permalink to this heading"></a></h4>
+<p>A Keystore Object which used to represent authorization granted to a third-party.  The specifics of this authorization are noted in the database.  Types of authorization may include access to withdraw or escrow funds (up to a given limit, for a certain period of time) and may or may not require counter-signature by the third-party’s identity key.</p>
+</section>
+</section>
+<section id="wallet">
+<h3>Wallet<a class="headerlink" href="#wallet" title="Permalink to this heading"></a></h3>
+<p>In the general (blockchain) sense, a wallet is a piece of software that allows the user to interact with the greater economy as a whole.  So as your actual wallet in your pocket has your cash and credit cards and you access your wallet in order to make a purchase and keep records (by pulling out cash or cards, and stuffing receipts back in), a blockchain wallet performs a similar function in that it gives you a place to store your private keys (your money/credits), it provides a balance of what all those credits add up to, it provides a way to receive credits and send credits, and provides a record of all those sends and receives. Most blockchain wallets provide at least 3 basic functions:</p>
+<ol class="arabic simple">
+<li><p>Generate and store your public/private key pairs</p></li>
+<li><p>Allow you to use those key pairs through transactions (allows you to craft and transmit transactions to the peers)</p></li>
+<li><p>Keep a record of the transactions</p></li>
+</ol>
+<p>Additionally, most of the current crypto wallets (such as Bitcoin core) provide blockchain validation and consensus functions in that they can act to create or validate new blocks to the chain in addition to creating or validating transactions.</p>
+<section id="distributed-computer-wallet">
+<h4>Distributed.Computer Wallet<a class="headerlink" href="#distributed-computer-wallet" title="Permalink to this heading"></a></h4>
+<p>The Distributed.Computer acts as a Wallet; the platform exposes Wallet-related functionality both via software APIs and the portal web site.</p>
+<ul class="simple">
+<li><p>Public/private key pairs are generated via the portal, wallet API, and command-line utilities</p></li>
+<li><p>Public/private key pairs are stored in the database as passphrase-protected Keystores</p></li>
+<li><p>Public/private key pairs stored in the Distributed.Computer Wallet can be retrieved via the portal website</p></li>
+</ul>
+<section id="anticipated-future-functionality">
+<h5>Anticipated Future Functionality<a class="headerlink" href="#anticipated-future-functionality" title="Permalink to this heading"></a></h5>
+<ul class="simple">
+<li><p>API and portal web site end points for transaction histories</p></li>
+<li><p>API access to keystores via RESTful web API</p></li>
+</ul>
+</section>
+</section>
+</section>
+<section id="bank-account">
+<h3>Bank Account<a class="headerlink" href="#bank-account" title="Permalink to this heading"></a></h3>
+<p>A DCP Bank Account is simply an entry in a ledger, which supports operations such as deposit, withdraw, and move funds (between accounts or into escrow).  All operations are performed by the Bank, which receives signed messages bearing a cryptographic signature matching the account address.</p>
+</section>
+</section>
+<section id="general-dcp-architecture-notes">
+<h2>General DCP Architecture Notes<a class="headerlink" href="#general-dcp-architecture-notes" title="Permalink to this heading"></a></h2>
+<ul class="simple">
+<li><p>Bank balances are entries in a ledger; the accounts table of a database</p></li>
+<li><p>Any ethereum address (public key) is a valid address in which to deposit funds, and the Bank will auto-create new accounts on an as-needed basis.</p></li>
+<li><p>If you can sign a message with the private key, you can check the balance, withdraw funds, etc.</p></li>
+<li><p>The Wallet screen in the portal is nothing more than a place where encrypted key pairs are stored, indexed by user. It is totally legitimate for more than one user to have an encrypted key pair describing the same bank account; for example, a group of developers on the same project sharing compute funding.</p></li>
+</ul>
+</section>
+<section id="core-api">
+<h2>Core API<a class="headerlink" href="#core-api" title="Permalink to this heading"></a></h2>
+<section id="introduction">
+<h3>Introduction<a class="headerlink" href="#introduction" title="Permalink to this heading"></a></h3>
+<p>DCP Addresses can be used as a Bank Account identifier (account number), an Address on the Ethereum network, or as an identifier for any other arbitrary entity (eg. a user, the bank, an administrator, etc.).</p>
+<p>It is considered bad practice to identify multiple entities using the same Address. It is important to remember that;</p>
+<ul class="simple">
+<li><p>a user may have more than one Bank Account</p></li>
+<li><p>a plurality of users may have access to the same Bank Account</p></li>
+<li><p>it is possible to have a Bank Acount which is not associated with any user or even any other entity</p></li>
+</ul>
+</section>
+<section id="api-datatypes">
+<h3>API DataTypes<a class="headerlink" href="#api-datatypes" title="Permalink to this heading"></a></h3>
+<section id="id1">
+<h4>Address<a class="headerlink" href="#id1" title="Permalink to this heading"></a></h4>
+<p>Address objects represent DCP Addresses.  All Addresses used within DCP or DCP Applications should be represented by Address Objects, and all comparisons between Addresses and Address-like values must be done with the <code class="docutils literal notranslate"><span class="pre">Address.prototype.eq</span></code> method.</p>
+<section id="constructor">
+<h5>Constructor<a class="headerlink" href="#constructor" title="Permalink to this heading"></a></h5>
+<p>The Address constructor accepts as its argument a string or an object which corresponds to the Address we want to represent.</p>
+<p>If the passed address is a string, it should be (but is not required to be) in checksum format; a leading 0x is not required.  If the passed address is a instance of PrivateKey or Address, the address associated with the object used. If the passed address is any other type of object, we coerce the object with toString(16) before working with it (BigNumber and similar objects are expected to “just work”)</p>
+</section>
+<section id="methods">
+<h5>Methods<a class="headerlink" href="#methods" title="Permalink to this heading"></a></h5>
+<p><code class="docutils literal notranslate"><span class="pre">Address.prototype.eq</span></code> -  This function is used to compare two Addresses, or an Address and a PrivateKey.</p>
+<p><code class="docutils literal notranslate"><span class="pre">Address.prototype.ct</span></code> -  This function is used to deterimine if the Address corresponds to a given PrivateKey.</p>
+<p><code class="docutils literal notranslate"><span class="pre">Address.prototype.verifySignature</span></code> -  This function allows us to validate signatures in order to implement the Connection.Request.authorizedFor method. The first argument is the messageBody as a string or an object, and the second argument is the signature. It  returns a boolean.</p>
+</section>
+</section>
+<section id="privatekey">
+<h4>PrivateKey<a class="headerlink" href="#privatekey" title="Permalink to this heading"></a></h4>
+<p>PrivateKey objects represent DCP private keys.  All raw private keys used throughout DCP or DCP Applications should be stored in PrivateKey objects, however for security reasons, raw private keys should stored as little as possible: the preferred method to store a private key is via a keystore file or Keystore object.</p>
+<p>All comparisons between PrivateKeys and PrivateKey-like values must be done with the <code class="docutils literal notranslate"><span class="pre">PrivateKey.prototype.eq</span></code> method.</p>
+<section id="id2">
+<h5>Constructor<a class="headerlink" href="#id2" title="Permalink to this heading"></a></h5>
+<p>The PrivateKey Constructor accepts as its argument a string or object corresponding to the private key we want to represent. If the passed private key is a string, it should (but is not required to) have the 0x prefix. If the argument is an object, and is a Keystore object, we extract the private key; otherwise we coerce the object with toString(16) before working with it (BigNumber and similar objects are expected to “just work”).</p>
+</section>
+<section id="id3">
+<h5>Methods<a class="headerlink" href="#id3" title="Permalink to this heading"></a></h5>
+<p><code class="docutils literal notranslate"><span class="pre">PrivateKey.prototype.eq</span></code> -  This function is used to compare this PrivateKey against another private key.  Any argument which is acceptable to the constructor is acceptable to this method.</p>
+<p><code class="docutils literal notranslate"><span class="pre">PrivateKey.prototype.ct</span></code> -  This function is used to deterimine if the PrivateKey corresponds to a given Address.</p>
+</section>
+</section>
+<section id="keystore">
+<h4>Keystore<a class="headerlink" href="#keystore" title="Permalink to this heading"></a></h4>
+<p>Keystores are stored in Keystore objects.  These objects are instanceof <code class="docutils literal notranslate"><span class="pre">require('wallet').Keystore</span></code>.   Other classes, such as BankAccountKeystore, AuthKeystore, and IdKeystore are also instances of Keystore.</p>
+<section id="constructor-async">
+<h5>Constructor [async]<a class="headerlink" href="#constructor-async" title="Permalink to this heading"></a></h5>
+<p>The constructor returns a Promise which is resolved with a locked Keystore object whose Address is known.</p>
+<p>Any call to the constructor may trigger <code class="docutils literal notranslate"><span class="pre">exports.passphrasePrompt</span></code>. Any forms of the constructor referencing PrivateKey can be an instance of PrivateKey, or anything which can be used as an argument to the PrivateKey constructor.</p>
+<p>form 1: <code class="docutils literal notranslate"><span class="pre">new</span> <span class="pre">Keystore()</span></code>
+: This form accepts no arguments and returns a Keystore object that corresponds to a randomly-selected private key. This form will prompt the user for a password to encrypt itself with.</p>
+<p>form 2: <code class="docutils literal notranslate"><span class="pre">new</span> <span class="pre">Keystore(PrivateKey)</span></code>
+: This form accepts, as its sole argument, a private key and returns a Keystore object that corresponds to that private key. The Keystore will be locked, and the key will be encrypted with the passphrase supplied by exports.passphrasePrompt().</p>
+<p>form 3: <code class="docutils literal notranslate"><span class="pre">new</span> <span class="pre">Keystore(PrivateKey,</span> <span class="pre">passphrase)</span></code>
+: This form accepts as its arguments a private key and a passphrase, returning a Keystore object that corresponds to that private key, encrypted with that passphrase. If the passphrase is <code class="docutils literal notranslate"><span class="pre">false</span></code>, the empty passphrase will be used.</p>
+<p>form 4: <code class="docutils literal notranslate"><span class="pre">new</span> <span class="pre">Keystore(third-party</span> <span class="pre">keystore</span> <span class="pre">object,</span> <span class="pre">optional</span> <span class="pre">passphrase)</span></code>
+: This form accepts as its argument a keystore object from a third party, such as MyEtherWallet, geth, Web3, etc.  If this object cannot be parsed, or is otherwise unusable, the Promise will be rejected with an instance of Error.</p>
+<p>During serialization with <code class="docutils literal notranslate"><span class="pre">toJSON()</span></code>, objects created with this form must return the original object, stringified with <code class="docutils literal notranslate"><span class="pre">JSON.stringify()</span></code>.</p>
+<p>If the passphrase is <code class="docutils literal notranslate"><span class="pre">false</span></code>, the passphrase argument will be considered to be undefined.</p>
+<p>form 5: <code class="docutils literal notranslate"><span class="pre">new</span> <span class="pre">Keystore(JSON</span> <span class="pre">string,</span> <span class="pre">optional</span> <span class="pre">passphrase)</span></code>
+: This form accepts as its argument a JSON-encoded string.  It is identical to form 4, except the string is first turned into a object with JSON.parse().</p>
+<p>During serialization with <code class="docutils literal notranslate"><span class="pre">toJSON()</span></code>, objects created with this form must return the original string, unaltered.</p>
+<p>form 6: <code class="docutils literal notranslate"><span class="pre">new</span> <span class="pre">Keystore</span> <span class="pre">(Keystore</span> <span class="pre">object)</span></code>
+: This form accepts as its argument a Keystore object.</p>
+<p>During serialization with <code class="docutils literal notranslate"><span class="pre">toJSON()</span></code>, objects created with this form must return the result of invoking <code class="docutils literal notranslate"><span class="pre">toJSON()</span></code> on the original object.</p>
+<p>form 7: <code class="docutils literal notranslate"><span class="pre">new</span> <span class="pre">Keystore</span> <span class="pre">(null,</span> <span class="pre">passphrase)</span></code>
+: This form accepts as its argument null and a passphrase, and returns a Keystore object that corresponds to a randomly-selected private key, encrypted with the supplied passphrase.</p>
+</section>
+<section id="properties">
+<h5>Properties<a class="headerlink" href="#properties" title="Permalink to this heading"></a></h5>
+<p><code class="docutils literal notranslate"><span class="pre">address</span></code> - an instance of Address which represents the (public) address in the Keystore</p>
+<p><code class="docutils literal notranslate"><span class="pre">label</span></code> - a string which, when not undefined, is used to generate the message which is printed to prompt for the passphrase during the <code class="docutils literal notranslate"><span class="pre">unlock</span></code> method.</p>
+</section>
+<section id="id4">
+<h5>Methods<a class="headerlink" href="#id4" title="Permalink to this heading"></a></h5>
+<p><strong><code class="docutils literal notranslate"><span class="pre">toJSON</span></code></strong> - This method allows us to serialize the Keystore object in a format suitable for sharing with third parties, taking care not to drop any metadata, nor give way any secrets we have learned from the user since the constructor was invoked.</p>
+<p><strong><code class="docutils literal notranslate"><span class="pre">makeSignedMessage</span></code></strong> - This method makes protocol API’s Connection.Message.sign to be able to sign messages by using the messageBody. It returns the signed message in a string.</p>
+<p><strong><code class="docutils literal notranslate"><span class="pre">makeSignature</span></code></strong> - This method allows us to create signature in order to implement the Connection.Request.authorize method. It takes the messageBody as an input  and  returns the signature in a string.</p>
+<p><strong><code class="docutils literal notranslate"><span class="pre">async</span> <span class="pre">unlock(passphrase,</span> <span class="pre">time,</span> <span class="pre">autoReset)</span></code></strong> - This method unlocks the Keystore object for a given amount of time, specified in floating-point seconds.  When the object is unlocked, <em>getPrivateKey</em> and related operations do not need to ask for a passphrase, as the private key is “remembered” internally.  If time is not specified, the object will be immediately locked after the next call to <em>getPrivateKey</em>.  This method may trigger a call to <code class="docutils literal notranslate"><span class="pre">exports.passphrasePrompt</span></code>.</p>
+<p>When the unlock timer is running and the autoReset flag is true, a subsequent call to <em>getPrivateKey</em> resets and restarts the timer.</p>
+<p>When the unlock timer is running, a subsequent call to <em>unlock</em> that specifies an extension of the timer requires a password check before extending the timer.</p>
+<p>If this newly-specified unlock duration is longer than the duration specified during the last unlock which had autoReset flag set to true, then a password check is given followed by</p>
+<ol class="arabic simple">
+<li><p>If the autoReset flag is true for this invocation, the autoReset duration is increased</p></li>
+<li><p>Otherwise, the current unlock duration is increased, but the autoReset duration remains the samethat implies a longer unlock duration resets and restarts the timer.</p></li>
+</ol>
+<p>When the passphrase is not specified, the <code class="docutils literal notranslate"><span class="pre">exports.passphrasePrompt</span></code> function is invoked to solicit it from the user if the keystore is not already unlocked.</p>
+<p><strong><code class="docutils literal notranslate"><span class="pre">Keystore.prototype.lock()</span></code></strong> - This method locks the Keystore object immediately.</p>
+<p><strong><code class="docutils literal notranslate"><span class="pre">Keystore.prototype.getPrivateKey</span></code></strong> - This method returns an instance of PrivateKey, unlocking the Keystore with <code class="docutils literal notranslate"><span class="pre">Keystore.prototype.unlock</span></code> as needed.</p>
+<!--
+*Implementation Note* - the relock operations in `getPrivateKey()` and after timeout MUST NOT be implemented in terms of `Keystore.prototype.lock()` as this is trivially circumvented.  Additionally, the private key should never, even briefly, become a property of the object; private members should be used to data storage instead.
+-->
+</section>
+</section>
+</section>
+<section id="user-interface-hooks">
+<h3>User Interface Hooks<a class="headerlink" href="#user-interface-hooks" title="Permalink to this heading"></a></h3>
+<section id="passphraseprompt-message">
+<h4>passphrasePrompt(message)<a class="headerlink" href="#passphraseprompt-message" title="Permalink to this heading"></a></h4>
+<p>This function accepts a string, which is displayed to the user, and returns a string which was entered by the user.</p>
+<p>In NodeJS applications, this function solicits input from the standard input, and does not display what the user is typing.</p>
+<p>In browser applications, this function solicits input from the active browser window, using an <code class="docutils literal notranslate"><span class="pre">&lt;INPUT</span> <span class="pre">type=&quot;password&quot;&gt;</span></code> element.</p>
+</section>
+</section>
+<section id="api-functions-nodejs">
+<h3>API Functions - NodeJS<a class="headerlink" href="#api-functions-nodejs" title="Permalink to this heading"></a></h3>
+<p>In addition to the classes outline above, the Wallet API offers functions for locating and opening Keystore files which correspond to AuthKeystores. While it is not required, Client developers using NodeJS are encouraged to use these when using disk-based keystores in order to give DCP programs a consistent user experience.</p>
+<section id="nodejs-platforms">
+<h4>NodeJS Platforms<a class="headerlink" href="#nodejs-platforms" title="Permalink to this heading"></a></h4>
+<p>Keystore Files are loaded, by default, from the <code class="docutils literal notranslate"><span class="pre">.dcp</span></code> directory in the user’s home directory.  They are stored in files ending in <code class="docutils literal notranslate"><span class="pre">.keystore</span></code>.  The first part of the filename corresponds, by default, to the name assigned to the Keystore in the DCP Web Portal.</p>
+</section>
+<section id="web-platforms">
+<h4>Web Platforms<a class="headerlink" href="#web-platforms" title="Permalink to this heading"></a></h4>
+<p>Keystore Files can be either files on the user’s local filesystem, browser local storage, or within the Distributed.Computer Wallet.</p>
+</section>
+<section id="unified-platform">
+<h4>Unified Platform<a class="headerlink" href="#unified-platform" title="Permalink to this heading"></a></h4>
+<p>The next version of this specification will allow NodeJS Platforms to use the Distributed.Computer Wallet via a RESTful API.</p>
+<p><em>Unified and Web Platform implementation are currently out-of-scope – wait for later version of spec</em></p>
+<!--
+### namespaceName
+This property sets the name of the namespace that is used to generate the application data directory, which is used to store proxy keys when required, and users' bank and identity keys when supplied.
+
+The default namespace name is the  name specified in the `package.json` file for the application calling into this API.
+
+### stateDir
+This property gets/sets the full path name the application data directory, overriding namespaceName if it is changed.  The default value is `~/.dcp/applications/${namespaceName}/`, where ~ represents the invoking user's home directory.
+-->
+</section>
+<section id="load-async">
+<h4>load [async]<a class="headerlink" href="#load-async" title="Permalink to this heading"></a></h4>
+<p>This function accepts a Keystore name or filename, reads the contents of the associated file, and return a promise.  The promise is either rejected with an instance of Error, or it is resolved with an object which has the following properties:</p>
+<p><strong>keystore</strong> - a Keystore Object corresponding to the keystore that was loaded</p>
+<p><strong>safe</strong> - a boolean flag which, when true, indicates that the keystore was read from a secure location.</p>
+<p>form 1: <code class="docutils literal notranslate"><span class="pre">wallet.load(filename)</span></code> <em>- NodeJS only</em>
+: <code class="docutils literal notranslate"><span class="pre">filename</span></code> must be an absolute path, or begin withgin with <code class="docutils literal notranslate"><span class="pre">path.sep</span></code>, <code class="docutils literal notranslate"><span class="pre">'.'</span> <span class="pre">+</span> <span class="pre">path.sep</span></code>, or <code class="docutils literal notranslate"><span class="pre">'..'</span> <span class="pre">+</span> <span class="pre">path.sep</span></code>. <br/>
+The <em>safe</em> flag is set to true to indicate that the Keystore file was stored safely; this happens if and only if the following conditions are true:</p>
+<ol class="arabic simple">
+<li><p>The containing directory and all its ancestors, up to and including the root directory, is not world-writable</p></li>
+<li><p>The Keystore File is neither world-writable nor world-readable</p></li>
+</ol>
+<p>form 2: <code class="docutils literal notranslate"><span class="pre">wallet.load(options)</span></code>
+: This form builds a Keystore File filename based on its arguments, performing the operations described in <em>form 1</em> once the filename has been determined.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">options</span></code> object can be used to override the default name and directory for the Keystore File.</p>
+<table class="colwidths-auto docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Option</p></th>
+<th class="head"><p>Type</p></th>
+<th class="head"><p>Behaviour</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>name</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">string</span></code></p></td>
+<td><p>Override the default keystore name, normally “default”</p></td>
+</tr>
+<tr class="row-odd"><td><p>paths</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">string[]</span></code></p></td>
+<td><p>Override default keystore directory <em>search path</em>, normally the application data directory, followed by the “.dcp” directory in the home directory belonging to the user invoking the program (NodeJS only). Note that the search path is never used when <em>name</em> specifies a complete pathname.</p></td>
+</tr>
+<tr class="row-even"><td><p>dir</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">string</span></code></p></td>
+<td><p>Override the paths array with <code class="docutils literal notranslate"><span class="pre">[dir]</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>KeystoreConstructor</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">function</span></code></p></td>
+<td><p>Override the constructor to use for the keystore</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="get">
+<h4>get<a class="headerlink" href="#get" title="Permalink to this heading"></a></h4>
+<p>These functions examine parameters and accepts options relating to its environment, uses this information to select a Keystore File, load it via <code class="docutils literal notranslate"><span class="pre">wallet.load</span></code>, and return an AuthKeystore object.  If it cannot return an AuthKeystore object, this function will throw an Error.</p>
+<p>Note that this function does not perform any validation on the Keystore, other than it is in the correct file format.</p>
+<p>form 1: <code class="docutils literal notranslate"><span class="pre">wallet.get(options)</span></code>
+: This form loads a Keystore File via <code class="docutils literal notranslate"><span class="pre">wallet.load</span></code> and returns an AuthKeystore object.  The <code class="docutils literal notranslate"><span class="pre">options</span></code> object is used to override default parameters which help to identify and locate the Keystore File.</p>
+<p>On NodeJS: The options object is passed directly to <code class="docutils literal notranslate"><span class="pre">wallet.load</span></code>.
+On Web: The options object is primarily used to provide context to the user for showing a modal;</p>
+<table class="colwidths-auto docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Option</p></th>
+<th class="head"><p>Type</p></th>
+<th class="head"><p>Behaviour</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>name</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">string</span></code></p></td>
+<td><p>Override the default keystore name, normally “default”</p></td>
+</tr>
+<tr class="row-odd"><td><p>contextId</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">string</span></code></p></td>
+<td><p>An optional, user-defined identifier used for caching keystores.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>   See `job.contextId` in the compute-api spec. |
+</pre></div>
+</div>
+<p>| jobName    | <code class="docutils literal notranslate"><span class="pre">string</span></code>   | Optional name of the job that the keystore is being requested for |
+| KeystoreConstructor | <code class="docutils literal notranslate"><span class="pre">function</span></code> | Override the constructor to use for the keystore |</p>
+<p>form 2: <code class="docutils literal notranslate"><span class="pre">wallet.get()</span></code>
+: This form is equivalent to <code class="docutils literal notranslate"><span class="pre">wallet.get({})</span></code>.</p>
+<p>form 3: <code class="docutils literal notranslate"><span class="pre">wallet.get(string)</span></code>
+: This form is equivalent to <code class="docutils literal notranslate"><span class="pre">wallet.get({name:</span> <span class="pre">string})</span></code></p>
+<p>form 4: <code class="docutils literal notranslate"><span class="pre">wallet.get(array)</span></code>
+: This form accepts an Array-like object, formatted like <code class="docutils literal notranslate"><span class="pre">process.argv</span></code>, to specify options for invoking <em>form 1</em>.  Its purpose is to unify Keystore, PrivateKey, and Address-related options for programs written in NodeJS.</p>
+<table class="colwidths-auto docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Argument</p></th>
+<th class="head"><p>Behaviour</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>–private-key</p></td>
+<td><p>Generate a keystore corresponding to the specified private key, ignoring all other considerations</p></td>
+</tr>
+<tr class="row-odd"><td><p>-i name</p></td>
+<td><p>Override the <code class="docutils literal notranslate"><span class="pre">name</span></code> option for getId</p></td>
+</tr>
+<tr class="row-even"><td><p>-k name</p></td>
+<td><p>Override the <code class="docutils literal notranslate"><span class="pre">name</span></code> option for get</p></td>
+</tr>
+<tr class="row-odd"><td><p>-p</p></td>
+<td><p>Set the <code class="docutils literal notranslate"><span class="pre">checkEmpty</span></code> option to false</p></td>
+</tr>
+</tbody>
+</table>
+<p>form 5: <code class="docutils literal notranslate"><span class="pre">wallet.get(array,</span> <span class="pre">options)</span></code>
+: This form accepts an Array-like object, as described in <em>form 4</em>, and an options object as described in <em>form 1</em>.  Its behaviour is to generate an options object from the array, merge the passed options object into this options object, and invoke <em>form 1</em>.<br/>
+To be clear, the <code class="docutils literal notranslate"><span class="pre">options</span></code> argument has a higher precedence than the <code class="docutils literal notranslate"><span class="pre">array</span></code> argument.</p>
+<p>form 6: <code class="docutils literal notranslate"><span class="pre">wallet.get(array,</span> <span class="pre">string)</span></code>
+: This form is equivalent to <code class="docutils literal notranslate"><span class="pre">wallet.get(array,</span> <span class="pre">{name:</span> <span class="pre">string})</span></code></p>
+</section>
+<section id="getid">
+<h4>getId()<a class="headerlink" href="#getid" title="Permalink to this heading"></a></h4>
+<p>This function behaves exactly the same as <strong>get()</strong>, except its default keystore file is the <code class="docutils literal notranslate"><span class="pre">id</span></code> keystore instead of the <code class="docutils literal notranslate"><span class="pre">default</span></code> keystore.</p>
+</section>
+<section id="add-keystore-name-default">
+<h4>add(keystore, name=‘default’)<a class="headerlink" href="#add-keystore-name-default" title="Permalink to this heading"></a></h4>
+<p>This function will add the provided keystore to the wallet API internal cache, which will return the same keystore when <code class="docutils literal notranslate"><span class="pre">get</span></code> is called with the same name.</p>
+</section>
+<section id="addid-keystore">
+<h4>addId(keystore)<a class="headerlink" href="#addid-keystore" title="Permalink to this heading"></a></h4>
+<p>Same as <code class="docutils literal notranslate"><span class="pre">add</span></code> but with <code class="docutils literal notranslate"><span class="pre">name='id'</span></code>. Keystore can then be retrieved with <code class="docutils literal notranslate"><span class="pre">getId</span></code>.</p>
+</section>
+</section>
+<section id="clear">
+<h3>clear<a class="headerlink" href="#clear" title="Permalink to this heading"></a></h3>
+<p>This function will clear the wallet API’s internal keystore cache.</p>
+<!--stackedit_data:
+eyJoaXN0b3J5IjpbMTQ1NzExNzE4Nyw1MDAyNDE2MzMsLTkzNj
+g3OTE3NiwtMTQ3MjQ2MTA5OCwtOTM0MDE2MzEzLC0xNzcwOTEx
+MDAxLDQzNzQwMDgwMCwtMTk5MzM1Mjc5MiwxNDE4MjM3NDg3LC
+0xOTAxMjM5MjYzLC02OTEzNTcwMTAsMTU4NTU3MDc0Nyw1MzIw
+MTM3NDcsLTUzMTY2MjI4MCwxNDc1OTY4OTQwLDU5NjY0NDQ0NC
+wtMjc5NTcyMDQ1LDU1MjI3NTU0MiwtNTY5NDkxOTgwLDE3MTQ1
+ODI3MjZdfQ==
+-->
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="protocol-api.html" class="btn btn-neutral float-left" title="Protocol API" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="worker-api.html" class="btn btn-neutral float-right" title="Worker API" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Distributive.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+    <!-- Theme Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-0N557JP49X"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-0N557JP49X', {
+          'anonymize_ip': false,
+      });
+    </script> 
+
+</body>
+</html>

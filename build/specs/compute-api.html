@@ -1,0 +1,1225 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Compute API &mdash; Distributive Compute Protocol  documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/tabs.css" type="text/css" />
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../_static/doctools.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Protocol API" href="protocol-api.html" />
+    <link rel="prev" title="Glossary" href="../glossary.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #0e2439" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Distributive Compute Protocol
+              <img src="../_static/dcl-logo.svg" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Introduction</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../intro/getting-setup.html">Getting setup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../intro/getting-started.html">Getting started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../intro/workers.html">Setting up <code class="docutils literal notranslate"><span class="pre">DCP</span> <span class="pre">workers</span></code></a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/node/index.html">DCP on Node.js</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/web/index.html">DCP on the Web</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/colab.html">DCP on Google Colabs</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Advanced Guides</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/data-uri.html">Deploying jobs with remote input data</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api/dcp-client/index.html"><code class="docutils literal notranslate"><span class="pre">dcp-client</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/compute/index.html"><code class="docutils literal notranslate"><span class="pre">dcp/compute</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/wallet/index.html"><code class="docutils literal notranslate"><span class="pre">dcp/wallet</span></code></a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Support</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../support/faq.html">FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../support/contact.html">Contact us</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Indices and tables</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../glossary.html">Glossary</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Full DCP Specifications</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">   Compute</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#intended-audience">Intended Audience</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#overview">Overview</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#see-also">See Also</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#implementation-status">Implementation Status</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#implemented">Implemented</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#partially-implemented">Partially Implemented</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#not-implemented">Not Implemented</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#definitions">Definitions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#about-the-compute-api">About the Compute API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#jobs">Jobs</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#work-characterization">Work Characterization</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#uncharacterized-work">Uncharacterized Work</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#well-characterized-work">Well-Characterized Work</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#static-methods">Static Methods</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#compute-cancel">compute.cancel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#compute-do">compute .do</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#compute-for">compute.for</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#result-handles">Result Handles</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#compute-status">compute.status</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#compute-getjobinfo">compute.getJobInfo</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#compute-getsliceinfo">compute.getSliceInfo</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#compute-marketrate">compute.marketRate</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#compute-getmarketvalue">compute.getMarketValue</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#compute-calculateslicepayment">compute.calculateSlicePayment</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#data-types">Data Types</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#range-objects">Range Objects</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#sparse-range-objects">Sparse Range Objects</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#distribution-objects">Distribution Objects</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#job-handles">Job Handles</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#properties">Properties</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#methods">Methods</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#events">Events</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#worker-environment">Worker Environment</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#global-symbols">Global Symbols</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#requirements-objects">Requirements Objects</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#requirements-object-properties">Requirements Object Properties</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#gpus">GPUs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#eventemitters">EventEmitters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#modules">Modules</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#appliances">Appliances</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#appliance-handles">Appliance Handles</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#constructor">Constructor</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id1">Methods</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#estimation-functions">Estimation Functions</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#slicepaymentdescriptor-objects">SlicePaymentDescriptor Objects</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#shared-state">Shared State</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#synchronization">Synchronization</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id3">Events</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#example">Example</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#distributed-computer-wallet">Distributed Computer Wallet</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#example-programs">Example Programs</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#nodejs">NodeJS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#vanilla-web">Vanilla Web</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#compute-for-form-2b">1. compute.for() form 2b</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#compute-for-form-1-step-overflow">2. compute.for() form 1, step overflow</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#compute-for-form-1-with-group">3. compute.for() form 1 with group</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#compute-for-form-3">4. compute.for() form 3</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id4">5. compute.for(), form 3</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#compute-for-form-4">6. compute.for() form 4</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#typical-enofunds-hander">7. Typical ENOFUNDS hander</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="protocol-api.html">   Protocol</a></li>
+<li class="toctree-l1"><a class="reference internal" href="wallet-api.html">   Wallet</a></li>
+<li class="toctree-l1"><a class="reference internal" href="worker-api.html">   Worker</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #0e2439" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Distributive Compute Protocol</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Compute API</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <!-- markdownlint-disable-file --> 
+<section id="compute-api">
+<h1>Compute API<a class="headerlink" href="#compute-api" title="Permalink to this heading"></a></h1>
+<p>The Compute API is a library for working with DCP, the Distributed Compute Protocol, to perform arbitrary computations on the Distributed Computer.</p>
+<p><strong>Record of Issue</strong></p>
+<table class="colwidths-auto docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Date</p></th>
+<th class="head"><p>Author</p></th>
+<th class="head"><p>Change</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>May 06 2020</p></td>
+<td><p>Wes Garland</p></td>
+<td><p>Stamp Compute API 1.5.2</p></td>
+</tr>
+<tr class="row-odd"><td><p>May 05 2020</p></td>
+<td><p>Nazila Akhavan</p></td>
+<td><p>Add getJobInfo, getSliceInfo</p></td>
+</tr>
+<tr class="row-even"><td><p>Feb 24 2020</p></td>
+<td><p>Ryan Rossiter</p></td>
+<td><p>Add job.status, job.runStatus, clarify marketRate</p></td>
+</tr>
+<tr class="row-odd"><td><p>Dec 09 2019</p></td>
+<td><p>Ryan Rossiter</p></td>
+<td><p>Update requirements object property descriptions</p></td>
+</tr>
+<tr class="row-even"><td><p>Oct 08 2019</p></td>
+<td><p>Jason Erb</p></td>
+<td><p>Clarified distinction between Worker and Sandbox</p></td>
+</tr>
+<tr class="row-odd"><td><p>Sep 23 2019</p></td>
+<td><p>Wes Garland</p></td>
+<td><p>Compute API 1.51 Release. Improved language.</p></td>
+</tr>
+<tr class="row-even"><td><p>Sep 20 2019</p></td>
+<td><p>Wes Garland</p></td>
+<td><p>Compute API 1.5 Release.<br/>Improved vocabulary, minor document reorg, Application-&gt;Appliance, Appliance re-work, job costing details, Scheduler class, Scheduler explanation, Job Lifetime, ENOFUNDS refinement</p></td>
+</tr>
+<tr class="row-odd"><td><p>Jul 15 2019</p></td>
+<td><p>Wes Garland</p></td>
+<td><p>Glossary update; Generator-&gt;Job, Worker Thread-&gt;Sandbox, Miner-&gt;Worker</p></td>
+</tr>
+<tr class="row-even"><td><p>Feb 13 2019</p></td>
+<td><p>Wes Garland</p></td>
+<td><p>- Added offscreenCanvas and sandboxing info to Worker Environment<br/>- Added API compute.status<br/>- Began enumerating Worker Capabilities<br/>- Sparse and Output Set Range Objects<br/>- Added job handle collateResults and results properties<br/>- More work on task/slice differentiation</p></td>
+</tr>
+<tr class="row-odd"><td><p>Nov 23 2018</p></td>
+<td><p>Wes Garland</p></td>
+<td><p>- Deprecated Application<br/>- Introduced Shared State and Access Keys<br/>- Improved Task/Slice Differentiation/Composibility</p></td>
+</tr>
+<tr class="row-even"><td><p>Oct 31 2018</p></td>
+<td><p>Wes Garland</p></td>
+<td><p>Initial Release</p></td>
+</tr>
+<tr class="row-odd"><td><p>Oct 29 2018</p></td>
+<td><p>Wes Garland</p></td>
+<td><p>Second Draft Review</p></td>
+</tr>
+<tr class="row-even"><td><p>Oct 23 2018</p></td>
+<td><p>Wes Garland</p></td>
+<td><p>Moved toward generator-oriented syntax</p></td>
+</tr>
+<tr class="row-odd"><td><p>Oct 19 2018  </p></td>
+<td><p>Wes Garland</p></td>
+<td><p>First Draft Review</p></td>
+</tr>
+</tbody>
+</table>
+<section id="intended-audience">
+<h2>Intended Audience<a class="headerlink" href="#intended-audience" title="Permalink to this heading"></a></h2>
+<p>This document is intended for software developers working with DCP.  It is organized as a reference manual / functional specification; introductory documentation is in the DCP-Client document.</p>
+</section>
+<section id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this heading"></a></h2>
+<p>This API focuses on jobs, both ad-hoc and from published appliances, built around some kind of iteration over a common Work Function, and events. The API entry points are all exports of the DCP <code class="docutils literal notranslate"><span class="pre">compute</span></code> module.</p>
+<section id="see-also">
+<h3>See Also<a class="headerlink" href="#see-also" title="Permalink to this heading"></a></h3>
+<ul class="simple">
+<li><p>DCP-Client package</p></li>
+<li><p>Wallet API</p></li>
+</ul>
+</section>
+</section>
+<section id="implementation-status">
+<h2>Implementation Status<a class="headerlink" href="#implementation-status" title="Permalink to this heading"></a></h2>
+<p>As of this writing (September 2019), the Compute API is very much a “work in progress”, with core functionality finished and well-tested, but finer details unfinished or omitted entirely.  This document intends to document the final product, so that early-access developers can write future-proof or future-capable code today.</p>
+<p><em>Note</em>: The list below is not complete, and may not be up to date. Caveat Developtor!</p>
+<section id="implemented">
+<h3>Implemented<a class="headerlink" href="#implemented" title="Permalink to this heading"></a></h3>
+<ul class="simple">
+<li><p>compute .do</p></li>
+<li><p>compute.for</p></li>
+<li><p>compute.resume</p></li>
+<li><p>Range Objects</p></li>
+<li><p>Distribution Objects</p></li>
+</ul>
+</section>
+<section id="partially-implemented">
+<h3>Partially Implemented<a class="headerlink" href="#partially-implemented" title="Permalink to this heading"></a></h3>
+<ul class="simple">
+<li><p>Module system; public modules inside sandboxes used by work functions are complete, however there is no automatic bundling of private modules, no access restrictions, no automatic version maintenance, etc.</p></li>
+<li><p>Wallet API is well-implemented on NodeJS but browser support falls back to the keychain API (asking users to upload keystore files all the time)</p></li>
+</ul>
+</section>
+<section id="not-implemented">
+<h3>Not Implemented<a class="headerlink" href="#not-implemented" title="Permalink to this heading"></a></h3>
+<ul class="simple">
+<li><p>Appliances</p></li>
+<li><p>Proxy Keys</p></li>
+<li><p>Identity Keys</p></li>
+<li><p>Consensus Jobs</p></li>
+<li><p>Reputation</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">console</span></code> events’ <code class="docutils literal notranslate"><span class="pre">same</span></code> counter.</p></li>
+</ul>
+</section>
+</section>
+<section id="definitions">
+<h2>Definitions<a class="headerlink" href="#definitions" title="Permalink to this heading"></a></h2>
+<ul class="simple">
+<li><p><strong>Task</strong> - A unit of work which is composed of one or more slices, which can be executed by a single worker.</p></li>
+<li><p><strong>Slice</strong> - A unit of work, represented as source code plus data and meta data, which has a single entry point and return type.</p></li>
+<li><p><strong>Job</strong> - The collection consisting of an input set, Work Function, arguments, and result set.</p></li>
+<li><p><strong>Module</strong> - A unit of source code which can be used by, but addressed independently of, a job. Compute API modules are similar to CommonJS modules.</p></li>
+<li><p><strong>Package</strong> - A group of related modules</p></li>
+<li><p><strong>Scheduler</strong> - The daemon which connects both workers and clients together, doles out work, and sends information about DCC movement to the Bank. The scheduler groups slices into tasks based on a variety of criteria such as slice cost, leaf-node cache locality, and sandbox capabilities.</p></li>
+<li><p><strong>Worker</strong> - A software program having one supervisor and one or more sandboxes. This program communicates with the scheduler and module server to retrieve tasks and modules, which are sent to and executed on the worker.</p></li>
+<li><p><strong>Sandbox</strong> - An ES execution environment in the worker which executes modules and tasks supplied by the supervisor.</p></li>
+<li><p><strong>Supervisor</strong> - The part of the worker which manages sandboxes, mediates communication with sandboxes, and so on.</p></li>
+<li><p><strong>Client</strong> - A program which uses DCP that is executed/used by the end-user.</p></li>
+<li><p><strong>Appliance</strong> - a named collection of well-characterized Work Functions</p></li>
+<li><p><strong>Distributed Computer</strong> A distributed supercomputer consisting of one or more Schedulers and Workers.</p></li>
+</ul>
+</section>
+<section id="about-the-compute-api">
+<h2>About the Compute API<a class="headerlink" href="#about-the-compute-api" title="Permalink to this heading"></a></h2>
+<p>The <em>compute</em> module is the holding the module for classes and configuration options (especially default options) related to this API.  Throughout this document, it is assumed that this module’s exports are available as the global symbol <code class="docutils literal notranslate"><span class="pre">compute</span></code>.</p>
+<p>Most computations on the Distributed Computer operate by mapping an input set to an output set by applying a work function to each element in the input set. Input sets can be arbitrary collections of data, but are frequently easily-described number ranges or distributions.</p>
+<p><em>Work</em> functions can be supplied directly as arguments in calls to API functions like <code class="docutils literal notranslate"><span class="pre">compute.do</span></code> and <code class="docutils literal notranslate"><span class="pre">compute.for</span></code>.</p>
+<p><strong>note</strong> - When <em>work</em> is a function, it is turned into a string with <code class="docutils literal notranslate"><span class="pre">Function.prototype.toString</span></code> before being transmitted to the scheduler.  This means that <em>work</em> cannot close over local variables, as these local variables will not be defined in the worker’s sandbox. When <em>work</em> is a string, it is evaluated in the sandbox, and is expected to evaluate to a single function.</p>
+</section>
+<section id="jobs">
+<h2>Jobs<a class="headerlink" href="#jobs" title="Permalink to this heading"></a></h2>
+<p><em>Jobs</em>  associate work with input sets and arguments, and enable their mapping and distribution on the Distributed Computer.  Jobs with ad-hoc Work functions can be created with the <code class="docutils literal notranslate"><span class="pre">compute.do</span></code> and <code class="docutils literal notranslate"><span class="pre">compute.for</span></code> APIs.</p>
+<p>Fundamentally, a Job is</p>
+<ul class="simple">
+<li><p>an input set,</p></li>
+<li><p>a work function, and</p></li>
+<li><p>arguments to the work function</p></li>
+<li><p>an output set, which is result of applying the work function and its arguments to each element of the input set.</p></li>
+</ul>
+<p>The Scheduler on the Distributed Computer is responsible for moving work and data around the network, in a way which is cost-efficient; costs are measured in terms of CPU time, GPU time, and network traffic (input and output bytes).</p>
+<p>Clients specify the price they are willing to pay to have their work done; Workers specify the minimum wage they are willing to work for.  The scheduler connects both parties in a way that allows Workers to maximize their income, while still serving the needs of all users on the Distributed Computer.  Essentially, the higher the wage the client is willing to pay, the more Workers will be assigned to compute the job.</p>
+<section id="work-characterization">
+<h3>Work Characterization<a class="headerlink" href="#work-characterization" title="Permalink to this heading"></a></h3>
+<p>Work is characterized throughout the lifetime of the job.  CPU time and GPU time are constantly normalized against benchmark specifications, and network traffic is measured directly. Work starts out as uncharacterized.</p>
+<section id="uncharacterized-work">
+<h4>Uncharacterized Work<a class="headerlink" href="#uncharacterized-work" title="Permalink to this heading"></a></h4>
+<p>Uncharacterized work is released slowly into the network for measurement.  Funds are escrowed during deploy to cover the static offer price for all slices.</p>
+</section>
+<section id="well-characterized-work">
+<h4>Well-Characterized Work<a class="headerlink" href="#well-characterized-work" title="Permalink to this heading"></a></h4>
+<p>Well-characterized work can be deployed on the network more quickly, skipping the estimation phase.  Client developers can specify work characterization (sliceProfile objects) while submitting work; these can be either directly specified or calculated locally via the job estimation facilities.  Additionally, work originating from Appliances is always well-characterized.</p>
+<img src="../_images/mermaid-508b71bee346881582f9e1509a42609c4dbb62c3.png" alt="graph TD
+launch[compute.for.exec] --&gt; deployFee(charge deployment fee)
+deployFee --&gt; wellChar
+wellChar{is job well&lt;br/&gt;characterized?} --yes--&gt; working
+wellChar --no--&gt; estJob
+estJob(deploy a few slices at market rate and escrow enough DCC to compute 95% of slices)
+estJob --&gt; ckENOFUNDS
+ckENOFUNDS(enough DCC for estimation?) --yes --&gt; estDone(estimation completes)
+ckENOFUNDS --no --&gt; evENOFUNDS(ENOFUNDS event handler?)
+evENOFUNDS -- yes --&gt; finishEst
+finishEst&gt;job.escrow &amp;&amp; job.resume] --&gt; ckENOFUNDS
+evENOFUNDS -- no --&gt; reject
+reject(compute.for.exec rejects)
+estDone --&gt; working
+working(Main work begins)
+working --&gt; ckFixed
+ckFixed{fixed rate per slice and &lt;br/&gt; fixed number of slices?}
+ckFixed -- yes --&gt; escrow(escrow enough funds for whole job)
+ckFixed -- no --&gt; pieceMeal(escrow enough funds for each task as it is handed out)
+pieceMeal--&gt;2ckENOFUNDS
+2ckENOFUNDS{have enough&lt;br/&gt;DCC in account?}
+2ckENOFUNDS -- no --&gt; 2evENOFUNDS(ENOFUNDS event handler?)
+2evENOFUNDS -- yes --&gt; 2resume
+escrow --&gt; 2ckENOFUNDS
+2resume&gt;job.escrow &amp;&amp; job.resume] --&gt; 2ckENOFUNDS
+2evENOFUNDS -- no --&gt; reject
+2ckENOFUNDS -- yes --&gt; finishJob(all slices computed)
+finishJob --&gt; resolve[compute.for.exec resolves]
+reject --&gt; done
+resolve --&gt; done(Done)" />
+</section>
+</section>
+</section>
+<section id="static-methods">
+<h2>Static Methods<a class="headerlink" href="#static-methods" title="Permalink to this heading"></a></h2>
+<section id="compute-cancel">
+<h3>compute.cancel<a class="headerlink" href="#compute-cancel" title="Permalink to this heading"></a></h3>
+<p>This function allows the client to cancel a running job. This function takes as its sole argument a Job id and tells the scheduler to cancel the job. This method returns a promise which is resolved once the scheduler acknowledges the cancellation and has transitioned to a state where no further costs will be incurred as a result of the job.</p>
+</section>
+<section id="compute-do">
+<h3>compute .do<a class="headerlink" href="#compute-do" title="Permalink to this heading"></a></h3>
+<p>This function returns a JobHandle (an object which corresponds to a job), and accepts one or more arguments, depending on form.</p>
+<table class="colwidths-auto docutils align-default">
+<thead>
+<tr class="row-odd"><th class="text-left head"><p>Argument</p></th>
+<th class="text-left head"><p>Type</p></th>
+<th class="text-left head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p>n</p></td>
+<td class="text-left"><p>Number</p></td>
+<td class="text-left"><p>number of times to run the work function</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>work</p></td>
+<td class="text-left"><p>String</p></td>
+<td class="text-left"><p>the work function to run. If it is not a string, the toString() method will be invoked on this argument.</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p>arguments</p></td>
+<td class="text-left"><p>Object</p></td>
+<td class="text-left"><p>an optional Array-like object which contains arguments which are passed to the work function</p></td>
+</tr>
+</tbody>
+</table>
+<ul class="simple">
+<li><p><strong>form 1</strong>: <code class="docutils literal notranslate"><span class="pre">compute.do(work,</span> <span class="pre">arguments)</span></code>
+This form returns a JobHandle and accepts one argument, <em>work</em>. Executing this job will cause <em>work</em> to run a single task on the Distributed Computer.  This interface is in place primarily to enable DCP-related testing during software development.  When it is executed, the returned promise will be resolved with a single-element array containing the value returned by <em>work</em>.</p></li>
+<li><p><strong>form 2</strong>: <code class="docutils literal notranslate"><span class="pre">compute.do(n,</span> <span class="pre">work,</span> <span class="pre">arguments)</span></code>
+This form returns a JobHandle which, when executed, causes <em>work</em> to run <em>n</em> times and resolve the returned promise with an array of values returned by <em>work</em> in no particular order. For each invocation of the <em>work</em> function, <em>work</em> will receive as its sole argument a unique number which is greater than or equal to zero and less than <em>n</em>.</p></li>
+</ul>
+</section>
+<section id="compute-for">
+<h3>compute.for<a class="headerlink" href="#compute-for" title="Permalink to this heading"></a></h3>
+<p>This function returns a JobHandle (an object which corresponds to a job), and accepts two or more arguments, depending on form.  The <em>work</em> is scheduled for execution with one slice of the input set, for each element in the set. It is expected that <em>work</em> could be executed multiple times in the same sandbox, so care should be taken not to write functions which depend on uninitialized global state and so on.</p>
+<p>Every form of this function returns a handle for a job which, when executed, causes <em>work</em> to run <em>n</em> times and resolve the returned promise with an array of values returned by <em>work</em>, indexed by slice number (position within the set), where <em>n</em> is parallel the number of elements in the input set.</p>
+<p>When the input set is composed of unique primitive values, the array which resolves the promise will also have an own property <code class="docutils literal notranslate"><span class="pre">entries</span></code> method which returns an array, indexed by slice number, which contains a {key: value} object, where key is in the input to <em>work</em>, and value is the return value of <em>work</em> for that input.  This array will be compatible with functions accepting the output of Object.entries() as their input.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">for</span></code> method executes a function, <em>work</em>, in the worker by iterating over a series of values. Each iteration is run as a separate task, and each receives a single value as its first argument.  This is an overloaded function, accepting iteration information in a variety of ways.  When <em>work</em> returns, the return value is treated as result, which is eventually used as part of the array or object which resolves the returned promise.</p>
+<p><strong>note</strong> - When <em>work</em> is a function, it is turned into a string with <code class="docutils literal notranslate"><span class="pre">Function.prototype.toString</span></code> before being transmitted to the scheduler.  This means that <em>work</em> cannot close over local variables, as these local variables will not be defined in the worker’s sandbox. They can be provided to the <code class="docutils literal notranslate"><span class="pre">arguments</span></code> argument and will be given to the work function after the iterator value. When <em>work</em> is a string, it is evaluated in the sandbox, and is expected to evaluate to a single function.</p>
+<table class="colwidths-auto docutils align-default">
+<thead>
+<tr class="row-odd"><th class="text-left head"><p>Argument</p></th>
+<th class="text-left head"><p>Type</p></th>
+<th class="text-left head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p>rangeObject</p></td>
+<td class="text-left"><p>Object</p></td>
+<td class="text-left"><p>see Range Objects, below</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>start</p></td>
+<td class="text-left"><p>Number</p></td>
+<td class="text-left"><p>the first number in a range</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p>stop</p></td>
+<td class="text-left"><p>Number</p></td>
+<td class="text-left"><p>the last number in a range</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>step</p></td>
+<td class="text-left"><p>Number</p></td>
+<td class="text-left"><p>optional, the space between numbers in a range</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p>work</p></td>
+<td class="text-left"><p>String</p></td>
+<td class="text-left"><p>the work function to run. If it is not a string, the toString() method will be invoked on this argument.</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>arguments</p></td>
+<td class="text-left"><p>Object</p></td>
+<td class="text-left"><p>an optional Array-like object which contains arguments which are passed to the work function</p></td>
+</tr>
+</tbody>
+</table>
+<ul class="simple">
+<li><p><strong>form 1</strong>: <code class="docutils literal notranslate"><span class="pre">for</span> <span class="pre">(rangeObject,</span> <span class="pre">work,</span> <span class="pre">arguments)</span></code>
+This form accepts a range object <em>rangeObject</em>, (see below) and this range object is used as part of the job on the scheduler.  What this means is that this form is very efficient, particularly for large ranges, as the iteration through the set happens on the scheduler, and one item at a time.  When the range has <code class="docutils literal notranslate"><span class="pre">{</span> <span class="pre">start:0,</span> <span class="pre">step:1</span> <span class="pre">}</span></code>, the returned promise is resolved with an array of resultant values.  Otherwise, the returned promise is resolved with an object whose keys are the values in the range.</p></li>
+<li><p><strong>form 2a</strong>: <code class="docutils literal notranslate"><span class="pre">for</span> <span class="pre">(start,</span> <span class="pre">end,</span> <span class="pre">step,</span> <span class="pre">work,</span> <span class="pre">arguments)</span></code> - <em>start</em>, <em>end</em>, and <em>step</em> are numbers used to create a range object. Otherwise, this is the same as form 1.</p></li>
+<li><p><strong>form 2b</strong>: <code class="docutils literal notranslate"><span class="pre">for</span> <span class="pre">(start,</span> <span class="pre">end,</span> <span class="pre">work,</span> <span class="pre">arguments)</span></code> - exactly the same as form 2a, except step is always 1.</p></li>
+<li><p><strong>form 3</strong>: <code class="docutils literal notranslate"><span class="pre">for</span> <span class="pre">({</span> <span class="pre">ranges:</span> <span class="pre">[rangeObject,</span> <span class="pre">rangeObject...]</span> <span class="pre">},</span> <span class="pre">work,</span> <span class="pre">arguments)</span></code>
+Similar to form1, except with a multi range object containing an array of range objects in the key <em>ranges</em>. These are used to create multi-dimensional ranges, like nested loops.  If they were written as traditional loops, the outermost loop would be the leftmost range object, and the innermost loop would be the rightmost range object.</p></li>
+</ul>
+<p>The promise is resolved following the same rules as in form 1, except the arrays/objects nest with each range object.  (See examples for more clarity)</p>
+<ul class="simple">
+<li><p><strong>form 4</strong>: <code class="docutils literal notranslate"><span class="pre">for</span> <span class="pre">(iterableObject,</span> <span class="pre">work,</span> <span class="pre">arguments)</span></code>
+<em>iterableObject</em> could be an Array, ES6 function* generator, or any other type of iterable object.</p></li>
+</ul>
+<p><em>Future Note</em> - form4 with an ES6 function<em>job argument presents the possibility where, in a future version of DCP, the protocol will support extremely large input sets without transferring the sets to the scheduler in their entirety.  Since these are ES6 function</em> generators, the scheduler could request blocks of data from the client even while the client is ‘blocked’ in an await call, without altering the API.  This means DCP could process, for example, jobs where the input set is a very long list of video frames and each slice represents one frame.</p>
+<section id="result-handles">
+<h4>Result Handles<a class="headerlink" href="#result-handles" title="Permalink to this heading"></a></h4>
+<p>Result handles act as a proxy to access the results (a mapping from input set to output set) of a job. The result handle for a job is returned by <code class="docutils literal notranslate"><span class="pre">exec</span></code>, returned by the <code class="docutils literal notranslate"><span class="pre">complete</span></code> event, and located in <code class="docutils literal notranslate"><span class="pre">job.results</span></code>.
+The result handle is an Array-like object which represents a mapping between slice number (index) and a result. Additional, non-enumerable methods will be available on this object to make marrying the two sets together more straightforward. These methods are are based on methods of <code class="docutils literal notranslate"><span class="pre">Object</span></code>.</p>
+<ul class="simple">
+<li><p><strong>entries()</strong> - returns an Array of <code class="docutils literal notranslate"><span class="pre">[input,</span> <span class="pre">output]</span></code> pairs, in the same order as that the data appear in the input set, where <em>work</em>(<code class="docutils literal notranslate"><span class="pre">input</span></code>) yields <code class="docutils literal notranslate"><span class="pre">output</span></code>. If the input to <em>work</em> had more than argument, <code class="docutils literal notranslate"><span class="pre">input</span></code> will be an Array that is equivalent to the arguments vector that <em>work</em> was called with.</p></li>
+<li><p><strong>fromEntries()</strong> - returns an Object associating <code class="docutils literal notranslate"><span class="pre">entries()</span></code>’s <code class="docutils literal notranslate"><span class="pre">input</span></code> with <code class="docutils literal notranslate"><span class="pre">output</span></code>, for all elements in the input set where <code class="docutils literal notranslate"><span class="pre">input</span></code> is an ES5 primitive type.  In the case where there are key collisions, the key closest to the end of the input set will be used.  Equivalent to <code class="docutils literal notranslate"><span class="pre">Object.fromEntries(results.entries())</span></code> (see <a class="reference external" href="https://tc39.github.io/proposal-object-from-entries/">https://tc39.github.io/proposal-object-from-entries/</a>).</p></li>
+<li><p><strong>keys()</strong> - returns the entire input set, in the order specified when the job was created</p></li>
+<li><p><strong>values()</strong> - returns the entire output set, in the same order as the input set</p></li>
+<li><p><strong>key(n)</strong> - Returns the <em>n</em>th item in the input set (e.g. <code class="docutils literal notranslate"><span class="pre">results.keys[n]</span></code>), taking steps to avoid re-generating the entire input set if not necessary.</p></li>
+<li><p><strong>lookupValue(<em>input</em>)</strong> - Returns the value corresponding to the value returned from the job for the slice matching <em>input</em>.  For example, if a <em>work</em> function was invoked with the input “blue”, then lookupValue(“blue”) would return the value which that slice returned. If the arguments are not part of the input set, ERANGE is thrown.</p></li>
+</ul>
+<p>When <code class="docutils literal notranslate"><span class="pre">job.collateResults</span></code> was set to <code class="docutils literal notranslate"><span class="pre">true</span></code> (the default), the result handle will be automatically populated with the results as they are computed. Otherwise when <code class="docutils literal notranslate"><span class="pre">job.collateResults</span></code> is <code class="docutils literal notranslate"><span class="pre">false</span></code>,
+the <code class="docutils literal notranslate"><span class="pre">fetch</span></code> method will have to be used before results are available in the handle. Attempting to access a result before it is in memory will cause an error to be thrown.</p>
+<p>There are 4 methods provided for accessing or manipulating results that are stored on the scheduler:</p>
+<ul class="simple">
+<li><p><strong>list (<code class="docutils literal notranslate"><span class="pre">rangeObject</span></code>)</strong> - returns a Range Object for the slices whose results have been computed and whose slice numbers match the provided ranged object. If no range object is provided, all slices whose results have been computed will be returned.</p></li>
+<li><p><strong>delete (<code class="docutils literal notranslate"><span class="pre">rangeObject</span></code>)</strong> - delete the results currently on the scheduler corresponding to the slices whose slice numbers match the provided ranged object. If no range object is provided, all results which have been computed will be deleted from the scheduler.</p></li>
+<li><p><strong>fetch (<code class="docutils literal notranslate"><span class="pre">rangeObject</span></code>, <code class="docutils literal notranslate"><span class="pre">emitEvents</span></code>)</strong> - fetches results from the scheduler corresponding to the slices whose slice numbers match the provided ranged object (or all if not provided). The fewtched results will be populated onto the result handle. If <code class="docutils literal notranslate"><span class="pre">emitEvents</span></code> is true, <code class="docutils literal notranslate"><span class="pre">result</span></code> events will be emitted for every slice that wasn’t already present in the result handle, and if <code class="docutils literal notranslate"><span class="pre">emitEvents</span></code> is “all” then a <code class="docutils literal notranslate"><span class="pre">result</span></code> event will be emitted for every slice.</p></li>
+<li><p><strong>stat (<code class="docutils literal notranslate"><span class="pre">rangeObject</span></code></strong>) - returns a set of objects for the slices on the scheduler corresponding to the slices whose slice numbers match the provided ranged object.  The set will have the same API as an output set, but rather than the results for a <em>work</em> function, each element of the set will be an object with the following properties:</p>
+<ul>
+<li><p><em>distributedTime</em>: the timestamp documenting when the slice was initially distributed to a Worker</p></li>
+<li><p><em>computedTime</em>: the timestamp document when the scheduler received the result for this slice</p></li>
+<li><p><em>payment</em>: the amount of DCC which was charged to the payment account to compute this slice</p></li>
+</ul>
+</li>
+</ul>
+</section>
+</section>
+<section id="compute-status">
+<h3>compute.status<a class="headerlink" href="#compute-status" title="Permalink to this heading"></a></h3>
+<p>This function allows the client to query the status of jobs which have been deployed to the scheduler.</p>
+<ul class="simple">
+<li><p><strong>form 1</strong>: <code class="docutils literal notranslate"><span class="pre">compute.status(job)</span></code>: returns a status object describing a given job. The argument can be either a job Id or a Job Handle.</p></li>
+<li><p><strong>form 2</strong>: <code class="docutils literal notranslate"><span class="pre">compute.status(paymentAccount,</span> <span class="pre">startTime,</span> <span class="pre">endTime)</span></code>: returns an array of status objects corresponding to the status of jobs deployed by the given payment account.  If startTime is specified, jobs older than this will not be listed.  If endTime is specified, jobs newer than this will not be listed.  startTime and endTime can be either the number of milliseconds since the epoch, or instances of <code class="docutils literal notranslate"><span class="pre">Date</span></code>.  The paymentAccount argument can be a Keystore object, or any valid argument to the Keystore constructor (see: Wallet API).</p></li>
+</ul>
+</section>
+<section id="compute-getjobinfo">
+<h3>compute.getJobInfo<a class="headerlink" href="#compute-getjobinfo" title="Permalink to this heading"></a></h3>
+<p>This async function accepts job Id as its argument and returns information and status of a job specified with jobID.</p>
+</section>
+<section id="compute-getsliceinfo">
+<h3>compute.getSliceInfo<a class="headerlink" href="#compute-getsliceinfo" title="Permalink to this heading"></a></h3>
+<p>This async function accepts job Id as its argument and returns status and history of a slice(s) of the job specified with jobID.</p>
+</section>
+<section id="compute-marketrate">
+<h3>compute.marketRate<a class="headerlink" href="#compute-marketrate" title="Permalink to this heading"></a></h3>
+<p>This function allows the client to specify “going rate” for a job, which will be dynamically set for each slice as it is paid out.</p>
+<p><strong>NYI:</strong> For now the scheduler will use 0.0001465376 DCC as the market rate, multiplied by the factor if provided.</p>
+<ul class="simple">
+<li><p><strong>form 1</strong>: <code class="docutils literal notranslate"><span class="pre">compute.marketRate</span></code>: Using marketRate as a property will use the most recent market rate for each slice</p></li>
+<li><p><strong>form 2</strong>: <code class="docutils literal notranslate"><span class="pre">compute.marketRate(factor</span> <span class="pre">=</span> <span class="pre">1.0)</span></code>: Calling marketRate as a function will cause the job to use the daily calculated rate, multiplied by the provided factor.</p></li>
+</ul>
+</section>
+<section id="compute-getmarketvalue">
+<h3>compute.getMarketValue<a class="headerlink" href="#compute-getmarketvalue" title="Permalink to this heading"></a></h3>
+<p>This function returns a promise which is resolved with a signed WorkValueQuote object.  This object contains a digital signature which allows it to be used as a firm price quote during the characterization phase of the job lifecycle, provided the job is deployed before the quoteExpiry and the CPUHour, GPUHour, InputMByte and OutputMByte fields are not modified. This function ensures the client developer’s ability to control costs during job characterization, rather than being completely at the mercy of the market.
+<strong>Note:</strong> Market rates are treated as spot prices, but are calculated as running averages.</p>
+</section>
+<section id="compute-calculateslicepayment">
+<h3>compute.calculateSlicePayment<a class="headerlink" href="#compute-calculateslicepayment" title="Permalink to this heading"></a></h3>
+<p>This function accepts as its arguments a SliceProfile object and a WorkValue object, returning a number which describes the payment required to compute such a slice on a worker or in a market working at the rates  described in the WorkValue object.  This function does not take into account job-related overhead.</p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="nx">job</span><span class="p">.</span><span class="nx">setSlicePaymentOffer</span><span class="p">(</span><span class="mf">1.0001</span> <span class="o">*</span> <span class="nx">compute</span><span class="p">.</span><span class="nx">calculateSlicePayment</span><span class="p">(</span><span class="nx">job</span><span class="p">.</span><span class="nx">initialSliceProfile</span><span class="p">,</span> <span class="k">await</span> <span class="nx">job</span><span class="p">.</span><span class="nx">scheduler</span><span class="p">.</span><span class="nx">getMarketRate</span><span class="p">()))</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="data-types">
+<h2>Data Types<a class="headerlink" href="#data-types" title="Permalink to this heading"></a></h2>
+<section id="range-objects">
+<h3>Range Objects<a class="headerlink" href="#range-objects" title="Permalink to this heading"></a></h3>
+<p>Range objects are vanilla ES objects used to describe value range sets for use by <code class="docutils literal notranslate"><span class="pre">compute.for()</span></code>. Calculations made to derive the set of numbers in a  range are carried out with BigNumber, eg. arbitrary-precision, support. The numbers Infinity and -Infinity are not supported, and the API does not differentiate between +0 and -0.</p>
+<p>Describing value range sets, rather than simply enumerating ranges, is important because of the need to schedule very large sets  without the overhead of transmitting them to the scheduler, storing them, and so on.</p>
+<p>Range Objects are plain JavaScript objects with the following properties:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">start</span></code>: The lowest number in the range</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">end</span></code>: The highest number in the range</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">step</span></code>: The increment used between iterations, to get from start to end.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">group</span></code>: The number of consecutive elements in the range which will be processed by each slice.  If this value is specified, even if it is specified as 1, the function called in the sandbox (eg. <em>work</em>) will receive as its argument an array of elements in the set as its input.  When this value is not specified, the function called in the worker sandbox will receive a single datum as its input.</p></li>
+</ul>
+<p>When <code class="docutils literal notranslate"><span class="pre">end</span> <span class="pre">-</span> <span class="pre">start</span></code> is not an exact multiple of <code class="docutils literal notranslate"><span class="pre">step</span></code>, the job will behave as though <code class="docutils literal notranslate"><span class="pre">end</span></code> were the nearest number in the range which <em>is</em> an even multiple of step, offset by start.  For example, the highest number generated in the range object <code class="docutils literal notranslate"><span class="pre">{start:</span> <span class="pre">0,</span> <span class="pre">end:</span> <span class="pre">1000,</span> <span class="pre">step:</span> <span class="pre">3}</span></code> would be 999.</p>
+<section id="sparse-range-objects">
+<h4>Sparse Range Objects<a class="headerlink" href="#sparse-range-objects" title="Permalink to this heading"></a></h4>
+<p>Range Objects whose values are not contiguous are said to be sparse.  The syntax for specifying a sparse range object is</p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="p">{</span> <span class="nx">sparse</span><span class="o">:</span> <span class="p">[</span><span class="nx">range</span> <span class="nx">object</span><span class="p">,</span> <span class="nx">range</span> <span class="nx">object</span><span class="p">...]}</span>
+</pre></div>
+</div>
+<p>Any range object can be used in the specification of a sparse range object, except for a sparse range object.</p>
+</section>
+</section>
+<section id="distribution-objects">
+<h3>Distribution Objects<a class="headerlink" href="#distribution-objects" title="Permalink to this heading"></a></h3>
+<p>Distribution objects are used with <code class="docutils literal notranslate"><span class="pre">compute.for</span></code>, much like range objects. They are created by methods of the set exports of the stats module, and are used to describes input sets which follow common distributions used in the field of statistics. The following methods are exported:</p>
+<ul class="simple">
+<li><p><strong>normalRNG(n, x̄, σ)</strong> – generates a set of numbers arranged in a normal distribution, where
+– <em>n</em> represents the size of the set
+– <em>x̄</em> represents the mean of the distribution
+– <em>σ</em> represents the standard deviation of the distribution</p></li>
+<li><p><strong>random(n, min, max)</strong> – generates a set of randomly-distributed numbers, where
+– <em>n</em> represents the size of the set
+– <em>min</em> represents the smallest number in the set
+– <em>max</em> respresents the smallest number which is greater than <em>min</em> but not in the set</p></li>
+<li><p><strong>randomInt(n, min, max)</strong> – generates a set of randomly-distributed integers, where
+– <em>n</em> represents the size of the set
+– <em>min</em> represents the smallest number in the set
+– <em>max</em> respresents the smallest number which is greater than <em>min</em> but not in the set</p></li>
+</ul>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="kd">let</span> <span class="nx">stats</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;stats&#39;</span><span class="p">)</span>
+<span class="kd">let</span> <span class="nx">job</span> <span class="o">=</span> <span class="nx">compute</span><span class="p">.</span><span class="k">for</span><span class="p">(</span><span class="nx">stats</span><span class="p">.</span><span class="nx">set</span><span class="p">.</span><span class="nx">normalRNG</span><span class="p">(</span><span class="mf">10</span><span class="p">,</span> <span class="mf">100</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">),</span> <span class="p">(</span><span class="nx">i</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="nx">i</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="job-handles">
+<h3>Job Handles<a class="headerlink" href="#job-handles" title="Permalink to this heading"></a></h3>
+<p>Job handles are objects which correspond to jobs, and are instances of <code class="docutils literal notranslate"><span class="pre">compute.Job</span></code>.  They are created by some exports of the compute module, such as <code class="docutils literal notranslate"><span class="pre">compute.do</span></code> and <code class="docutils literal notranslate"><span class="pre">compute.for</span></code>.</p>
+<section id="properties">
+<h4>Properties<a class="headerlink" href="#properties" title="Permalink to this heading"></a></h4>
+<ul class="simple">
+<li><p><strong>requirements</strong> - A object describing the requirements that workers must have to be eligible for this job. See section <em>Requirements Objects</em>.</p></li>
+<li><p><strong>initialSliceProfile</strong> - an object describing the cost the user believes each the average slice will incur, in terms of CPU/GPU and I/O (see: <em>SliceProfile Objects</em>).  If defined, this object is used to provide initial scheduling hints and to calculate escrow amounts.</p></li>
+<li><p><strong>slicePaymentOffer</strong> - an object describing the payment the user is willing to make to execute one slice of the job. See section <em>PaymentDescriptor Objects</em>.</p></li>
+<li><p><strong>paymentAccount</strong> - a handle to a Keystore Object that describes a bank account which is used to pay for executing the job.</p></li>
+<li><p><strong>work</strong> - an EventEmitter object with emits arbitrary events that are triggered by the <em>work</em> (user code running in a sandbox).</p></li>
+<li><p><strong>requirePath</strong> - initially initialized as an empty array, this object is captured during deployment, and is pushed on to <code class="docutils literal notranslate"><span class="pre">require.path</span></code> in the worker before <em>work</em> is evaluated in the main module.</p></li>
+<li><p><strong>modulePath</strong> - initially initialized as an empty array, this object is captured during deployment, and is pushed on to <code class="docutils literal notranslate"><span class="pre">module.path</span></code> in the sandbox’s main module before <em>work</em> is evaluated in the main module.</p></li>
+<li><p><strong>collateResults</strong> - when this property is false, the job will be deployed in such a way that results are not returned to the client unless explicitly requested (e.g. via the <code class="docutils literal notranslate"><span class="pre">result</span></code> event listener or the <code class="docutils literal notranslate"><span class="pre">results</span></code> method of the job handle).  Changing this property after the job has been deployed has no effect.</p></li>
+<li><p><strong>status</strong> - an object having the properties  <code class="docutils literal notranslate"><span class="pre">runStatus</span></code>, <code class="docutils literal notranslate"><span class="pre">total</span></code>, <code class="docutils literal notranslate"><span class="pre">distributed</span></code>, and <code class="docutils literal notranslate"><span class="pre">computed</span></code>. This object reflects a “live status” while the job handle is awaiting the <code class="docutils literal notranslate"><span class="pre">exec</span></code> Promise resolution/rejection.</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">runStatus</span></code>: The current run status of the job.</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">total</span></code>: Once the job is ready (payment authorized, etc), this value represents the total number of slices; until the job is ready, this value will be undefined.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">distributed</span></code>: The total number of unique slices that have been sent to Workers for computation.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">computed</span></code>: The total number of slices in this job for which the scheduler has results.</p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><strong>public</strong> - an object describing the properties used to describe and label the work when it is deployed, it contains the following properties:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">name</span></code>: A string containing the name of the job, this is displayed on the progress bar in the browser worker.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">description</span></code>: A string containing a description of the job, this is displayed when a browser worker user hovers over the progress bar for a job.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">link</span></code>: A string containing a URL for providing more info about the job, browser worker users can visit the URL by clicking on the job row. (May be deprecated)</p></li>
+</ul>
+</li>
+<li><p><strong>contextId</strong> - An optional string identifier. This can be used to indicate to caching mechanisms that keystores with the same name are different. For example, if several “default” keystores must be used for different jobs, <code class="docutils literal notranslate"><span class="pre">contextId</span></code> should be set to a different string on each job to prevent incorrect caching.</p></li>
+<li><p><strong>scheduler</strong> - an instance of URL object defining the location of the scheduler on which the job is to be deployed.  If not specified, the value used will be <code class="docutils literal notranslate"><span class="pre">dcpConfig.scheduler.location</span></code>.</p></li>
+<li><p><strong>bank</strong> - an instance of URL object defining the location of the bank.  If not specified, the value used will be <code class="docutils literal notranslate"><span class="pre">dcpConfig.bank.location</span></code>. Note that this must correspond to the bank used by the scheduler or the job will be rejected.</p></li>
+</ul>
+<section id="present-once-job-has-been-deployed">
+<h5>Present once job has been deployed<a class="headerlink" href="#present-once-job-has-been-deployed" title="Permalink to this heading"></a></h5>
+<ul class="simple">
+<li><p><strong>id</strong> - a unique string assigned by the scheduler which can be used to resume or cancel the execution of a previously-deployed job.</p></li>
+<li><p><strong>receipt</strong> - a cryptographic receipt indicating deployment of the job on the scheduler</p></li>
+<li><p><strong>meanSliceProfile</strong> - a SliceProfile object which contains the average costs for the slices which have been computed to date. Until the first result is returned, this property is undefined.</p></li>
+<li><p><strong>results</strong> - a Result Handle object used to query and manipulate the output set. (See *Result Handles)</p></li>
+</ul>
+</section>
+</section>
+<section id="methods">
+<h4>Methods<a class="headerlink" href="#methods" title="Permalink to this heading"></a></h4>
+<ul class="simple">
+<li><p><strong>cancel</strong> - Cancel the job. This method returns a promise which is resolved once the scheduler acknowledges the cancellation and has transitioned to a state where no further costs will be incurred as a result of this job.</p></li>
+<li><p><strong>resume</strong> - Ask the scheduler to resume distributing slices for the job. This method returns a Promise which will resolve once the scheduler has resumed distributing slices, or may reject with an error indicating why it was unable to resume (eg. ENOFUNDS if there are not enough credits escrowed).</p></li>
+<li><p><strong>exec</strong> - tells the scheduler to deploy the job. This method accepts arguments <code class="docutils literal notranslate"><span class="pre">slicePaymentOffer</span></code> ,  <code class="docutils literal notranslate"><span class="pre">paymentAccount</span></code> and <code class="docutils literal notranslate"><span class="pre">initialSliceProfile</span></code>, which, when not undefined, update the related properties of the JobHandle.  <code class="docutils literal notranslate"><span class="pre">paymentAccount</span></code> can be any valid argument to the <code class="docutils literal notranslate"><span class="pre">wallet.Keystore</span></code> constructor.
+<br/>This method returns a promise which is resolved with a result handle once the scheduler notifies the client that the job is done via the <code class="docutils literal notranslate"><span class="pre">complete</span></code> event.
+<br/>Additionally, calling this on a job that is already deployed will fetch the partially or fully computed results if <code class="docutils literal notranslate"><span class="pre">collateResults</span></code> is set to true. Otherwise, <code class="docutils literal notranslate"><span class="pre">job.results.fetch</span></code> will need to be called to access the results stored on the Distributed Computer.
+<br/>This method can reject the promise with errors from the scheduler.  Any  of the errors below imply that the scheduler has paused the job:
+<br/>ENOFUNDS - insufficient credit in the account associated with the payment account. This error can happen immediately upon deployment, or partway through the job if the scheduler discovers that tasks are using more compute than estimated and it needs to re-escrow.  Calling <code class="docutils literal notranslate"><span class="pre">exec</span></code> on this JobHandle after an ENOFUNDS error will cause the scheduler to attempt to resume the job as described above.
+If the promise is rejected with the errors below, the scheduler has cancelled the job:
+<br/>ENOPROGRESS - the scheduler has determined that too many sandboxes are not receiving regular progress update messages, are receiving invalid progress messages, or that tasks are completing without emitting at least one progress update message.
+<br/>ETOOMANYTASKS - the scheduler has determined that this job exceeds the maximum number of allowable tasks per job
+<br/>EWORKTOOBIG - the scheduler has determined that the combined size of the work function and local modules associated with this job exceeds the maximum allowable size
+<br/>ETOOBIG - the scheduler has determined that this job exceeds the maximum allowable amount of work
+<br/>ESLICETOOSLOW - the scheduler has determined that individual tasks in this job exceed the maximum allowable execution time on the reference core
+<br/>ETOOMANYERRORS - the scheduler has determined that too many work functions are terminating with uncaught exceptions for this job
+<br/>Any other rejections should be treated as transient errors, and client developers should assume that the results could be retrieved eventually by calling <code class="docutils literal notranslate"><span class="pre">await</span> <span class="pre">compute.resume(job.id).exec()</span></code>. These transient errors include, but are not limited to:
+<br/>EPERM - client tried to do something prohibited, such as updating the payment account of a job.</p></li>
+<li><p><strong>localExec</strong>: This function is identical to <em>exec</em>, except that the job is executed locally, in the client.  It accepts one argument, <code class="docutils literal notranslate"><span class="pre">cores</span></code>. If cores is false, the execution will happen in the same JavaScript context as the client. Otherwise, cores is interpreted as the number of local cores in which to execute the job. Local modules will be loaded using regular filesystem semantics; modules which originate in packages will be loaded from the module server associated with the current scheduler.</p></li>
+<li><p><strong>requires</strong>: This function specifies a module dependency (when the argument is a string) or a list of dependencies (when the argument is an array) of the <em>work</em> function. This function can be invoked multiple times before deployment. See the <em>Modules and Packages</em> section for more information.</p></li>
+<li><p><strong>estimate</strong>: This function returns a promise which is resolved with a SliceProfile object describing the resources consumed to run one slice of the job.  The function accepts as its sole argument a sample datum, which may or may not be actual data from the input set.  If no argument is specified, the first element of the input set will be used for the calculation.</p></li>
+<li><p><strong>setSlicePaymentOffer</strong>: Set the payment offer; i.e. the number of DCC the user is willing to pay to compute one slice of the job. This is equivalent to the first argument to <code class="docutils literal notranslate"><span class="pre">exec</span></code>.  When this method is called for a job which is already deployed, any changes to the slice payment offer will be transmitted to the scheduler, and the scheduler will apply them <em>on a best-effort basis to slices dispatched after the change request</em>.  Note that a new payment offer will generally cause the scheduler to alter the quantity of DCC currently in escrow for that job, which can cause the job to emit the ENOFUNDS event.  <em>There is no guarantee that changes to the slice payment offer will occur immediately.</em></p></li>
+<li><p><strong>setPaymentAccountKeystore</strong>: Set the payment account. This is equivalent to the second argument to <code class="docutils literal notranslate"><span class="pre">exec</span></code>. Setting the payment account after the initial call to <code class="docutils literal notranslate"><span class="pre">exec</span></code> will throw EPERM in the setter.</p></li>
+</ul>
+</section>
+<section id="events">
+<h4>Events<a class="headerlink" href="#events" title="Permalink to this heading"></a></h4>
+<p>The JobHandle is an EventEmitter (see <em>EventEmitters</em>, below), and it can emit the following events:</p>
+<ul class="simple">
+<li><p><strong>accepted</strong> - fired when job is deployed. Returns:</p></li>
+</ul>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="nx">job</span> <span class="c1">// original object that was delivered to the scheduler for deployment</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p><strong>cancel</strong> - fired when job is cancelled</p></li>
+<li><p><strong>result</strong> - fired when a result is returned. Returns:</p></li>
+</ul>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="nx">address</span><span class="p">,</span> <span class="c1">// address (id) of the job</span>
+    <span class="nx">task</span><span class="p">,</span> <span class="c1">// the address of the task (slice) that the result came from</span>
+    <span class="nx">sort</span><span class="p">,</span> <span class="c1">// the index of the slice</span>
+    <span class="nx">result</span><span class="o">:</span> <span class="p">{</span>
+        <span class="nx">request</span><span class="o">:</span> <span class="s1">&#39;main&#39;</span><span class="p">,</span>
+        <span class="nx">result</span><span class="p">,</span> <span class="c1">// value returned</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p><strong>resultsUpdated</strong> - fired when the result handle is modified, either when a new <code class="docutils literal notranslate"><span class="pre">result</span></code> event is fired or when results are populated with <code class="docutils literal notranslate"><span class="pre">resultHandle.fetch()</span></code></p></li>
+<li><p><strong>complete</strong> - fired when the job has finished running. Returns: The result handle for the job.</p></li>
+<li><p><strong>status</strong> - fired when a status update is received. Returns:</p></li>
+</ul>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+  <span class="nx">address</span><span class="p">,</span> <span class="c1">// address (id) of the job</span>
+  <span class="nx">total</span><span class="p">,</span> <span class="c1">// total number of slices</span>
+  <span class="nx">distributed</span><span class="p">,</span> <span class="c1">// number of slices that have been distributed</span>
+  <span class="nx">computed</span><span class="p">,</span> <span class="c1">// number of slices that have returned a result</span>
+  <span class="nx">runStatus</span><span class="p">,</span> <span class="c1">// the job&#39;s run status before any updates from a status event</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p><strong>error</strong> - fired when a slice throws an error and fails to complete. Returns:</p></li>
+</ul>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+  <span class="nx">address</span><span class="p">,</span> <span class="c1">// address (id) of the job</span>
+  <span class="nx">sliceIndex</span><span class="p">,</span> <span class="c1">// the index of the slice that threw the error</span>
+  <span class="nx">message</span><span class="p">,</span> <span class="c1">// the error message</span>
+  <span class="nx">stack</span><span class="p">,</span> <span class="c1">// the error stacktrace</span>
+  <span class="nx">name</span><span class="p">,</span> <span class="c1">// the error name</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p><strong>console</strong> - fired when <code class="docutils literal notranslate"><span class="pre">console.log</span></code> (or info, debug, warn, error) is called from within the work function. Returns:</p></li>
+</ul>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+  <span class="nx">address</span><span class="p">,</span> <span class="c1">// address (id) of the job</span>
+  <span class="nx">sliceIndex</span><span class="p">,</span> <span class="c1">// the index of the slice that produced this event</span>
+  <span class="nx">level</span><span class="p">,</span> <span class="c1">// the log level, one of &#39;debug&#39;, &#39;info&#39;, &#39;log&#39;, &#39;warn&#39;, or &#39;error&#39;</span>
+  <span class="nx">message</span><span class="p">,</span> <span class="c1">// the console log message</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><strong>Note</strong>: In the case where the most recent message is identical to the message that is about to be emitted, the message is not emitted, but rather a “same” counter is incremented. Eventually, a <code class="docutils literal notranslate"><span class="pre">console</span></code> event on the JobHandle will be emitted; this event will have the sole property same, having the value of the “same” counter. This will happen when a new, different, message is logged, the worker terminates, or a progress update event is emitted; whichever comes first.</p>
+<ul class="simple">
+<li><p><strong>noProgress</strong> - fired when a slice is stopped for not calling progress. Contains information about how long the slice ran for, and about the last reported progress calls. Returns:</p></li>
+</ul>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+  <span class="nx">address</span><span class="p">,</span> <span class="c1">// address (id) of the job</span>
+  <span class="nx">sliceIndex</span><span class="p">,</span> <span class="c1">// the index of the slice that failed due to no progress</span>
+  <span class="nx">timestamp</span><span class="p">,</span> <span class="c1">// how long the slice ran before failing</span>
+  <span class="nx">progressReports</span><span class="o">:</span> <span class="p">{</span>
+    <span class="nx">last</span><span class="o">:</span> <span class="p">{</span> <span class="c1">// The last progress report received from the worker</span>
+      <span class="nx">timestamp</span><span class="p">,</span> <span class="c1">// time since start of slice</span>
+      <span class="nx">progress</span><span class="p">,</span> <span class="c1">// progress value reported</span>
+      <span class="nx">value</span><span class="p">,</span> <span class="c1">// last value that was passed to the progress function</span>
+      <span class="nx">throttledReports</span><span class="p">,</span> <span class="c1">// number of calls to progress that were throttled since last report</span>
+    <span class="p">},</span>
+    <span class="nx">lastUpdate</span><span class="o">:</span> <span class="p">{</span> <span class="c1">// The last determinate (update to the progress param) progress report received from the worker</span>
+      <span class="nx">timestamp</span><span class="p">,</span>
+      <span class="nx">progress</span><span class="p">,</span>
+      <span class="nx">value</span><span class="p">,</span>
+      <span class="nx">throttledReports</span><span class="p">,</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p><strong>noProgressData</strong> - Identical to <code class="docutils literal notranslate"><span class="pre">noProgress</span></code>, except that it also contains the data that the slice was executed with. Returns:</p></li>
+</ul>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+  <span class="p">...{</span> <span class="nx">noProgress</span> <span class="nx">event</span> <span class="p">},</span>
+  <span class="nx">data</span><span class="p">,</span> <span class="c1">// the data that the slice was executed with</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p><em>Error Statuses</em> - Any of the scheduler errors listed above in <em>Job Methods</em> will be emitted from the job handle.</p></li>
+</ul>
+<p>The jobHandle’s <code class="docutils literal notranslate"><span class="pre">work</span></code> property is also an EventEmitter, which will emit custom events from the work function.</p>
+</section>
+</section>
+<section id="worker-environment">
+<h3>Worker Environment<a class="headerlink" href="#worker-environment" title="Permalink to this heading"></a></h3>
+<p>Work functions (i.e. the final argument to <code class="docutils literal notranslate"><span class="pre">compute.for()</span></code> are generally executed in sandboxes inside workers.  These are the functions which map the input set to the output set.</p>
+<p>Each work function receives as its input one element in the input set. Multi-dimensional elements, such as those defined in <code class="docutils literal notranslate"><span class="pre">compute.for()</span> <span class="pre">form</span> <span class="pre">3</span></code>, will be passed as multiple arguments to the function. The function returns the corresponding output set element, and <em>must emit progress events</em>.</p>
+<p>The execution environment is based on CommonJS, providing access to the familiar <code class="docutils literal notranslate"><span class="pre">require()</span></code>  function, user-defined modules, and modules in packages deployed on Distributed Compute Labs’  module server.  Global symbols which are not part of the ECMA-262 specification (such as <code class="docutils literal notranslate"><span class="pre">XmlHTTPRequest</span></code> and <code class="docutils literal notranslate"><span class="pre">fetch</span></code>) are not available.</p>
+<section id="global-symbols">
+<h4>Global Symbols<a class="headerlink" href="#global-symbols" title="Permalink to this heading"></a></h4>
+<ul class="simple">
+<li><p><strong>OffscreenCanvas</strong> – As defined in the HTML Standard, provides a canvas which can be rendered off-screen.  If this interface is not available in a given worker, the worker will not report capability “offscreenCanvas”.</p></li>
+<li><p><strong>progress(n)</strong> – a function that returns <code class="docutils literal notranslate"><span class="pre">true</span></code> and which accepts as its sole argument a number between 0 and 1 (inclusive) that represents a best-guess at the completed portion of the task as a ratio of completed work to total work.  If the argument is a string ending in the <code class="docutils literal notranslate"><span class="pre">%</span></code> symbol, it will be interpreted as a number in the usual mathematical sense.  If the argument is undefined, the slice progress is noted but the amount of progress is considered to be indeterminate.
+<br/>This function emits a progress event. Progress events should be emitted approximately once per second; a task which fails to emit a progress event for a certain period of time will be cancelled by the supervisor. The argument to this function is interpreted to six significant digits, and must increase for every call.
+<em>All work functions must emit at least one progress event</em> - this requirement will be enforced by the estimator.</p>
+<ul>
+<li><p>The period of time mentioned above will be at least 30 wall-clock seconds and at least 30 benchmark-adjusted seconds</p></li>
+</ul>
+</li>
+<li><p><strong>console.log()</strong> – a function which emits <code class="docutils literal notranslate"><span class="pre">console</span></code> events on the JobHandle. See <a class="reference internal" href="#id3"><span class="std std-doc">Events:console</span></a></p></li>
+<li><p><strong>console.debug()</strong> – exactly the same as <code class="docutils literal notranslate"><span class="pre">console.log()</span></code>, except with <em>level</em> = “debug”</p></li>
+<li><p><strong>console .info()</strong> – exactly the same as <code class="docutils literal notranslate"><span class="pre">console.log()</span></code>, except with <em>level</em> = “info”</p></li>
+<li><p><strong>console.warn()</strong> – exactly the same as <code class="docutils literal notranslate"><span class="pre">console.log()</span></code>, except with <em>level</em> = “warn”</p></li>
+<li><p><strong>console.error()</strong> – exactly the same as <code class="docutils literal notranslate"><span class="pre">console.log()</span></code>, except with <em>level</em> = “error”.  <strong>note</strong> - some ES environments (Chrome, Firefox) implement C-style print formatting in this method. This is currently not supported.</p></li>
+<li><p><strong>work</strong> – an object that contains the following properties:</p>
+<ul>
+<li><p><strong>emit()</strong> – emit an arbitrary event, which will be fired by the <em>work</em> object on the JobHandle in the client. The first argument to this function is the event name; the second argument becomes the value passed to the event handler in the client.  <strong>Note</strong> - only values which can be represented in JSON are supported.</p></li>
+<li><p><strong>job</strong> - an object with additional data about the job</p>
+<ul>
+<li><p><strong>public</strong> - The <code class="docutils literal notranslate"><span class="pre">public</span></code> data object that the job was created with, has properties <code class="docutils literal notranslate"><span class="pre">name</span></code>, <code class="docutils literal notranslate"><span class="pre">description</span></code>, and <code class="docutils literal notranslate"><span class="pre">link</span></code></p></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</section>
+</section>
+</section>
+<section id="requirements-objects">
+<h2>Requirements Objects<a class="headerlink" href="#requirements-objects" title="Permalink to this heading"></a></h2>
+<p>Requirements objects are used to inform the scheduler about specific execution requirements, which are in turn used as part of the capabilities exchange portion of the scheduler-to-worker interaction.</p>
+<p>Boolean requirements are interpreted as such:</p>
+<ul class="simple">
+<li><p>if true, that capability <em>must</em> be present in the worker</p></li>
+<li><p>if false, that capability <em>must not</em> be present in the worker</p></li>
+</ul>
+<p>In the example above, only workers with a GPU, running ES7 on SpiderMonkey using fdlibm library would match.  In the example below,  any worker which can interpret ES7 but is not SpiderMonkey will match:</p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="kd">let</span> <span class="nx">requirements</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="nx">engine</span><span class="o">:</span> <span class="p">{</span>
+    <span class="nx">es2019</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+    <span class="nx">spidermonkey</span><span class="o">:</span> <span class="kc">false</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<section id="requirements-object-properties">
+<h3>Requirements Object Properties<a class="headerlink" href="#requirements-object-properties" title="Permalink to this heading"></a></h3>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">environment.fdlibm</span></code>: Workers express capability ‘fdlibm’ in order for client applications to have confidence that results will be bitwise identical across workers. This library is recommended, but not required, for implementaiton of  Google chrome, Mozilla Firefox and the DCP standalone worker use fdlibm but Microsoft Edge and Apple Safari do not use it.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">environment.offscreenCanvas</span></code>: When present, this capability indicates that the worker environment has the OffscreenCanvas symbol defined.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">details.offscreenCanvas.bigTexture4096</span></code>: This capability indicates that the worker’s WebGL MAX_TEXTURE_SIZE is at least 4096.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">details.offscreenCanvas.bigTexture8192</span></code>: This capability indicates that the worker’s WebGL MAX_TEXTURE_SIZE is at least 8192.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">details.offscreenCanvas.bigTexture16384</span></code>: This capability indicates that the worker’s WebGL MAX_TEXTURE_SIZE is at least 16384.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">details.offscreenCanvas.bigTexture32768</span></code>: This capability indicates that the worker’s WebGL MAX_TEXTURE_SIZE is at least 32768.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">engine.es7</span></code>: This capability enforces that the worker is running an es7-compliant JavaScript engine.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">engine.spidermonkey</span></code>: The capability enforces that the worker will run in the SpiderMonkey JS engine.</p></li>
+</ul>
+</section>
+</section>
+<section id="gpus">
+<h2>GPUs<a class="headerlink" href="#gpus" title="Permalink to this heading"></a></h2>
+<p>DCP supports <a class="reference external" href="https://developer.mozilla.org/en-US/docs/Web/API/WebGL_API">WebGL</a> and plans on supporting <a class="reference external" href="https://gpuweb.github.io/gpuweb/">WebGPU</a>. This functionality can be used by setting the <code class="docutils literal notranslate"><span class="pre">gpu</span></code> flag listed under <span class="xref myst">Requirements Object Properties</span>.</p>
+</section>
+<section id="eventemitters">
+<h2>EventEmitters<a class="headerlink" href="#eventemitters" title="Permalink to this heading"></a></h2>
+<p>All EventEmitters defined in this API will be bound (i.e. have <code class="docutils literal notranslate"><span class="pre">this</span></code> set) to the relevant job when the event handler is invoked, unless the event handler has previously been bound to something else with bind or an arrow function.</p>
+<p>The EventEmitters have the following methods:</p>
+<ul class="simple">
+<li><p><strong>on</strong><code class="docutils literal notranslate"><span class="pre">(eventName,</span> <span class="pre">listener)</span></code>: execute the function <em>listener</em> when the event <em>eventName</em> is triggered.</p></li>
+<li><p><strong>addListener</strong><code class="docutils literal notranslate"><span class="pre">(eventName,</span> <span class="pre">listener)</span></code>: same as <em>on</em></p></li>
+<li><p><strong>addEventListener</strong><code class="docutils literal notranslate"><span class="pre">(eventName,</span> <span class="pre">listener)</span></code>: same as <em>on</em></p></li>
+<li><p><strong>removeListener</strong><code class="docutils literal notranslate"><span class="pre">(eventName,</span> <span class="pre">listener)</span></code>: remove an event listener which has been attached with <em>on</em> or one of its synonyms.</p></li>
+<li><p><strong>removeEventListener</strong><code class="docutils literal notranslate"><span class="pre">(eventName,</span> <span class="pre">callback)</span></code>: same as <em>removeListener</em></p></li>
+<li><p><strong>listenerCount</strong><code class="docutils literal notranslate"><span class="pre">(eventName)</span></code>: returns a count of the number of listeners registered for <code class="docutils literal notranslate"><span class="pre">eventName</span></code>.</p></li>
+</ul>
+</section>
+<section id="modules">
+<h2>Modules<a class="headerlink" href="#modules" title="Permalink to this heading"></a></h2>
+<p>The <em>work</em> specified by the <code class="docutils literal notranslate"><span class="pre">JobHandle.exec</span></code> method can depend on modules being available in the sandbox. This will be handled by automatically publishing all of the modules which are listed as relative dependencies of the job.   Client developers can assume that dependencies loaded from the require.path are part of pre-published packages.</p>
+<p>The DCP developer ecosystem offers the ability to run CommonJS-style modules and pure-ES NPM packages seamlessly and without transpilation steps on the following host environments</p>
+<ul class="simple">
+<li><p>arbitrary web document</p></li>
+<li><p>arbitrary web worker</p></li>
+<li><p>DCP sandbox</p>
+<ul>
+<li><p>NodeJS</p></li>
+</ul>
+</li>
+</ul>
+<p>For more information, see the DCP Modules document.</p>
+<section id="appliances">
+<h3>Appliances<a class="headerlink" href="#appliances" title="Permalink to this heading"></a></h3>
+<p>Future versions of DCP will expand the Appliance concept to include the ability to support licensing and royalties.  For example, developers will be able to publish appliances which</p>
+<ul class="simple">
+<li><p>may only be executed by users holding the correct (chainable, revocable) cryptographic key</p></li>
+<li><p>cause a payment to the Appliance author for each job deployed</p></li>
+<li><p>cause a payment to the Appliance author for each slice computed</p></li>
+</ul>
+</section>
+<section id="appliance-handles">
+<h3>Appliance Handles<a class="headerlink" href="#appliance-handles" title="Permalink to this heading"></a></h3>
+<p>Appliance handles are objects which correspond to appliances. They are created by instantiating the <code class="docutils literal notranslate"><span class="pre">compute.Appliance</span></code> class.</p>
+<section id="constructor">
+<h4>Constructor<a class="headerlink" href="#constructor" title="Permalink to this heading"></a></h4>
+<p>The Appliance constructor is an overloaded object which is used for defining/publishing appliances and referencing appliances on the scheduler.</p>
+<section id="new-appliance-form-1-preparing-to-publish">
+<h5>new Appliance() - form 1 - preparing to publish<a class="headerlink" href="#new-appliance-form-1-preparing-to-publish" title="Permalink to this heading"></a></h5>
+<p>This form of the constructor is used for creating/publishing appliances.  It accepts three arguments: <em>applianceName</em>, <em>version</em>, and <em>publishKeystore</em>.</p>
+<ul class="simple">
+<li><p><strong>applianceName</strong> - this is a user-defined string, such as “ffmpeg-util”, which is used to reference the appliance on the Distributed Computer. It must be unique across the network.</p></li>
+<li><p><strong>version</strong> - this is the version number of the appliance that is being defined, represented as a string (e.g. “1.0.0”). The Compute API uses the same version number scheme as npm.  It is an error to use the same version number twice for the same appliance under any circumstance.</p></li>
+<li><p><strong>publishKeystore</strong> - this is the keystore whose key is used to sign the appliance. If any version of the appliance has been published on a scheduler, only new versions of that appliance signed by the same key will be accepted for publication.</p></li>
+</ul>
+</section>
+<section id="new-appliance-form-2-published-appliance">
+<h5>new Appliance() - form 2 - published appliance<a class="headerlink" href="#new-appliance-form-2-published-appliance" title="Permalink to this heading"></a></h5>
+<p>This form of the constructor is used to access functions which have already been published. It accepts two arguments: <em>applianceName</em>, and <em>version</em>.</p>
+<ul class="simple">
+<li><p><strong>applianceName</strong> - this is a user-defined string, such as “ffmpeg-util”, which is used to reference the appliance on the Distributed Computer.</p></li>
+<li><p><strong>version</strong> - this is a string describing the version of the appliance that the client application developer wants to use.  The Compute API supports the same syntax as npm uses in package.json, including the <code class="docutils literal notranslate"><span class="pre">&quot;^1.0.0&quot;</span></code> and <code class="docutils literal notranslate"><span class="pre">&quot;#versionIdHexString&quot;</span></code> forms.</p></li>
+</ul>
+</section>
+</section>
+<section id="id1">
+<h4>Methods<a class="headerlink" href="#id1" title="Permalink to this heading"></a></h4>
+<section id="for-new-appliances">
+<h5>For new appliances<a class="headerlink" href="#for-new-appliances" title="Permalink to this heading"></a></h5>
+<ul class="simple">
+<li><p><strong>publish</strong> - Request publication of an appliance on the connected scheduler. Returns a promise which is an object having the following properties:</p>
+<ul>
+<li><p><strong>versionId</strong> - a unique hex string assigned by the scheduler which uniquely identifies this version of this appliance.
+Prepending this string with an octothorpe will make it a valid argument for the <em>version</em> property of the Appliance constructor, referencing exactly this version of the code.</p></li>
+<li><p><strong>receipt</strong> - a cryptographic receipt indicating that the appliance has been submitted for publication to the scheduler.</p></li>
+<li><p><strong>cost</strong> - the number of DCCs the publish wallet was debited for this transaction</p></li>
+</ul>
+</li>
+</ul>
+<p>All properties of an appliance must be redefined when a new version is published.
+Publish may reject the promise with the following errors:</p>
+<ul class="simple">
+<li><p>ENAMESPACE - The appliance name has already been reserved</p></li>
+<li><p>EEXIST - This version has already been published</p></li>
+<li><p>EWORKTOOBIG - the combined size of the functions and local modules associated with this appliance exceeds the maximum allowable size</p></li>
+<li><p>ENOFUNDS - insufficient credit in the account associated with the publish wallet</p></li>
+<li><p><strong>refund</strong> - accepts as its sole argument the object that <em>publish</em> resolved its promise with.  This causes the scheduler to un-publish the appliance and refund the DCCs used to publish it. This action must be performed before the appliance has been used by a job, or 24 hours, whichever comes first.</p></li>
+<li><p><strong>defineFunction</strong> - Define a function in the appliance, return an instance of JobHandle and accepting four arguments:</p>
+<ul>
+<li><p>the function’s name</p></li>
+<li><p>its implementation, with identical semantics to the <em>work</em> function in a job (see: <code class="docutils literal notranslate"><span class="pre">compute.for()</span></code>)</p></li>
+<li><p>an Estimation Function (see  below)</p></li>
+<li><p>a slice profile object, used as the baseSliceProfile for the Estimation Function.
+Any changes to the <code class="docutils literal notranslate"><span class="pre">requirePath</span></code> or <code class="docutils literal notranslate"><span class="pre">modulePath</span></code> properties on this object will be stored during <em>publish()</em> and will be reflected automatically when the function is used in a job.</p></li>
+</ul>
+</li>
+<li><p><strong>requirePath</strong> - initially initialized as an empty array, this object is captured during <em>publish()</em>, and is pushed on to <code class="docutils literal notranslate"><span class="pre">require.path</span></code> in the worker before requirePath is adjusted for the function  (see <em>requirePath</em> in the Job Handles section)</p></li>
+</ul>
+</section>
+<section id="for-deployed-appliances">
+<h5>For deployed appliances<a class="headerlink" href="#for-deployed-appliances" title="Permalink to this heading"></a></h5>
+<ul class="simple">
+<li><p><strong>do</strong> - same as <code class="docutils literal notranslate"><span class="pre">compute.do</span></code>, except instead of a function <em>work</em>,  name of the function within the appliance is specificed. Returns an instance of JobHandle.</p></li>
+<li><p><strong>for</strong> - same as <code class="docutils literal notranslate"><span class="pre">compute.for</span></code>, except instead of a function <em>work</em>, the name of the function within the appliance is specified. Returns an instance of JobHandle.</p></li>
+</ul>
+</section>
+<section id="id2">
+<h5>Properties<a class="headerlink" href="#id2" title="Permalink to this heading"></a></h5>
+<ul class="simple">
+<li><p><strong>id</strong> - a unique string assigned by the scheduler which uniquely identifies this appliance.</p></li>
+<li><p><strong>versionId</strong> - a unique string assigned by the scheduler which uniquely identifies this version of this appliance; same as the string returned during the <em>publish()</em> phase.</p></li>
+</ul>
+<section id="these-properties-are-optional-public-and-probably-displayed-or-used-during-mining">
+<h6>These properties are optional, public, and probably displayed or used during mining<a class="headerlink" href="#these-properties-are-optional-public-and-probably-displayed-or-used-during-mining" title="Permalink to this heading"></a></h6>
+<ul class="simple">
+<li><p><strong>hashTags</strong> - meta data about the Appliance, used by workers. Comma-separated strings</p></li>
+<li><p><strong>name</strong> - human-readabled appliance name</p></li>
+<li><p><strong>description</strong> - human-readable description of the appliance</p></li>
+<li><p><strong>author</strong> - author name</p></li>
+<li><p><strong>organization</strong> - author’s organization (e.g. university, employer, etc)</p></li>
+<li><p><strong>email</strong> - author’s email address</p></li>
+<li><p><strong>website</strong> - website related to the appliance</p></li>
+</ul>
+</section>
+</section>
+</section>
+</section>
+<section id="estimation-functions">
+<h3>Estimation Functions<a class="headerlink" href="#estimation-functions" title="Permalink to this heading"></a></h3>
+<p>Estimation functions are used by the scheduler to characterize slices derived from Appliances based on knowledge of the input set, without actually performing any work.</p>
+<p>An estimation function receives as its arguments the first element in the input set for a given job, followed by any work function arguments.  The function must return an object whose properties are numbers which represent linear scaling factors for the various resources (cpuHours, gpuHours and outputBytes) as defined in the baseSliceProfile.  The inputBytes element is not used here as the Scheduler has the means to calculate that directly on a per-slice basis.</p>
+<p>An undefined estimation function or estimation function result causes the work to deployed as though it came from an ad-hoc job.</p>
+<p>Estimation functions which routinely yield slice characterizations bearing no resemblance to reality will eventually be blacklisted from the network; if the publishKeystore happens to be an Identity on the Distributed Computer, that person will be notified when the blacklisting happens.</p>
+</section>
+</section>
+<section id="slicepaymentdescriptor-objects">
+<h2>SlicePaymentDescriptor Objects<a class="headerlink" href="#slicepaymentdescriptor-objects" title="Permalink to this heading"></a></h2>
+<p>SlicePaymentDescriptor are used to describe the payment that the user is offering to compute one (each) slice of the job. The Compute API defines three <strong>fixed value</strong> descriptors for use by DCP users; other descriptors can be specified as SlicePaymentDescriptor objects.  The fixed value profiles are</p>
+<ul class="simple">
+<li><p><em>Number literal</em> - request computation at that value per slice; i.e. <code class="docutils literal notranslate"><span class="pre">0</span></code> requests free computation and <code class="docutils literal notranslate"><span class="pre">100</span></code> offers to pay 100 DCC per slice.</p></li>
+<li><p><em><code class="docutils literal notranslate"><span class="pre">compute.marketValue</span></code></em> - request computation of the entire job at market value (as of the time when the job is executed), with <em><strong>no upper limit whatsoever</strong></em>.</p></li>
+<li><p><em><code class="docutils literal notranslate"><span class="pre">compute.marketValue(ratio,</span> <span class="pre">max)</span></code></em> - request computation at market value multiplied by <em>ratio</em>, with an upper limit per slice of <em>max</em> DCC.  In this case, the market value used is from a snapshot taken at a regular interval; this is to prevent run-away valuation when <em>ratio</em> != 1 and the job dominates the scheduler’s work.</p></li>
+</ul>
+<p>SlicePaymentDescriptor objects have the following properties:</p>
+<ul class="simple">
+<li><p><strong>offerPerSlice</strong> – the payment a user is offering to compute one (each) slice of the job.</p></li>
+</ul>
+<p>Any interface which accepts a SlicePaymentDescriptor object (e.g. <code class="docutils literal notranslate"><span class="pre">exec()</span></code>) must also handle literal numbers, instances of Number, and BigNums.   When a number is used, it is equivalent to an object which specifies <em>offerPerSlice</em>.  i.e., <code class="docutils literal notranslate"><span class="pre">.exec(123)</span></code> is the same as <code class="docutils literal notranslate"><span class="pre">.exec({</span> <span class="pre">offerPerSlice:</span> <span class="pre">123</span> <span class="pre">})</span></code></p>
+</section>
+<section id="shared-state">
+<h2>Shared State<a class="headerlink" href="#shared-state" title="Permalink to this heading"></a></h2>
+<p>There is an object which is available as the <code class="docutils literal notranslate"><span class="pre">state</span></code> property of the global <code class="docutils literal notranslate"><span class="pre">worker</span></code> object in sandboxes, and the <code class="docutils literal notranslate"><span class="pre">state</span></code> property of the job handle in clients.  The data stored in this object is without restriction, except that</p>
+<ol class="arabic simple">
+<li><p>It must be compatible with JSON</p></li>
+<li><p>Properties must not collide with methods defined by this specification</p></li>
+</ol>
+<p>When the sandbox is first initialized for a given job, the object will be set to the current state of the object stored by the scheduler. The live object may be re-used by subsequent slices for the same job which are executed on the same worker, <em>even if no synchronization methods were invoked</em>.</p>
+<section id="synchronization">
+<h3>Synchronization<a class="headerlink" href="#synchronization" title="Permalink to this heading"></a></h3>
+<p>The arbiter of state is the scheduler.  Updates to the state object happen asynchronously on the network, but this API provides some synchronization primitives which are processed at the scheduler.</p>
+<p>There is no synchronization by default.  A worker that mutates the state object without invoking a synchronization method will not have its changes propagated back to the scheduler.</p>
+<ul class="simple">
+<li><p><strong>set<code class="docutils literal notranslate"><span class="pre">()</span></code></strong> — this method sends the current state object to the scheduler</p></li>
+<li><p><strong>set<code class="docutils literal notranslate"><span class="pre">(&quot;max&quot;,</span> <span class="pre">&quot;prop&quot;)</span></code></strong>  — this invocation replaces the object at the scheduler when the value of the property named <code class="docutils literal notranslate"><span class="pre">prop</span></code> is bigger than the same-named value in the object stored by the scheduler. The ‘bigger’ comparison is made with the &gt; operator.</p></li>
+<li><p><strong>set<code class="docutils literal notranslate"><span class="pre">(&quot;min&quot;,</span> <span class="pre">&quot;prop&quot;)</span></code></strong>  — this invocation replaces the object at the scheduler when the value of the property named <code class="docutils literal notranslate"><span class="pre">prop</span></code> is smaller than the same-named value in the object stored by the scheduler. The ‘smaller’ comparison is made with the &lt; operator.</p></li>
+<li><p><strong>set<code class="docutils literal notranslate"><span class="pre">(&quot;operator&quot;,</span> <span class="pre">&quot;prop&quot;)</span></code></strong>  — this invocation replaces the object at the scheduler when comparing the value of the property named <code class="docutils literal notranslate"><span class="pre">prop</span></code> with the same-named value in the object stored by the scheduler is true. Only the following operators are supported: &lt;, &gt;, &lt;=, &gt;=, ==, !=</p></li>
+<li><p><strong>testAndSet<code class="docutils literal notranslate"><span class="pre">()</span></code></strong> — - this method performs a test-and-set operation on the scheduler.  It supports exactly the same syntax as the <em>set()</em> method, but is an async function that returns a Promise which is resolved with a snapshot of the object at the scheduler before the replacement was made, or <code class="docutils literal notranslate"><span class="pre">false</span></code> if no replacement was made.</p></li>
+<li><p><strong>increment<code class="docutils literal notranslate"><span class="pre">(&quot;prop&quot;,</span> <span class="pre">n)</span></code></strong> — - this method increments the property named <code class="docutils literal notranslate"><span class="pre">prop</span></code> in the state object on the scheduler by <em>n</em> with the += operator. The default value for n is 1. Negative values are supported.</p></li>
+</ul>
+</section>
+<section id="id3">
+<h3>Events<a class="headerlink" href="#id3" title="Permalink to this heading"></a></h3>
+<p>The state object is an EventEmitter. In the client, <code class="docutils literal notranslate"><span class="pre">this</span></code> is set to the JobHandle. The object can emit the following events:</p>
+<ul class="simple">
+<li><p><strong>change</strong> - This event is emitted immediately after the state object in memory has been modified by virtue of having received a state change message from the scheduler.</p></li>
+<li><p><strong>workFunctions</strong></p></li>
+</ul>
+<p><em>Note</em>: The scheduler does not transmit state synchronization events to clients or workers that are not listening for them.</p>
+<section id="example">
+<h4>Example<a class="headerlink" href="#example" title="Permalink to this heading"></a></h4>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="kd">const</span> <span class="nx">paymentAccount</span> <span class="o">=</span> <span class="nx">keystore</span><span class="p">.</span><span class="nx">getWallet</span><span class="p">()</span>
+
+<span class="kd">let</span> <span class="nx">job</span> <span class="o">=</span> <span class="nx">compute</span><span class="p">.</span><span class="k">for</span><span class="p">(</span><span class="mf">1</span><span class="p">,</span> <span class="mf">2000</span><span class="p">,</span> <span class="p">(</span><span class="nx">i</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="p">{</span>
+  <span class="kd">let</span> <span class="nx">test</span>
+  <span class="nx">lt</span> <span class="nx">best</span> <span class="o">=</span> <span class="nx">worker</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">best</span>
+
+  <span class="nx">worker</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s2">&quot;change&quot;</span><span class="p">,</span> <span class="p">()</span> <span class="p">=&gt;</span> <span class="nx">best</span> <span class="o">=</span> <span class="nx">worker</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">best</span><span class="p">)</span>
+  <span class="k">for</span> <span class="p">(</span><span class="kd">let</span> <span class="nx">x</span><span class="o">=</span><span class="mf">0</span><span class="p">;</span> <span class="nx">x</span> <span class="o">&lt;</span> <span class="nx">i</span><span class="p">;</span> <span class="nx">x</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+     <span class="nx">test</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;./refiner&#39;</span><span class="p">).</span><span class="nx">refine</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span> <span class="nx">i</span><span class="p">)</span>
+     <span class="k">if</span> <span class="p">(</span><span class="nx">test</span> <span class="o">&lt;</span> <span class="nx">best</span><span class="p">)</span> <span class="p">{</span>
+       <span class="nx">worker</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">best</span> <span class="o">=</span> <span class="nx">test</span>
+       <span class="nx">worker</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s2">&quot;min&quot;</span><span class="p">,</span> <span class="s2">&quot;best&quot;</span><span class="p">)</span>
+     <span class="p">}</span>
+     <span class="nx">progress</span><span class="p">(</span><span class="nx">x</span><span class="o">/</span><span class="nx">i</span><span class="p">)</span>
+  <span class="p">}</span>
+<span class="p">})</span>
+<span class="nx">job</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">best</span> <span class="o">=</span> <span class="kc">Infinity</span>
+<span class="kd">let</span> <span class="nx">results</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">job</span><span class="p">.</span><span class="nx">exec</span><span class="p">()</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;The best result was: &quot;</span><span class="p">,</span> <span class="nx">job</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">best</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+<section id="distributed-computer-wallet">
+<h2>Distributed Computer Wallet<a class="headerlink" href="#distributed-computer-wallet" title="Permalink to this heading"></a></h2>
+<p>The Distributed Computer acts as a wallet for two types of keys; “Identity” and “Bank Account”.  Identity keys identify an individual; Bank Account keys identify accounts within the DCP bank and the DCC contract on the Ethereum network.</p>
+<p>The preferred way to exchange keys between DCP client appliance, configuration files, end users, etc, is to use encrypted keystores.  Distributed Compute Labs strongly discourages developers from writing code which requires users to possesses private keys, or enter passphrases to unlock to non-proxy keystores.</p>
+<p>For more information, see the Wallet API and Proxy Keys documents.</p>
+</section>
+<section id="example-programs">
+<h2>Example Programs<a class="headerlink" href="#example-programs" title="Permalink to this heading"></a></h2>
+<p>All example programs are written for operation within any of the environments supported by DCP-Client, provided they are surrounded by appropriate initialization code for their respective environments.</p>
+<section id="nodejs">
+<h3>NodeJS<a class="headerlink" href="#nodejs" title="Permalink to this heading"></a></h3>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="k">async</span> <span class="kd">function</span> <span class="nx">main</span><span class="p">()</span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="nx">compute</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;dcp/compute&#39;</span><span class="p">);</span>
+  <span class="kd">const</span> <span class="nx">wallet</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;dcp/wallet&#39;</span><span class="p">);</span>
+
+  <span class="cm">/* example code goes here */</span>
+<span class="p">}</span>
+
+<span class="nx">require</span><span class="p">(</span><span class="s1">&#39;dcp-client&#39;</span><span class="p">).</span><span class="nx">init</span><span class="p">().</span><span class="nx">then</span><span class="p">(</span><span class="nx">main</span><span class="p">).</span><span class="k">finally</span><span class="p">(()</span> <span class="p">=&gt;</span> <span class="nx">setImmediate</span><span class="p">(</span><span class="nx">process</span><span class="p">.</span><span class="nx">exit</span><span class="p">));</span>
+</pre></div>
+</div>
+</section>
+<section id="vanilla-web">
+<h3>Vanilla Web<a class="headerlink" href="#vanilla-web" title="Permalink to this heading"></a></h3>
+<div class="highlight-html notranslate"><div class="highlight"><pre><span></span><span class="p">&lt;</span><span class="nt">html</span><span class="p">&gt;&lt;</span><span class="nt">head</span><span class="p">&gt;</span>
+  <span class="p">&lt;</span><span class="nt">script</span> <span class="na">src</span><span class="o">=</span><span class="s">&quot;https://scheduler.distributed.computer/dcp-client.js&quot;</span><span class="p">&gt;&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">head</span><span class="p">&gt;</span>
+<span class="p">&lt;</span><span class="nt">body</span> <span class="na">onload</span><span class="o">=</span><span class="s">&quot;main();&quot;</span><span class="p">&gt;</span>
+<span class="p">&lt;</span><span class="nt">script</span><span class="p">&gt;</span>
+  <span class="k">async</span> <span class="kd">function</span> <span class="nx">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kd">const</span> <span class="p">{</span> <span class="nx">compute</span><span class="p">,</span> <span class="nx">wallet</span> <span class="p">}</span> <span class="o">=</span> <span class="nx">dcp</span><span class="p">;</span>
+    <span class="cm">/* example code goes here */</span>
+  <span class="p">}</span>
+<span class="p">&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">body</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">html</span><span class="p">&gt;</span>  
+</pre></div>
+</div>
+</section>
+<section id="compute-for-form-2b">
+<h3>1. compute.for() form 2b<a class="headerlink" href="#compute-for-form-2b" title="Permalink to this heading"></a></h3>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="kd">let</span> <span class="nx">job</span> <span class="o">=</span> <span class="nx">compute</span><span class="p">.</span><span class="k">for</span><span class="p">(</span><span class="mf">1</span><span class="p">,</span> <span class="mf">3</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">i</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">progress</span><span class="p">(</span><span class="s1">&#39;100%&#39;</span><span class="p">);</span>
+  <span class="k">return</span> <span class="nx">i</span><span class="o">*</span><span class="mf">10</span><span class="p">;</span>
+<span class="p">})</span>
+<span class="kd">let</span> <span class="nx">results</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">job</span><span class="p">.</span><span class="nx">exec</span><span class="p">(</span><span class="nx">compute</span><span class="p">.</span><span class="nx">marketPrice</span><span class="p">);</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;results:    &#39;</span><span class="p">,</span> <span class="nx">results</span><span class="p">);</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;entries:    &#39;</span><span class="p">,</span> <span class="nx">results</span><span class="p">.</span><span class="nx">entries</span><span class="p">());</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;fromEntries:&#39;</span><span class="p">,</span> <span class="nx">results</span><span class="p">.</span><span class="nx">fromEntries</span><span class="p">());</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;keys:       &#39;</span><span class="p">,</span> <span class="nx">results</span><span class="p">.</span><span class="nx">keys</span><span class="p">());</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;values:     &#39;</span><span class="p">,</span> <span class="nx">results</span><span class="p">.</span><span class="nx">values</span><span class="p">());</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;key(2):     &#39;</span><span class="p">,</span> <span class="nx">results</span><span class="p">.</span><span class="nx">key</span><span class="p">(</span><span class="mf">2</span><span class="p">));</span>
+</pre></div>
+</div>
+<p>Output:</p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="nx">results</span><span class="o">:</span>     <span class="p">[</span> <span class="mf">10</span><span class="p">,</span> <span class="mf">20</span><span class="p">,</span> <span class="mf">30</span> <span class="p">]</span>
+<span class="nx">entries</span><span class="o">:</span>     <span class="p">[</span> <span class="p">[</span> <span class="s1">&#39;1&#39;</span><span class="p">,</span> <span class="mf">10</span> <span class="p">],</span> <span class="p">[</span> <span class="s1">&#39;2&#39;</span><span class="p">,</span> <span class="mf">20</span> <span class="p">],</span> <span class="p">[</span> <span class="s1">&#39;3&#39;</span><span class="p">,</span> <span class="mf">30</span> <span class="p">]</span> <span class="p">]</span>
+<span class="nx">fromEntries</span><span class="o">:</span> <span class="p">{</span> <span class="s1">&#39;1&#39;</span><span class="o">:</span> <span class="mf">10</span><span class="p">,</span> <span class="s1">&#39;2&#39;</span><span class="o">:</span> <span class="mf">20</span><span class="p">,</span> <span class="s1">&#39;3&#39;</span><span class="o">:</span> <span class="mf">30</span> <span class="p">}</span>
+<span class="nx">keys</span><span class="o">:</span>        <span class="p">[</span> <span class="s1">&#39;1&#39;</span><span class="p">,</span> <span class="s1">&#39;2&#39;</span><span class="p">,</span> <span class="s1">&#39;3&#39;</span> <span class="p">]</span>
+<span class="nx">values</span><span class="o">:</span>      <span class="p">[</span> <span class="mf">10</span><span class="p">,</span> <span class="mf">20</span><span class="p">,</span> <span class="mf">30</span> <span class="p">]</span>
+<span class="nx">key</span><span class="p">(</span><span class="mf">2</span><span class="p">)</span><span class="o">:</span>      <span class="mf">20</span>
+</pre></div>
+</div>
+</section>
+<section id="compute-for-form-1-step-overflow">
+<h3>2. compute.for() form 1, step overflow<a class="headerlink" href="#compute-for-form-1-step-overflow" title="Permalink to this heading"></a></h3>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="kd">const</span> <span class="nx">paymentAccount</span> <span class="o">=</span> <span class="nx">keystore</span><span class="p">.</span><span class="nx">getWallet</span><span class="p">();</span>
+<span class="kd">let</span> <span class="nx">job</span> <span class="o">=</span> <span class="nx">compute</span><span class="p">.</span><span class="k">for</span><span class="p">({</span><span class="nx">start</span><span class="o">:</span> <span class="mf">10</span><span class="p">,</span> <span class="nx">end</span><span class="o">:</span> <span class="mf">13</span><span class="p">,</span> <span class="nx">step</span><span class="o">:</span> <span class="mf">2</span><span class="p">},</span> <span class="p">(</span><span class="nx">i</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="nx">progress</span><span class="p">(</span><span class="mf">1</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="nx">i</span><span class="p">);</span>
+<span class="kd">let</span> <span class="nx">results</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">job</span><span class="p">.</span><span class="nx">exec</span><span class="p">();</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">results</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Output: <code class="docutils literal notranslate"><span class="pre">[</span> <span class="pre">10,</span> <span class="pre">12</span> <span class="pre">]</span></code></p>
+</section>
+<section id="compute-for-form-1-with-group">
+<h3>3. compute.for() form 1 with group<a class="headerlink" href="#compute-for-form-1-with-group" title="Permalink to this heading"></a></h3>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="kd">let</span> <span class="nx">job</span> <span class="o">=</span> <span class="nx">compute</span><span class="p">.</span><span class="k">for</span><span class="p">({</span><span class="nx">start</span><span class="o">:</span> <span class="mf">10</span><span class="p">,</span> <span class="nx">end</span><span class="o">:</span> <span class="mf">13</span><span class="p">,</span> <span class="nx">group</span><span class="o">:</span> <span class="mf">2</span><span class="p">},</span> <span class="p">(</span><span class="nx">i</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="nx">progress</span><span class="p">(</span><span class="mf">1</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="nx">i</span><span class="p">[</span><span class="mf">1</span><span class="p">]</span><span class="o">-</span><span class="nx">i</span><span class="p">[</span><span class="mf">0</span><span class="p">]);</span>
+<span class="kd">let</span> <span class="nx">results</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">job</span><span class="p">.</span><span class="nx">exec</span><span class="p">();</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">results</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>Output: <code class="docutils literal notranslate"><span class="pre">[</span> <span class="pre">1,</span> <span class="pre">1</span> <span class="pre">]</span></code></p>
+</section>
+<section id="compute-for-form-3">
+<h3>4. compute.for() form 3<a class="headerlink" href="#compute-for-form-3" title="Permalink to this heading"></a></h3>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="kd">let</span> <span class="nx">job</span> <span class="o">=</span> <span class="nx">compute</span><span class="p">.</span><span class="k">for</span><span class="p">([{</span><span class="nx">start</span><span class="o">:</span> <span class="mf">1</span><span class="p">,</span> <span class="nx">end</span><span class="o">:</span> <span class="mf">2</span><span class="p">},</span> <span class="p">{</span><span class="nx">start</span><span class="o">:</span> <span class="mf">3</span><span class="p">,</span> <span class="nx">end</span><span class="o">:</span> <span class="mf">5</span><span class="p">}],</span> 
+                       <span class="p">(</span><span class="nx">i</span><span class="p">,</span><span class="nx">j</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="p">(</span><span class="nx">progress</span><span class="p">(</span><span class="mf">1</span><span class="p">),</span> <span class="nx">i</span><span class="o">*</span><span class="nx">j</span><span class="p">));</span>
+<span class="kd">let</span> <span class="nx">results</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">job</span><span class="p">.</span><span class="nx">exec</span><span class="p">();</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">results</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>Output: [[3, 4, 5], [6, 8, 10]]</p>
+</section>
+<section id="id4">
+<h3>5. compute.for(), form 3<a class="headerlink" href="#id4" title="Permalink to this heading"></a></h3>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="kd">let</span> <span class="nx">job</span> <span class="o">=</span> <span class="nx">compute</span><span class="p">.</span><span class="k">for</span><span class="p">([{</span><span class="nx">start</span><span class="o">:</span> <span class="mf">1</span><span class="p">,</span> <span class="nx">end</span><span class="o">:</span> <span class="mf">2</span><span class="p">},</span> <span class="p">{</span><span class="nx">start</span><span class="o">:</span> <span class="mf">3</span><span class="p">,</span> <span class="nx">end</span><span class="o">:</span> <span class="mf">5</span><span class="p">}],</span> <span class="kd">function</span><span class="p">(</span><span class="nx">i</span><span class="p">,</span><span class="nx">j</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="p">[</span><span class="nx">i</span><span class="p">,</span> <span class="nx">j</span><span class="p">,</span> <span class="nx">i</span><span class="o">*</span><span class="nx">j</span><span class="p">];</span>
+<span class="p">})</span>
+<span class="kd">let</span> <span class="nx">results</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">job</span><span class="p">.</span><span class="nx">exec</span><span class="p">();</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">results</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>Output: [[[1, 3, 3], [1, 4, 4], [1, 5, 5]], [[2, 3, 6], [2, 4, 8], [2, 5, 10]]]</p>
+</section>
+<section id="compute-for-form-4">
+<h3>6. compute.for() form 4<a class="headerlink" href="#compute-for-form-4" title="Permalink to this heading"></a></h3>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="kd">let</span> <span class="nx">job</span> <span class="o">=</span> <span class="nx">compute</span><span class="p">.</span><span class="k">for</span><span class="p">([</span><span class="mf">123</span><span class="p">,</span><span class="mf">456</span><span class="p">],</span> <span class="kd">function</span><span class="p">(</span><span class="nx">i</span><span class="p">)</span> <span class="p">{</span> 
+  <span class="nx">progress</span><span class="p">(</span><span class="mf">1</span><span class="p">);</span>
+  <span class="k">return</span> <span class="nx">i</span><span class="p">;</span>
+<span class="p">})</span>
+<span class="kd">let</span> <span class="nx">results</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">job</span><span class="p">.</span><span class="nx">exec</span><span class="p">();</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">results</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>Output: <code class="docutils literal notranslate"><span class="pre">[</span> <span class="pre">123,</span> <span class="pre">456</span> <span class="pre">]</span></code></p>
+</section>
+<section id="typical-enofunds-hander">
+<h3>7. Typical ENOFUNDS hander<a class="headerlink" href="#typical-enofunds-hander" title="Permalink to this heading"></a></h3>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="nx">job</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s2">&quot;ENOFUNDS&quot;</span><span class="p">,</span> <span class="p">(</span><span class="nx">fundsRequired</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="p">{</span>
+  <span class="k">await</span> <span class="nx">job</span><span class="p">.</span><span class="nx">escrow</span><span class="p">(</span><span class="nx">fundsRequired</span><span class="p">);</span>
+  <span class="nx">job</span><span class="p">.</span><span class="nx">resume</span><span class="p">();</span>
+<span class="p">})</span>
+</pre></div>
+</div>
+<!--stackedit_data:
+eyJoaXN0b3J5IjpbLTEyODMwNTczNDQsMjM3NTA0MDUsLTEwMj
+kyNTUyMzcsLTk3MTY1NDQyLDU3MTEyMTg1OV19
+-->
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../glossary.html" class="btn btn-neutral float-left" title="Glossary" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="protocol-api.html" class="btn btn-neutral float-right" title="Protocol API" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Distributive.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+    <!-- Theme Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-0N557JP49X"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-0N557JP49X', {
+          'anonymize_ip': false,
+      });
+    </script> 
+
+</body>
+</html>

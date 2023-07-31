@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- The height and width are tweaked to fit nicely in the heading section of the sidebar -->
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   height="75"
+   width="68"
+   id="svg184"
+   version="1.1"
+   viewBox="0 0 439.48998 498.37">
+  <metadata
+     id="metadata188">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title>Asset 4</dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs102">
+    <style
+       id="style100">.cls-1{fill:none;}.cls-2{fill:#00a372;}.cls-3{fill:#6fc393;}.cls-4{fill:#ffdd15;}.cls-5{fill:#fff;}.cls-6{fill:#e4e7e7;}.cls-7{fill:#231f20;}</style>
+  </defs>
+  <title
+     id="title104">Asset 4</title>
+  <g
+     data-name="Layer 2"
+     id="Layer_2">
+    <g
+       data-name="Layer 1"
+       id="Layer_1-2">
+      <path
+         style="fill:#00a372"
+         id="path126"
+         d="M 40,447.62 219.74,498.37 399.49,447.62 439.49,0 H 0 Z M 219.92,92.35 v 56.29 h -78.3 l 16.06,179 62.13,17.67 h 0.18 v -0.09 l 0.22,-0.07 V 148.64 h -0.29 V 92.35 h 0.29 V 35 H 400.07 L 366.28,419.05 220.21,460.37 V 403.7 l -0.22,0.06 v 0 l -0.18,0.05 L 105.05,371.16 80.11,92.35 Z"
+         class="cls-2" />
+      <path
+         style="fill:#6fc393"
+         id="path128"
+         d="m 285.68,285.41 h 56.51 l -7.61,85.75 -114.37,32.54 v 56.67 L 366.28,419.05 400.07,35 H 220.21 V 92.35 H 362.59 L 352.38,207.4 h -56.51 l 5.22,-58.76 h -80.88 v 196.54 l 61.73,-17.56 z m -65.47,118.46 v -0.11 l 0.18,0.06 z"
+         class="cls-3" />
+      <polygon
+         style="fill:#ffdd15"
+         id="polygon130"
+         points="220.21,403.76 220.21,403.87 220.4,403.82 "
+         class="cls-4" />
+      <polygon
+         style="fill:#ffffff"
+         id="polygon132"
+         points="362.59,92.35 220.21,92.35 219.92,92.35 219.92,148.64 220.21,148.64 301.09,148.64 295.88,207.4 352.38,207.4 "
+         class="cls-5" />
+      <polygon
+         style="fill:#ffffff"
+         id="polygon134"
+         points="219.99,403.76 220.21,403.7 334.58,371.16 342.19,285.41 285.68,285.41 281.94,327.62 220.21,345.18 219.99,345.25 219.99,345.34 220,345.34 220,403.76 219.99,403.76 "
+         class="cls-5" />
+      <polygon
+         style="fill:#e4e7e7"
+         id="polygon136"
+         points="220,403.76 220,345.34 219.99,345.34 219.81,345.29 157.68,327.62 141.62,148.64 219.92,148.64 219.92,92.35 80.11,92.35 105.05,371.16 219.81,403.81 219.99,403.76 "
+         class="cls-6" />
+    </g>
+  </g>
+</svg>

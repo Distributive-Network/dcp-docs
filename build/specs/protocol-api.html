@@ -1,0 +1,1463 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Protocol API &mdash; Distributive Compute Protocol  documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/tabs.css" type="text/css" />
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../_static/doctools.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Wallet API" href="wallet-api.html" />
+    <link rel="prev" title="Compute API" href="compute-api.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #0e2439" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Distributive Compute Protocol
+              <img src="../_static/dcl-logo.svg" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Introduction</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../intro/getting-setup.html">Getting setup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../intro/getting-started.html">Getting started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../intro/workers.html">Setting up <code class="docutils literal notranslate"><span class="pre">DCP</span> <span class="pre">workers</span></code></a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/node/index.html">DCP on Node.js</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/web/index.html">DCP on the Web</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/colab.html">DCP on Google Colabs</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Advanced Guides</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/data-uri.html">Deploying jobs with remote input data</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api/dcp-client/index.html"><code class="docutils literal notranslate"><span class="pre">dcp-client</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/compute/index.html"><code class="docutils literal notranslate"><span class="pre">dcp/compute</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/wallet/index.html"><code class="docutils literal notranslate"><span class="pre">dcp/wallet</span></code></a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Support</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../support/faq.html">FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../support/contact.html">Contact us</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Indices and tables</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../glossary.html">Glossary</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Full DCP Specifications</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="compute-api.html">   Compute</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">   Protocol</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#intended-audience">Intended Audience</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#glossary">Glossary</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#data-representation">Data Representation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#network-traffic">Network Traffic</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#hexadecimal-values">Hexadecimal Values</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#ethereum-addresses">Ethereum Addresses</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#time">Time</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#classes">Classes</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#message">Message</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#connection">Connection</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#new-connection-optional-url-optional-idkeystore-optional-connectionoptions">new Connection (optional url, optional idKeystore, optional connectionOptions)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#connection-identity"><code class="docutils literal notranslate"><span class="pre">Connection.identity</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#connection-peeraddress"><code class="docutils literal notranslate"><span class="pre">Connection.peerAddress</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#connection-dcpsid"><code class="docutils literal notranslate"><span class="pre">Connection.dcpsid</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#connection-message"><code class="docutils literal notranslate"><span class="pre">Connection.Message</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#async-connection-close">async Connection.close()</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#async-connection-connect">async Connection.connect()</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#async-connection-keepalive">async Connection.keepalive()</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#async-connection-send-message">async Connection.send(message)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#connection-errorpayload">connection.ErrorPayload</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#form-1-new-connection-errorpayload-error">form 1: new connection.ErrorPayload(error)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#form-2-new-connection-errorpayload-string-message-optional-string-code-optional-object-ctor">form 2: new connection.ErrorPayload(string message, optional string code, optional object ctor)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#form-3-connection-errorpayload-object">form 3: connection.ErrorPayload(object)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id1">Connection.Message</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#new-connection-message">new Connection.Message()</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#connection-message-connection">Connection.Message.connection</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#async-connection-message-sign">async Connection.Message.sign</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#async-connection-message-send">async Connection.Message.send()</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#connection-request">Connection.Request</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#new-connection-request">new Connection.Request()</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#async-connection-request-respond">async Connection.Request.respond(…)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#connection-request-authorize-resourcekeystore-optional-guardianaddress-optional-accessoraddress">Connection.Request.authorize(resourceKeystore, optional guardianAddress, optional accessorAddress)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#connection-request-doesauthorize-resourceaddress-optional-guardianaddress-optional-accessoraddress-optional-validatesignature">Connection.Request.doesAuthorize(resourceAddress, optional guardianAddress, optional accessorAddress, optional validateSignature)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#async-connection-request-send-optional-ks">async Connection.Request.send(…optional ks)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#connection-response">Connection.Response</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#new-connection-response">new Connection.Response()</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#connection-batch">Connection.Batch</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#connection-ack">Connection.Ack</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#connection-currenttime">Connection.currentTime()</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#transport">Transport</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#transport-require">Transport.require</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#transport-connect">Transport.connect</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#transport-send">Transport.send</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#transport-close">Transport.close</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#static-methods">Static Methods</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#clearidentitycache-identity-true">clearIdentityCache(identity | true)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#events">Events</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id2">Connection</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#request">request</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#readystatechange">readyStateChange</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#send">send</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#close">close</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#message-transmission-receipt">Message Transmission &amp; Receipt</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#ethereum-messages">Ethereum messages</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#message-grammar">Message Grammar</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#grammar-syntax">Grammar Syntax</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dcp-message-exchange-grammar">DCP Message Exchange Grammar</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#message-transmission-implementation-details">Message Transmission Implementation Details</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#message-receipt-implementation-details">Message Receipt Implementation Details</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#message-authentication-algorithm">Message Authentication Algorithm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#request-authentication-algorithm">Request Authentication Algorithm</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#allow-and-auth">Allow and Auth</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#cheque-scenario">Cheque Scenario</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#validity">Validity</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#cheque-scenario-contd">Cheque Scenario (cont’d)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#target-startup-notes">Target Startup Notes</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#response-authentication-algorithm">Response Authentication Algorithm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#reserved-operations">Reserved Operations</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#connect">connect</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#request-connect-initiator-target-body">Request connect (initiator -&gt; target) Body</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#response-connect-target-initiator-body">Response connect (target -&gt; initiator) Body</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id3">close</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#keepalive">keepalive</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#v3">v3</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#error-codes">Error Codes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#sample-code">Sample Code</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#send-simple-message">Send Simple Message</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#receive-simple-message">Receive Simple Message</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#send-message-via-third-party">Send Message via Third-Party</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#send-message-using-protected-resource">Send Message using protected resource</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#receive-message-requesting-use-of-protected-resource">Receive Message requesting use of protected resource</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="wallet-api.html">   Wallet</a></li>
+<li class="toctree-l1"><a class="reference internal" href="worker-api.html">   Worker</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #0e2439" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Distributive Compute Protocol</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Protocol API</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <!-- markdownlint-disable-file -->
+<section id="protocol-api">
+<h1>Protocol API<a class="headerlink" href="#protocol-api" title="Permalink to this heading"></a></h1>
+<p>DCP uses cryptographic message-signing techniques to provide message non-repudiation and protection against request forgery and replay attacks.</p>
+<p>The Protocol API represents the low-level entity connection and message-passing interfaces in DCP.  The Protocol itself can sit on top of HTTP, HTTP/2, WebSockets, TCP, or men in Jeeps with pockets full of USB keys: the actual transport is irrelevant at the API level, except for the protocol field of the URL object used to establish a connection.</p>
+<p>The Protocol API is used to establish secureable communications between two entities, implement remote procedure call semantics, and provide the necessary tools for a developer to implement access controls and describe authorizations. Additionally, the API allows developers to create messages bearing secure authorization and access memos which can be transferred between entities via untrusted third parties.</p>
+<p><strong>Record of Issue</strong></p>
+<table class="colwidths-auto docutils align-default">
+<thead>
+<tr class="row-odd"><th class="text-left head"><p>Date</p></th>
+<th class="text-left head"><p>Author(s)</p></th>
+<th class="text-left head"><p>Ver</p></th>
+<th class="text-left head"><p>Change</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p>Mar 9 2021</p></td>
+<td class="text-left"><p>KC Erb</p></td>
+<td class="text-left"><p>2.0</p></td>
+<td class="text-left"><p>Remove <code class="docutils literal notranslate"><span class="pre">request-batch</span></code> and <code class="docutils literal notranslate"><span class="pre">response-batch</span></code> types, add <code class="docutils literal notranslate"><span class="pre">ack</span></code> type, document <code class="docutils literal notranslate"><span class="pre">state</span></code>s and new nonce/token structure that <code class="docutils literal notranslate"><span class="pre">ack</span></code>s introduce.</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>Oct 19 2020</p></td>
+<td class="text-left"><p>KC Erb</p></td>
+<td class="text-left"><p>1.4</p></td>
+<td class="text-left"><p>Update definition of <code class="docutils literal notranslate"><span class="pre">message.id</span></code> to be unique per transmission.</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p>Feb 10 2020</p></td>
+<td class="text-left"><p>KC Erb</p></td>
+<td class="text-left"><p>1.3</p></td>
+<td class="text-left"><p><li>Clarified meaning of authorization.</li><li>isAuthorizedFor -&gt; doesAuthorize</li></p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>Jan 28 2020</p></td>
+<td class="text-left"><p>Ryan Rossiter<br/>Eddie Roosenmaallen<br/>Nazila Akhavan</p></td>
+<td class="text-left"><p>1.2</p></td>
+<td class="text-left"><p><li>Add version to connect response</li><li>Add reserved v3 route</li><li>ErrorPayload disambiguation, TransportClass and keyStore parameters to Protocol.accept()</li></p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p>Jan 14 2020</p></td>
+<td class="text-left"><p>Wes Garland</p></td>
+<td class="text-left"><p>1.1</p></td>
+<td class="text-left"><p><li>Add connection.ErrorPayload &amp; Error Codes</li><li>Add initiator version check</li><li>Add connection.identity</li><li>Add Request validity, target startup delay</li><li>Section on Data Representation</li><li>authorizedFor -&gt; isAuthorizedFor</li></p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>Jan 08 2020</p></td>
+<td class="text-left"><p>Wes Garland</p></td>
+<td class="text-left"><p>1.0</p></td>
+<td class="text-left"><p>Initial release to sprint-planning team</p></td>
+</tr>
+</tbody>
+</table>
+<section id="intended-audience">
+<h2>Intended Audience<a class="headerlink" href="#intended-audience" title="Permalink to this heading"></a></h2>
+<p>This document has been prepared for public dissemination.</p>
+</section>
+<section id="glossary">
+<h2>Glossary<a class="headerlink" href="#glossary" title="Permalink to this heading"></a></h2>
+<ul class="simple">
+<li><p><strong>entity</strong>: any component of a Distributed Computer system (e.g. Scheduler, Bank, Client) which communicate via DCP.</p></li>
+<li><p><strong>protected resource</strong>: A unit of data associated with an Ethereum key-pair (private key, address) which may only be accessed by entities that know the private key.</p></li>
+<li><p><strong>resource address</strong>: the address of a protected resource, such as a Bank Account.</p></li>
+<li><p><strong>resource owner</strong>: any bearer of a resource’s private key.</p></li>
+<li><p><strong>guardian</strong>: An entity mediating access to a protected resource; e.g. the Bank acts as a guardian for bank accounts.</p></li>
+<li><p><strong>authorize</strong>: A resource owner authorizes a resource guardian to use the resource in conjunction with an operation.</p></li>
+<li><p><strong>initiator</strong>: the entity which initiates the connection (“client” in traditional client-server topology).</p></li>
+<li><p><strong>target</strong>: the entity to which the initiator connected.</p></li>
+<li><p><strong>peer</strong>: the initiator’s target, or the target’s initiator.</p></li>
+<li><p><strong>message</strong>: An instance of <code class="docutils literal notranslate"><span class="pre">protocol.Message</span></code>.</p></li>
+<li><p><strong>message originator</strong>: the bearer of the private key that was used to sign the message.</p></li>
+<li><p><strong>request message</strong>: A message, generally sent from initiator to target, containing instructions (e.g. withdraw $7 from bank account 123456).</p></li>
+<li><p><strong>response message</strong>: A message, generally sent from target to initiator, containing the response to, or result of, a request message.</p></li>
+<li><p><strong>ack</strong>: A message which acknowledges receipt of a request or a response by either peer.</p></li>
+<li><p><strong>authenticate</strong>: Messages are authenticated by connections to ensure they came from the peer. Payloads that authorize the use of protected resources are authenticated to ensure they were issued by a resource owner.</p></li>
+</ul>
+</section>
+<section id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this heading"></a></h2>
+<p>This high-level protocol is designed to operate at OSI Level 5 (Session Layer) or higher.  It enables bi-directional communication between peers with stateful sessions, with a client/server-flavoured startup mechanism. The current implementation direction is to implement the protocol on top of socket.io, however this is not a strict requirement and should be treated as an implementation detail.</p>
+<p>Connections are established by having the initiator contact the target.  This allows us, in particular, to traverse NAT without worrying about STUN, and also allows us to operate atop Level 7 protocols such as HTTP.</p>
+<p>Protocol connections are stateful, but not necessarily connected.  Each Connection has a session id which is used to identify the connection at the DCP level.  It is possible that the underlying protocol or connection could change during a DCP session.</p>
+<p>Future directions which should be possible with this message exchange format and API:</p>
+<p>Improvements from v4 in this spec:</p>
+<ul class="simple">
+<li><p>connections now have control over transmission verification instead of relying on underlying transport</p></li>
+<li><p>users must create transport and connection pools on a target to decouple the two and allow the underlying transport to disconnect without affecting the dcp session</p></li>
+<li><p>the addition of <code class="docutils literal notranslate"><span class="pre">state</span></code> to connections allows finer control over startup, shutdown, and expected behavior when an established connection loses its transport</p></li>
+</ul>
+<p>Improvements from v3 in this spec:</p>
+<ul class="simple">
+<li><p>better future-proofing</p></li>
+<li><p>data layer encapsulation separate from payload</p>
+<ul>
+<li><p>can now have both bank account and identity keys in one message</p></li>
+<li><p>can specify messages which can be handed off securely to a third-party</p></li>
+<li><p>with the entire payload in the signed portion of the message (old version did not sign against URL), we close a certain class of potential security vulnerability.</p></li>
+</ul>
+</li>
+<li><p>uniform message format allows tighter security controls and error management</p>
+<ul>
+<li><p>nonce is no longer optional, closing possible CSRF and replay attack surface</p></li>
+<li><p>all messages have identity</p></li>
+</ul>
+</li>
+</ul>
+<p>DCP Sessions are identified by the <code class="docutils literal notranslate"><span class="pre">dcpsid</span></code> property which is present in every message (except the initial connection messages where it is established).  There is no requirement to send all messages for a given DCP Session on the same underlying transport.</p>
+<p>Messages are exchanged in the form of requests and responses.  Either peer can send a request; all requests require a response.  Each peer can have, at most, one open request at a time.</p>
+<p>Security protocols are consistent and invariant across message types:</p>
+<ul class="simple">
+<li><p>All message transmissions (requests, responses, and acks) are signed with the sending peer’s identity key.</p></li>
+<li><p>Authorization is part of the payload; the resource owner identifies which peer (or peers) may act on the request.</p></li>
+<li><p>No message-related information is contained outside of the (signed) payload; specifically, when authorizing a guardian to use a protected resource, the guardian’s address is only in the payload.</p></li>
+<li><p>All response and request messages have a nonce and all acks have an ack-token, which is used to protect against cross-site request forgeries and replay attacks.</p>
+<ul>
+<li><p>Initial request id is specified by initiator</p></li>
+<li><p>Initial nonce is specified by target in an ack to the initial request</p></li>
+<li><p>Initial response has the same id as the request it is responding to</p></li>
+<li><p>Initial response is ack’d as well, providing a nonce to the target</p></li>
+<li><p>All requests and responses include the nonce most recently received on that connection</p></li>
+<li><p>All requests and responses include an ack token which must be present on the ack for that message</p></li>
+<li><p>Request ids may only be used once</p></li>
+</ul>
+</li>
+<li><p>DCP Session ID is specified during the response to the initial request and never changes for a given session</p></li>
+<li><p>The identity key for a given session never changes</p></li>
+</ul>
+<p>Multiple messages can be sent in a single ‘batch’ message; this is supported intrinsically in the protocol, and message batching is handled automatically by virtue of the JavaScript event loop.</p>
+<p>Requests can be created for secure transmission through a third party; for example, a Client can send a message to a Scheduler which gives said Scheduler (and only that Scheduler)  permission to access a particular account on a specific Bank.</p>
+</section>
+<section id="data-representation">
+<h2>Data Representation<a class="headerlink" href="#data-representation" title="Permalink to this heading"></a></h2>
+<section id="network-traffic">
+<h3>Network Traffic<a class="headerlink" href="#network-traffic" title="Permalink to this heading"></a></h3>
+<p>All data transmitted in DCPv4 ‘on the wire’ has been serialized with the JavaScript-native JSON code. There is no requirement that objects and values sent on the wire have have a 1:1 correspondence with the API layer types.</p>
+<section id="hexadecimal-values">
+<h4>Hexadecimal Values<a class="headerlink" href="#hexadecimal-values" title="Permalink to this heading"></a></h4>
+<p>Hexadecimal values (such as Ethereum addresses) sent over the network as strings should have the <code class="docutils literal notranslate"><span class="pre">0x</span></code> prefix removed.  If it is present upon receipt, it should be ignored.</p>
+</section>
+<section id="ethereum-addresses">
+<h4>Ethereum Addresses<a class="headerlink" href="#ethereum-addresses" title="Permalink to this heading"></a></h4>
+<p>Ethereum addresses should be sent over the network in checksum format.  Addresses which appear to be in checksum format, but are not valid addresses, should trigger rejections at the point where the address is passed to the <code class="docutils literal notranslate"><span class="pre">wallet.Address</span></code> constructor (the constructor will throw).</p>
+</section>
+</section>
+<section id="time">
+<h3>Time<a class="headerlink" href="#time" title="Permalink to this heading"></a></h3>
+<p>All time values in DCPv4 are represented as seconds since the epoch; in most cases, fractional seconds are supported as floating-point numbers.  When converting between fractional and whole seconds, values should be truncated and not rounded.</p>
+</section>
+</section>
+<section id="classes">
+<h2>Classes<a class="headerlink" href="#classes" title="Permalink to this heading"></a></h2>
+<section id="message">
+<h3>Message<a class="headerlink" href="#message" title="Permalink to this heading"></a></h3>
+<p>A Message object represents a message which can be sent between DCP entities.  There are four types of messages:</p>
+<ul class="simple">
+<li><p>Request</p></li>
+<li><p>Response</p></li>
+<li><p>Ack</p></li>
+<li><p>Batch</p></li>
+</ul>
+</section>
+<section id="connection">
+<h3>Connection<a class="headerlink" href="#connection" title="Permalink to this heading"></a></h3>
+<p>A Connection object represents a connection to another DCP entity.  A DCP connection may ‘live’ longer than the underlying transport’s connection, and the underlying transport connection (or, indeed, transport) may change throughout the life of the DCP connection.</p>
+<p>DCP connections are uniquely identified by the DCP Session ID, specified by the <code class="docutils literal notranslate"><span class="pre">dcpsid</span></code> property, present in every message body.  This session id is negotiated during connection, with the initiator and target each providing half of the string.</p>
+<p>Connection objects inherit from EventEmitter.</p>
+<section id="new-connection-optional-url-optional-idkeystore-optional-connectionoptions">
+<h4>new Connection (optional url, optional idKeystore, optional connectionOptions)<a class="headerlink" href="#new-connection-optional-url-optional-idkeystore-optional-connectionoptions" title="Permalink to this heading"></a></h4>
+<p>This constructor returns an object which represents a connection between DCP entities. <em>note</em> - the entities will not actually be connected until a call to <code class="docutils literal notranslate"><span class="pre">this.connect()</span></code> or <code class="docutils literal notranslate"><span class="pre">this.send()</span></code>.</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">url</span></code>: {string or instanceof <code class="docutils literal notranslate"><span class="pre">URL</span></code> or <code class="docutils literal notranslate"><span class="pre">DcpURL</span></code>} - URL of the target - mandatory when entity is initiator; ignored when entity is target;</p>
+<ul>
+<li><p>if <code class="docutils literal notranslate"><span class="pre">string</span></code> or <code class="docutils literal notranslate"><span class="pre">instanceof</span> <span class="pre">URL</span></code>, it is coerced internally to <code class="docutils literal notranslate"><span class="pre">DcpURL</span></code> before memoization</p></li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">idKeystore</span></code>: { instance of <code class="docutils literal notranslate"><span class="pre">wallet.IdKeystore</span></code> or a Promise which resolves to <code class="docutils literal notranslate"><span class="pre">wallet.IdKeystore</span></code> } - the identity keystore used to sign messages; used for non-repudiation.  The default value is a promise (<code class="docutils literal notranslate"><span class="pre">await</span> <span class="pre">wallet.getId()</span></code> see: Wallet API)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">connectionOptions</span></code>: An object specifying arbitrary options for configuring a connection</p>
+<ul>
+<li><p>Properties <code class="docutils literal notranslate"><span class="pre">idKeystore</span></code>, <code class="docutils literal notranslate"><span class="pre">url</span></code> are treated as above.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">identityUnlockTimeout</span></code>: Number of (floating-point) seconds to leave the identity keystore unlocked between invocations of <code class="docutils literal notranslate"><span class="pre">Connection.send</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">allowBatch</span></code>: { boolean } - if false, will limit each transmission to one message.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">maxMessagesPerBatch</span></code>: Tuning parameter for batch size. If less than 1, equivalent to <code class="docutils literal notranslate"><span class="pre">allowBatch:</span> <span class="pre">false</span></code>.</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">ttl</span></code>: A number or an object describing the time-to-live for the <code class="docutils literal notranslate"><span class="pre">validity</span></code> property of message payloads.  If a number N is specified, it will be treated as <code class="docutils literal notranslate"><span class="pre">{default:</span> <span class="pre">N}</span></code>.  The units are floating-point seconds.</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">min</span></code>: the minimum ttl allowable (request receiver only)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">max</span></code>: the maxmium ttl allowable (request receiver only)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">default</span></code>:  the ttl to use when not specified (request receiver or sender)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ntp</span></code>: true when the operating system upon which the entity is running has an operating NTP daemon.</p></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="connection-identity">
+<h4><code class="docutils literal notranslate"><span class="pre">Connection.identity</span></code><a class="headerlink" href="#connection-identity" title="Permalink to this heading"></a></h4>
+<p>The identity keystore or undefined.  This property is only guaranteed to be defined after the connection is established.</p>
+</section>
+<section id="connection-peeraddress">
+<h4><code class="docutils literal notranslate"><span class="pre">Connection.peerAddress</span></code><a class="headerlink" href="#connection-peeraddress" title="Permalink to this heading"></a></h4>
+<p>Undefined until connection; then it becomes an instance of <code class="docutils literal notranslate"><span class="pre">wallet.Address</span></code> representing the public address of the connected peer.</p>
+</section>
+<section id="connection-dcpsid">
+<h4><code class="docutils literal notranslate"><span class="pre">Connection.dcpsid</span></code><a class="headerlink" href="#connection-dcpsid" title="Permalink to this heading"></a></h4>
+<p>Undefined until connection; then it becomes a string representing a unique DCP session.</p>
+</section>
+<section id="connection-message">
+<h4><code class="docutils literal notranslate"><span class="pre">Connection.Message</span></code><a class="headerlink" href="#connection-message" title="Permalink to this heading"></a></h4>
+<p>A constructor with <code class="docutils literal notranslate"><span class="pre">Protocol.Message</span></code> on its prototype chain; used to construct batch, request, response, and ack messages for transmission on this connection.</p>
+</section>
+<section id="async-connection-close">
+<h4>async Connection.close()<a class="headerlink" href="#async-connection-close" title="Permalink to this heading"></a></h4>
+<p>This method sends a <code class="docutils literal notranslate"><span class="pre">close</span></code> to the peer on the next pass of the event loop or later.  Once the response has been received, the protocol connection is closed; once the underlying connection has been confirmed closed, the session is invalidated and the promise is resolved.
+Any messages that were queued before calling close will be delivered before sending the ‘close’ operation. If the close message is not sent in a timely manner, the connection will be forcefully closed by rejecting all pending message promises and then closing the underlying connection. (Timeout is configured by <code class="docutils literal notranslate"><span class="pre">connectionOptions.closeTimeout</span></code>.)</p>
+<p>Any subsequent calls to <code class="docutils literal notranslate"><span class="pre">Connection.send()</span></code> on a closed connection will result in an error due to this invalidated session.</p>
+<p><em>See: Reserved Operations section, close</em></p>
+</section>
+<section id="async-connection-connect">
+<h4>async Connection.connect()<a class="headerlink" href="#async-connection-connect" title="Permalink to this heading"></a></h4>
+<p>This method, when invoked by an initiator,</p>
+<ul class="simple">
+<li><p>establishes the connection between the two entities. Connection establishment means:</p>
+<ul>
+<li><p>Establish underlying transport protocol connection (when applicable, e.g. an HTTP or web socket connection)</p></li>
+<li><p>Establish version compatibility (<code class="docutils literal notranslate"><span class="pre">body.payload.data.version</span></code>)</p></li>
+<li><p>Exchange initial nonces  (<code class="docutils literal notranslate"><span class="pre">body.nonce</span></code>, <code class="docutils literal notranslate"><span class="pre">body.id</span></code>)</p></li>
+<li><p>Establish <code class="docutils literal notranslate"><span class="pre">dcpsid</span></code> (DCP Session ID)</p></li>
+<li><p>set <code class="docutils literal notranslate"><span class="pre">this.peerAddress</span></code> to the remote peer’s public address</p></li>
+</ul>
+</li>
+<li><p>resolves after sending <code class="docutils literal notranslate"><span class="pre">operation:</span> <span class="pre">'connect'</span></code> message and receiving the response</p></li>
+<li><p>rejects with Error if the connection cannot be established, or if connection was already established</p></li>
+</ul>
+<p>If target determines that the connection cannot be established due to a protocol version mismatch, the target will respond with a message whose body has the following properties:</p>
+<ul class="simple">
+<li><p>success = ‘false’</p></li>
+<li><p>type = ‘protocol’</p></li>
+<li><p>code = ‘EVERSION’</p></li>
+<li><p>message = &lt; semver expression of acceptable version &gt;</p></li>
+</ul>
+<p>If the initiator determines that the connection cannot be established due to a protocol version mismatch, the client will close the connection and reject with <code class="docutils literal notranslate"><span class="pre">Error.code</span> <span class="pre">=</span> <span class="pre">'ETARGETVERSION'</span></code>.</p>
+<p>Conforming implementations should, when possible, reject with <code class="docutils literal notranslate"><span class="pre">Error.code</span> <span class="pre">=</span> <span class="pre">'EADDRCHANGE'</span></code> if the connection address has changed for that URL since the last time we connected to that URL.  <em>(Analogue: ssh fingerprint change)</em></p>
+<p><em>See: Reserved Operations section, connect</em></p>
+</section>
+<section id="async-connection-keepalive">
+<h4>async Connection.keepalive()<a class="headerlink" href="#async-connection-keepalive" title="Permalink to this heading"></a></h4>
+<p>This method sends a <code class="docutils literal notranslate"><span class="pre">keepalive</span></code> to the peer, and resolves when the response has been received.</p>
+<p><em>See: Reserved Operations section, keepalive</em></p>
+</section>
+<section id="async-connection-send-message">
+<h4>async Connection.send(message)<a class="headerlink" href="#async-connection-send-message" title="Permalink to this heading"></a></h4>
+<p>This method sends a message to the connection peer.  If the connection has not yet been established, this routine will first invoke (and await) <code class="docutils literal notranslate"><span class="pre">this.connect()</span></code>.</p>
+<ul class="simple">
+<li><p>resolves with instance of Response or rejects with Error</p></li>
+<li><p>does not mutate passed message, except for <code class="docutils literal notranslate"><span class="pre">message.id</span></code></p></li>
+<li><p>if message is not an instance of <code class="docutils literal notranslate"><span class="pre">this.Message</span></code>,</p>
+<ul>
+<li><p>we construct a new <code class="docutils literal notranslate"><span class="pre">this.Request</span></code></p>
+<ul>
+<li><p>using passed object as the constructor argument</p></li>
+</ul>
+</li>
+<li><p>assign message to this new Request</p></li>
+</ul>
+</li>
+<li><p>generates unique <code class="docutils literal notranslate"><span class="pre">message.id</span></code> to associate this transmission of the message with its response.</p></li>
+</ul>
+<section id="return-value">
+<h5>Return value<a class="headerlink" href="#return-value" title="Permalink to this heading"></a></h5>
+<p>Connection.send() always returns a Promise.</p>
+<section id="response-messages">
+<h6>Response Messages<a class="headerlink" href="#response-messages" title="Permalink to this heading"></a></h6>
+<p>The promise is resolved or rejected as soon as the response message has been delivered to the peer via the underlying transport as indicated by an ack.</p>
+<p>When the promise is resolved, there is no argument. If the promise is rejected, it will be rejected with an instance of Error.</p>
+</section>
+<section id="request-messages">
+<h6>Request Messages<a class="headerlink" href="#request-messages" title="Permalink to this heading"></a></h6>
+<p>This promise is resolved with a response message when the peer sends a Response with the same id as this Request. The <code class="docutils literal notranslate"><span class="pre">success</span></code> property of this response will be <code class="docutils literal notranslate"><span class="pre">true</span></code> and the <code class="docutils literal notranslate"><span class="pre">payload</span></code> property will hold the corresponding data (if any).</p>
+<p>If the peer responds with <code class="docutils literal notranslate"><span class="pre">success</span></code> false, the <code class="docutils literal notranslate"><span class="pre">payload</span></code> property will instead be an instance of <code class="docutils literal notranslate"><span class="pre">connection.ErrorPayload</span></code>.</p>
+<ul class="simple">
+<li><p>If the API consumer needs to differentiate between error payloads which were instances of Error and/or its superclasses at the peer end, the API consumer will need to inspect type <code class="docutils literal notranslate"><span class="pre">name</span></code> property.</p></li>
+</ul>
+<p>The promise will be rejected if there is some underlying problem with the local machine, software bugs, network, etc. so that the connection is unable to send messages (for example when the <code class="docutils literal notranslate"><span class="pre">closeTimeout</span></code> is reached and there are still unsent messages in the queue).</p>
+<p>The promise is rejected with a rejection object that is an instance of Error.</p>
+</section>
+<section id="batch-messages">
+<h6>Batch Messages<a class="headerlink" href="#batch-messages" title="Permalink to this heading"></a></h6>
+<p>Batch messages are used internally when more then one message is queued to be sent. It carries with it one nonce for the whole batch, and each message is parsed and handled normally on the receiving end.</p>
+<p>Upon receipt of a batch, the receiver immediately sends an ack to give the sender a new nonce.</p>
+</section>
+</section>
+</section>
+</section>
+<section id="connection-errorpayload">
+<h3>connection.ErrorPayload<a class="headerlink" href="#connection-errorpayload" title="Permalink to this heading"></a></h3>
+<p>This class is used to create and represent payloads which indicate unexpected errors (such as a version error or a file that does not exist), and <em>not application level errors</em> (such as a bank account which does not have enough money to deploy a job).</p>
+<p>This class inherits from <code class="docutils literal notranslate"><span class="pre">Error</span></code>.</p>
+<section id="form-1-new-connection-errorpayload-error">
+<h4>form 1: new connection.ErrorPayload(error)<a class="headerlink" href="#form-1-new-connection-errorpayload-error" title="Permalink to this heading"></a></h4>
+<p>This form accepts, as its only argument, an instance of Error and returns an object that is serializable via JSON.stringify().</p>
+<p>If the argument is not an instance of Error (and cannot be rehydrated as such, see form 3 below), the function will return the equivalent of <code class="docutils literal notranslate"><span class="pre">new</span> <span class="pre">connection.ErrorPayload(new</span> <span class="pre">TypeError(`'${error}'</span> <span class="pre">is</span> <span class="pre">not</span> <span class="pre">an</span> <span class="pre">instance</span> <span class="pre">of</span> <span class="pre">error.`))</span></code>.</p>
+<p>The new object will have the following new property:</p>
+<ul class="simple">
+<li><p><strong>origin</strong> - The address corresponding to the identity keystore associated with the Connection</p></li>
+</ul>
+<p>The new object has the following properties, propagated from the original error:</p>
+<ul class="simple">
+<li><p><strong>name</strong></p></li>
+<li><p><strong>message</strong></p></li>
+</ul>
+<p>and it may have the following optional properties, if they were present on the original error:</p>
+<ul class="simple">
+<li><p><strong>stack</strong></p></li>
+<li><p><strong>code</strong></p></li>
+<li><p><strong>fileName</strong></p></li>
+<li><p><strong>lineNumber</strong></p></li>
+<li><p><strong>columnNumber</strong></p></li>
+</ul>
+</section>
+<section id="form-2-new-connection-errorpayload-string-message-optional-string-code-optional-object-ctor">
+<h4>form 2: new connection.ErrorPayload(string message, optional string code, optional object ctor)<a class="headerlink" href="#form-2-new-connection-errorpayload-string-message-optional-string-code-optional-object-ctor" title="Permalink to this heading"></a></h4>
+<p>This form accepts a string message, an optional string error code, and an optional constructor ctor; if ctor is not specified, Error will be used.</p>
+<p>If the constructor is not an instance of error, this form will return the equivalent of <code class="docutils literal notranslate"><span class="pre">new</span> <span class="pre">connection.ErrorPayload(new</span> <span class="pre">TypeError(`${ctor}</span> <span class="pre">is</span> <span class="pre">not</span> <span class="pre">an</span> <span class="pre">instance</span> <span class="pre">of</span> <span class="pre">Error`))</span></code>.</p>
+<p>The function then creates a serializable object as form 1, but adds a special property, <code class="docutils literal notranslate"><span class="pre">type</span></code> whose value is <code class="docutils literal notranslate"><span class="pre">'protocol'</span></code>.  This property will be used to differentiate between protocol-level errors (such as invalid operation or bad version) and unexpected errors in protocol-using code. For example,</p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="kd">function</span> <span class="nx">routeSwitch</span><span class="p">(</span><span class="nx">request</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kd">let</span> <span class="nx">response</span><span class="p">;</span>
+  <span class="k">try</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">request</span><span class="p">.</span><span class="nx">operation</span> <span class="o">===</span> <span class="s1">&#39;escrow&#39;</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">response</span> <span class="o">=</span> <span class="nx">escrow</span><span class="p">(</span><span class="nx">request</span><span class="p">);</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+      <span class="nx">response</span> <span class="o">=</span> <span class="ow">new</span> <span class="nx">request</span><span class="p">.</span><span class="nx">connection</span><span class="p">.</span><span class="nx">ErrorPayload</span><span class="p">(</span><span class="s1">&#39;invalid operation: `${request.operation}`&#39;</span><span class="p">);</span>
+    <span class="p">}</span>
+  <span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">response</span> <span class="o">=</span> <span class="nx">e</span><span class="p">;</span>
+  <span class="p">}</span> <span class="k">finally</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="ow">typeof</span> <span class="nx">response</span> <span class="o">!==</span>  <span class="s1">&#39;object&#39;</span><span class="p">)</span>
+      <span class="nx">response</span> <span class="o">=</span> <span class="ow">new</span> <span class="nx">request</span><span class="p">.</span><span class="nx">connection</span><span class="p">.</span><span class="nx">ErrorPayload</span><span class="p">(</span><span class="s1">&#39;Response should not be ${typeof response}!&#39;</span><span class="p">,</span> <span class="ne">TypeError</span><span class="p">);</span>
+    <span class="nx">request</span><span class="p">.</span><span class="nx">respond</span><span class="p">(</span><span class="nx">response</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="form-3-connection-errorpayload-object">
+<h4>form 3: connection.ErrorPayload(object)<a class="headerlink" href="#form-3-connection-errorpayload-object" title="Permalink to this heading"></a></h4>
+<p>This form is used to turn a plain object (i.e. the result of <code class="docutils literal notranslate"><span class="pre">JSON.parse()</span></code>)  into an instance of ErrorPayload. The passed object must be Error-shaped, with <code class="docutils literal notranslate"><span class="pre">message</span></code> and <code class="docutils literal notranslate"><span class="pre">name</span></code> being required, and other Error properties will become own properties if present.</p>
+</section>
+</section>
+<section id="id1">
+<h3>Connection.Message<a class="headerlink" href="#id1" title="Permalink to this heading"></a></h3>
+<p>A Connection.Message object represents a message which can be sent between DCP entities on a given connection. Inherits from <code class="docutils literal notranslate"><span class="pre">protocol.Message</span></code>.</p>
+<section id="new-connection-message">
+<h4>new Connection.Message()<a class="headerlink" href="#new-connection-message" title="Permalink to this heading"></a></h4>
+<p>Constructor</p>
+</section>
+<section id="connection-message-connection">
+<h4>Connection.Message.connection<a class="headerlink" href="#connection-message-connection" title="Permalink to this heading"></a></h4>
+<p>This property is a reference to the connection instance of which this constructor is a property.</p>
+</section>
+<section id="async-connection-message-sign">
+<h4>async Connection.Message.sign<a class="headerlink" href="#async-connection-message-sign" title="Permalink to this heading"></a></h4>
+<p>Signs a message using the identity keystore <code class="docutils literal notranslate"><span class="pre">ks</span></code> supplied during Connection instantiation, using the <code class="docutils literal notranslate"><span class="pre">sign()</span></code> method of the identity keystore corresponding to the connection.</p>
+<p>This function returns a promise which resolves to a string which is an Ethereum signed message.</p>
+</section>
+<section id="async-connection-message-send">
+<h4>async Connection.Message.send()<a class="headerlink" href="#async-connection-message-send" title="Permalink to this heading"></a></h4>
+<ul class="simple">
+<li><p>equivalent to this.connection.send(this)</p></li>
+</ul>
+</section>
+</section>
+<section id="connection-request">
+<h3>Connection.Request<a class="headerlink" href="#connection-request" title="Permalink to this heading"></a></h3>
+<p>This class, which inherits from Connection.Message, represents a request message that may be sent to the connection peer.</p>
+<p>Request Messages have the following properties:</p>
+<ul class="simple">
+<li><p><strong>id</strong>: unique string. The API will provide one immediately before transmission. A given entity will never process two messages with the same id and overlapping validity time.</p></li>
+<li><p><strong>payload</strong>: An object which represents the payload which is transmitted to the connection peer. If specified in the constructor, its properties are used to initialize the message payload.</p>
+<ul>
+<li><p><strong>operation</strong>: string describing the operation; has meaning to the peer.</p></li>
+<li><p><strong>data</strong> - undefined or an arbitrary value which can be serialized to JSON which represents the arguments to the operation.</p></li>
+<li><p><strong>validity</strong>: The <code class="docutils literal notranslate"><span class="pre">validity</span></code> property of a Request payload is an object which can be fully (or partially) populated by the API consumer; they will be fully populated by <code class="docutils literal notranslate"><span class="pre">Request.send()</span></code> as needed.</p>
+<ul>
+<li><p><strong>stamp</strong>: A string which is unique enough to prevent us from accidentally creating indifferentiable unique messages, possibly on different connections, even if they are otherwise identical and were created at exactly the same time.</p>
+<ul>
+<li><p>Suggested algorithm:  <code class="docutils literal notranslate"><span class="pre">md5sum(request.id</span> <span class="pre">+</span> <span class="pre">(request.dcpsid</span> <span class="pre">||</span> <span class="pre">Date.now()</span> <span class="pre">+</span> <span class="pre">Math.random()))</span></code></p></li>
+</ul>
+</li>
+<li><p><strong>time</strong>: the current time, according to the target’s clock (or NTP), expressed an integer number of  seconds which have elapsed since the epoch (C <code class="docutils literal notranslate"><span class="pre">time_t</span></code>)</p></li>
+<li><p><strong>ttl</strong>: optional - the number of (floating point) seconds after which the message expires. If this is not specified, the guardian (and potentially any intermediary machines) will use their own default value.</p></li>
+</ul>
+</li>
+<li><p><strong>allow</strong>: an array identifying the resource guardian allowed to perform the operation on a resource when the message is received from a given accessor. Each element in the array has the shape <code class="docutils literal notranslate"><span class="pre">{</span> <span class="pre">resource:</span> <span class="pre">address,</span> <span class="pre">guardian:</span> <span class="pre">address,</span> <span class="pre">accessor:</span> <span class="pre">address</span> <span class="pre">}</span></code> (See <strong>Connection.Request.authorize</strong>).</p></li>
+</ul>
+</li>
+<li><p><strong>auth</strong>: This property is an object that relates to <strong>payload.allow</strong>. It authorizes a guardian to perform the operation using one or more protected resources (See <strong>Connection.Request.authorize</strong>). It contains key-value pairs of <code class="docutils literal notranslate"><span class="pre">&lt;resource</span> <span class="pre">address&gt;:</span> <span class="pre">&lt;payload</span> <span class="pre">signature&gt;</span></code>.</p></li>
+</ul>
+<section id="new-connection-request">
+<h4>new Connection.Request()<a class="headerlink" href="#new-connection-request" title="Permalink to this heading"></a></h4>
+<p>form 1: new Connection.Request()
+: A new Request Message is constructed</p>
+<p>form 2: new Connection.Request(payload {object})
+: A new Request Message is constructed; the passed object is used to specify the message payload.</p>
+<p>form 3: new Connection.Request(operation {string}, optional data)
+: A new Request Message is constructed; the passed string is used to specify the message payload operation property; if the optional data parameter is specified, it is used as the payload data property.</p>
+</section>
+<section id="async-connection-request-respond">
+<h4>async Connection.Request.respond(…)<a class="headerlink" href="#async-connection-request-respond" title="Permalink to this heading"></a></h4>
+<p>This method is a convenience method which is equivalent to</p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="ow">new</span> <span class="nx">Connection</span><span class="p">.</span><span class="nx">Response</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="p">...)).</span><span class="nx">send</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+<section id="connection-request-authorize-resourcekeystore-optional-guardianaddress-optional-accessoraddress">
+<h4>Connection.Request.authorize(resourceKeystore, optional guardianAddress, optional accessorAddress)<a class="headerlink" href="#connection-request-authorize-resourcekeystore-optional-guardianaddress-optional-accessoraddress" title="Permalink to this heading"></a></h4>
+<p>This method receives as its arguments:</p>
+<ul class="simple">
+<li><p>an instance of Keystore <code class="docutils literal notranslate"><span class="pre">resourceKeystore</span></code>,</p></li>
+<li><p>an optional argument <code class="docutils literal notranslate"><span class="pre">guardianAddress</span></code>, which defaults to <code class="docutils literal notranslate"><span class="pre">Connection.peerAddress</span></code>,</p></li>
+<li><p>and an optional argument <code class="docutils literal notranslate"><span class="pre">accessorAddress</span></code>, which defaults to <code class="docutils literal notranslate"><span class="pre">Connection.identity.address</span></code>.</p></li>
+</ul>
+<p>This function identifies the resource, the resource’s guardian, and the peer which is authorized to pass this message to the guardian (accessor),</p>
+<blockquote>
+  Guardian authorization is important because resource addresses may be duplicated across different guardians, but this may represent different actual resources. For example, the same bank account address on two different banks could refer to completely different groups of funds, potentially in completely disconnected DCP universes....but even though the funds are different, by virtue of having identical account numbers, authorization signatures would be identical if the payload did not specify which guardian is authorized by it.
+</blockquote>
+<p>The keystore passed to this function is used to sign the payload (populate <code class="docutils literal notranslate"><span class="pre">auth</span></code> key) upon invoking <code class="docutils literal notranslate"><span class="pre">Request.send()</span></code>. The purpose of authorization is to confirm that what is recorded in the <code class="docutils literal notranslate"><span class="pre">Request.payload.allow</span></code> object has been authorized by a resource owner.</p>
+<p>Each invocation of this method results in an entry being pushed onto the <code class="docutils literal notranslate"><span class="pre">Request.payload.allow</span></code> array:
+<code class="docutils literal notranslate"><span class="pre">{</span> <span class="pre">resource:</span> <span class="pre">'acc07',</span> <span class="pre">guardian:</span> <span class="pre">'bac',</span> <span class="pre">accessor:</span> <span class="pre">'c001d00d'</span> <span class="pre">}</span></code></p>
+<p>This function will invoke <code class="docutils literal notranslate"><span class="pre">resourceKeystore.unlock()</span></code> as soon as it is invoked, which may trigger a passphrase prompt via the Wallet API.  The protocol API will not access the private key, either directly or indirectly, until the the request is actually about to be serialized for transmission (which is when the <code class="docutils literal notranslate"><span class="pre">Request.auth</span></code> property is updated with the signature(s)).</p>
+<p><em>(see: Connection.Request.isAuthorizedFor, Connection.Request.send())</em></p>
+<section id="third-party-requests">
+<h5>Third-Party Requests<a class="headerlink" href="#third-party-requests" title="Permalink to this heading"></a></h5>
+<p>The <code class="docutils literal notranslate"><span class="pre">guardianAddress</span></code> argument is necessarily different from <code class="docutils literal notranslate"><span class="pre">Connection.peerAddress</span></code> when authorizing a message which will pass through a third party on its way to the protected resource’s guardian.</p>
+</section>
+<section id="multi-resource-requests">
+<h5>Multi-Resource Requests<a class="headerlink" href="#multi-resource-requests" title="Permalink to this heading"></a></h5>
+<p>When creating multi-resource requests, it is necessary to call <code class="docutils literal notranslate"><span class="pre">Connection.Request.authorize</span></code> explicitly for each accessor/resource/guardian address triple.</p>
+</section>
+</section>
+<section id="connection-request-doesauthorize-resourceaddress-optional-guardianaddress-optional-accessoraddress-optional-validatesignature">
+<h4>Connection.Request.doesAuthorize(resourceAddress, optional guardianAddress, optional accessorAddress, optional validateSignature)<a class="headerlink" href="#connection-request-doesauthorize-resourceaddress-optional-guardianaddress-optional-accessoraddress-optional-validatesignature" title="Permalink to this heading"></a></h4>
+<p>This method receives as its arguments:</p>
+<ul class="simple">
+<li><p>resourceAddress: the address of the resource that the request authorizes use of.</p></li>
+<li><p>guardianAddress: the address of the guardian that is authorized to act on the request, defaults to <code class="docutils literal notranslate"><span class="pre">Connection.identity.address</span></code></p></li>
+<li><p>accessorAddress: the address of the accessor that the guardian should accept this message from, defaults to <code class="docutils literal notranslate"><span class="pre">Connection.peerAddress</span></code></p></li>
+<li><p>validateSignature: boolean indicating whether or not the signature in <code class="docutils literal notranslate"><span class="pre">Request.auth</span></code> should be verified in addition to checking if a corresponding object is present in <code class="docutils literal notranslate"><span class="pre">Request.payload.allow</span></code>.</p></li>
+</ul>
+<p>This returns <code class="docutils literal notranslate"><span class="pre">true</span></code> or <code class="docutils literal notranslate"><span class="pre">false</span></code>, depending on whether or not the guardian is authorized to use the protected resource identified by <code class="docutils literal notranslate"><span class="pre">resourceAddress</span></code> (and the request came from <code class="docutils literal notranslate"><span class="pre">Connection.peerAddress</span></code>).</p>
+<p>If the passed arguments are not an instance of <code class="docutils literal notranslate"><span class="pre">wallet.Address</span></code> (excluding <code class="docutils literal notranslate"><span class="pre">validateSignature</span></code>), they will be passed to the <code class="docutils literal notranslate"><span class="pre">wallet.Address</span></code> constructor in an attempt to make an address.</p>
+<p>The request authorizes use of the protected resource only when</p>
+<ol class="arabic simple">
+<li><p>the <code class="docutils literal notranslate"><span class="pre">payload.allow</span></code> property of the message contains an Array element having</p></li>
+</ol>
+<ul class="simple">
+<li><p>a <code class="docutils literal notranslate"><span class="pre">resource</span></code> property having the <code class="docutils literal notranslate"><span class="pre">resourceAddress</span></code></p></li>
+<li><p>a <code class="docutils literal notranslate"><span class="pre">guardian</span></code> property having the <code class="docutils literal notranslate"><span class="pre">guardianAddress</span></code></p></li>
+<li><p>an <code class="docutils literal notranslate"><span class="pre">accessor</span></code> property having the <code class="docutils literal notranslate"><span class="pre">accessorAddress</span></code></p></li>
+</ul>
+<p>AND if <code class="docutils literal notranslate"><span class="pre">validateSignature</span></code>:</p>
+<ol class="arabic simple" start="2">
+<li><p>the request’s <code class="docutils literal notranslate"><span class="pre">auth</span></code> object contains a key which is the address of the resource</p></li>
+<li><p>the corresponding value is a signature which was made by signing the <code class="docutils literal notranslate"><span class="pre">payload</span></code> property of the message</p></li>
+</ol>
+<p><em>(see: Connection.Request.authorize)</em></p>
+</section>
+<section id="async-connection-request-send-optional-ks">
+<h4>async Connection.Request.send(…optional ks)<a class="headerlink" href="#async-connection-request-send-optional-ks" title="Permalink to this heading"></a></h4>
+<p>This function uses <code class="docutils literal notranslate"><span class="pre">Connection.Message.send()</span></code> to transmit the message to the remote peer, and returns that promise.</p>
+<p>If the optional keystore <code class="docutils literal notranslate"><span class="pre">ks</span></code> is present, this function immediately invokes <code class="docutils literal notranslate"><span class="pre">this.authorize(ks)</span></code>, yielding a message which authorizes:</p>
+<ul class="simple">
+<li><p>the resource with the address <code class="docutils literal notranslate"><span class="pre">ks.address</span></code></p></li>
+<li><p>to be used by the guardian <code class="docutils literal notranslate"><span class="pre">Connection.peerAddress</span></code></p></li>
+<li><p>when the peer that sent the message is <code class="docutils literal notranslate"><span class="pre">Connection.identity.address</span></code></p></li>
+</ul>
+<p>Before the message is sent, any memoized authorizations are applied by calculating the signature for <code class="docutils literal notranslate"><span class="pre">this.payload</span></code> via <code class="docutils literal notranslate"><span class="pre">ks.getSignature()</span></code>, updating the <code class="docutils literal notranslate"><span class="pre">auth</span></code> property to have a (key, value) pair of <code class="docutils literal notranslate"><span class="pre">(ks.address,</span> <span class="pre">signature)</span></code>.  Redundant memos for the same resource will be collapsed into a single signing operation.</p>
+</section>
+</section>
+<section id="connection-response">
+<h3>Connection.Response<a class="headerlink" href="#connection-response" title="Permalink to this heading"></a></h3>
+<p>This class represents Response messages on this connection, and inherits from Connection.Message.</p>
+<ul class="simple">
+<li><p><strong>id</strong>: same id as Request message that precipitated this response</p></li>
+<li><p><strong>success</strong>: true | false    (boolean)</p>
+<ul>
+<li><p>if success is false, this means we could not perform the request for whatever reason, with more details in the payload property.</p></li>
+</ul>
+</li>
+<li><p><strong>payload</strong>: when success is true, this property can carry arbitrary information, and need not be specified at all. When success is <code class="docutils literal notranslate"><span class="pre">false</span></code>, this property will be an ErrorPayload object.</p></li>
+</ul>
+<section id="new-connection-response">
+<h4>new Connection.Response()<a class="headerlink" href="#new-connection-response" title="Permalink to this heading"></a></h4>
+<p>form 1: new Connection.Response()
+: A new Response Message is constructed.</p>
+<p>form 2: new Connection.Response(request, error {instance of Error | connection.ErrorPayload})
+: A new Response Message is constructed;</p>
+<ul class="simple">
+<li><p>the passed request is used to determine the request id</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">this.success</span></code> is false</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">this.payload</span></code> becomes <code class="docutils literal notranslate"><span class="pre">new</span> <span class="pre">connection.ErrorPayload(error)</span></code></p></li>
+</ul>
+<p>form 3: new Connection.Response(request, payload)
+: A new Response Message is constructed;</p>
+<ul class="simple">
+<li><p>the passed request is used to determine the request id</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">this.success</span></code> is true</p></li>
+<li><p>the passed data is used to specify <code class="docutils literal notranslate"><span class="pre">this.payload</span></code></p></li>
+</ul>
+</section>
+</section>
+<section id="connection-batch">
+<h3>Connection.Batch<a class="headerlink" href="#connection-batch" title="Permalink to this heading"></a></h3>
+<p>This class represents Batch messages on this connection, and inherits from <code class="docutils literal notranslate"><span class="pre">Connection.Message</span></code>.</p>
+<p>Future versions of this protocol will also have Batch messages that contain Batch messages.  The current intention is that Batch messages will only be used internally by the protocol itself.</p>
+</section>
+<section id="connection-ack">
+<h3>Connection.Ack<a class="headerlink" href="#connection-ack" title="Permalink to this heading"></a></h3>
+<p>This class represents ack messages on this connection, and inherits from <code class="docutils literal notranslate"><span class="pre">Connection.Message</span></code>. A call to <code class="docutils literal notranslate"><span class="pre">new</span> <span class="pre">Ack(message)</span></code> will return an <code class="docutils literal notranslate"><span class="pre">Ack</span></code> message which acknowledges receipt of the passed message. It can be signed and sent over the wire. It is also responsible for rehydrating itself so that <code class="docutils literal notranslate"><span class="pre">new</span> <span class="pre">Ack(ackJSON)</span></code> will produce an instance of <code class="docutils literal notranslate"><span class="pre">Ack</span></code> corresponding to the JSON ack that was sent over the wire. Because acks are responsible for carrying the next <code class="docutils literal notranslate"><span class="pre">nonce</span></code> to a peer, they use a different unique identifier, the <code class="docutils literal notranslate"><span class="pre">ackToken</span></code>, to prove their validity. Thus requests/responses cary ack tokens and acks carry nonces.</p>
+</section>
+<section id="connection-currenttime">
+<h3>Connection.currentTime()<a class="headerlink" href="#connection-currenttime" title="Permalink to this heading"></a></h3>
+<p>This routine returns the current time for the purposes of populating the Request message <code class="docutils literal notranslate"><span class="pre">payload.validity.time</span></code> property.</p>
+<p>If the Connection is a target, or was flagged with the <code class="docutils literal notranslate"><span class="pre">ntp</span></code> option during instantiation, or no responses have ever been received, the local clock is used.  Otherwise, the time is calculated based on the most-recently-received <code class="docutils literal notranslate"><span class="pre">Response.time</span></code> and a delta between “now” and when that message was received.  This delta should not be calculated based on the system clock, as this could jump mid-session if the system administrator adjusts the system clock.  Instead, the calculation should be based on something like <code class="docutils literal notranslate"><span class="pre">performance.now()</span></code> on the browser or  <code class="docutils literal notranslate"><span class="pre">require('perf_hooks').performance.nodeTiming.duration</span></code> on NodeJS.</p>
+<p>This routine returns the integer number of seconds which have elapsed since the epoch (C <code class="docutils literal notranslate"><span class="pre">time_t</span></code>).</p>
+</section>
+<section id="transport">
+<h3>Transport<a class="headerlink" href="#transport" title="Permalink to this heading"></a></h3>
+<p>This module is the base class for transports used by the protocol. A protocol transport knows how to communicate with peers using a specific method (WebSocket, HTTP, postMessage, etc).</p>
+<section id="transport-require">
+<h4>Transport.require<a class="headerlink" href="#transport-require" title="Permalink to this heading"></a></h4>
+<p>This static method will do some checking of the passed module name and then it will load and return that module. The <code class="docutils literal notranslate"><span class="pre">transports</span></code> array of a <code class="docutils literal notranslate"><span class="pre">connectionOptions</span></code> object gives the names of modules which can be tried when the system tries to establish a transport.</p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="kd">const</span> <span class="nx">TransportClass</span> <span class="o">=</span> <span class="nx">Transport</span><span class="p">.</span><span class="nx">require</span><span class="p">(</span><span class="nx">moduleName</span><span class="p">);</span>
+<span class="kd">const</span> <span class="nx">transport</span> <span class="o">=</span> <span class="ow">new</span> <span class="nx">TransportClass</span><span class="p">(</span><span class="nx">argument</span><span class="p">,</span> <span class="nx">connectionOptions</span><span class="p">);</span>
+</pre></div>
+</div>
+</section>
+<section id="transport-connect">
+<h4>Transport.connect<a class="headerlink" href="#transport-connect" title="Permalink to this heading"></a></h4>
+<p>This will guarantee that the underlying connection is connected, otherwise it will throw an error.</p>
+</section>
+<section id="transport-send">
+<h4>Transport.send<a class="headerlink" href="#transport-send" title="Permalink to this heading"></a></h4>
+<p>This will guarantee that the provided message is sent and will throw an error if it can’t be sent.</p>
+</section>
+<section id="transport-close">
+<h4>Transport.close<a class="headerlink" href="#transport-close" title="Permalink to this heading"></a></h4>
+<p>This will guarantee that the underlying connection is closed if it resolves and will throw an error if it can’t be closed.</p>
+</section>
+</section>
+</section>
+<section id="static-methods">
+<h2>Static Methods<a class="headerlink" href="#static-methods" title="Permalink to this heading"></a></h2>
+<section id="clearidentitycache-identity-true">
+<h3>clearIdentityCache(identity | true)<a class="headerlink" href="#clearidentitycache-identity-true" title="Permalink to this heading"></a></h3>
+<p>This method clears the identity cache that is used by Connection.connect() to track (URL, identity) pairs.</p>
+<p>form 1: argument is instance of wallet.Keystore
+: cache entry corresponding to argument.address is cleared</p>
+<p>form 2: argument is instance of wallet.Address
+: cache entry corresponding to argument is cleared</p>
+<p>form 3: argument is boolean value <code class="docutils literal notranslate"><span class="pre">true</span></code>
+: entire cache is cleared</p>
+</section>
+</section>
+<section id="events">
+<h2>Events<a class="headerlink" href="#events" title="Permalink to this heading"></a></h2>
+<section id="id2">
+<h3>Connection<a class="headerlink" href="#id2" title="Permalink to this heading"></a></h3>
+<section id="request">
+<h4>request<a class="headerlink" href="#request" title="Permalink to this heading"></a></h4>
+<p>The  ‘request’ event is emitted by Connection objects when the connected peer sends a Request message, or when the local entity extracts a Request message that was encapsulated in a Batch message.</p>
+<p>The event handler has <code class="docutils literal notranslate"><span class="pre">this</span></code> set to the Connection instance, and it will receive as its argument the Request object, if and only if, the Request passes the steps outlined in <em>Message Authorization</em>.</p>
+</section>
+<section id="readystatechange">
+<h4>readyStateChange<a class="headerlink" href="#readystatechange" title="Permalink to this heading"></a></h4>
+<p>The <code class="docutils literal notranslate"><span class="pre">readyStateChange</span></code> event is provided primarily as a debugging interface, but should be implemented rigorously nevertheless as it might be used by other developers.  The event handlers are fired with the new <code class="docutils literal notranslate"><span class="pre">readyStateChange</span></code> as their only {string} argument, and <code class="docutils literal notranslate"><span class="pre">this</span></code> is set to the Connection instance.</p>
+<table class="colwidths-auto docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>state</p></th>
+<th class="head"><p></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>initial</p></td>
+<td><p>the state the connection instance starts in, before a connection attempt has ever been made.</p></td>
+</tr>
+<tr class="row-odd"><td><p>established</p></td>
+<td><p>fired immediately after connection establishment, before the first Request message, even if the first Request message and the connect message are present in the same Batch message.</p></td>
+</tr>
+<tr class="row-even"><td><p>waiting</p></td>
+<td><p>targets only, a connection is <code class="docutils literal notranslate"><span class="pre">waiting</span></code> when it fails to send a message and now must wait for the initiator to reach out again on a new transport.</p></td>
+</tr>
+<tr class="row-odd"><td><p>close-wait</p></td>
+<td><p>targets only, when a target receives the <code class="docutils literal notranslate"><span class="pre">close</span></code> request, it responds and awaits an ack. While waiting for this ack it is in the <code class="docutils literal notranslate"><span class="pre">close-wait</span></code> state. If no ack is received in 10s, it will close the connection forcefully.</p></td>
+</tr>
+<tr class="row-even"><td><p>closing</p></td>
+<td><p>once <code class="docutils literal notranslate"><span class="pre">close</span></code> has been called the connection is closing and will remain in the closing state until it has been completely shut down.</p></td>
+</tr>
+<tr class="row-odd"><td><p>closed</p></td>
+<td><p>fired after the ‘close’ event. Indicates a connection which is no longer capable of sending.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="send">
+<h4>send<a class="headerlink" href="#send" title="Permalink to this heading"></a></h4>
+<p>The send event is provided only as a debugging interface, and the interface should be considered unstable.  The send event is emitted every time a message is sent to the peer; this does not include the contents of Batch messages.  (Specifically, a batch message with 10 requests in it would trigger <code class="docutils literal notranslate"><span class="pre">send</span></code> once but <code class="docutils literal notranslate"><span class="pre">request</span></code> ten times).</p>
+<p>The send event handler is invoked with the Message object as its first argument, the serialized Ethereum message as its second argument, and <code class="docutils literal notranslate"><span class="pre">this</span></code> is set to the Connection instance.</p>
+</section>
+<section id="close">
+<h4>close<a class="headerlink" href="#close" title="Permalink to this heading"></a></h4>
+<p>The <code class="docutils literal notranslate"><span class="pre">close</span></code> event emitted when the Connection is closed, whether due to API direction or error detection. This means that the <code class="docutils literal notranslate"><span class="pre">dcpsid</span></code> DCP Session Identifier is no longer valid and will never be valid again.</p>
+</section>
+</section>
+</section>
+<section id="message-transmission-receipt">
+<h2>Message Transmission &amp; Receipt<a class="headerlink" href="#message-transmission-receipt" title="Permalink to this heading"></a></h2>
+<p>DCP Messages are encapsulated within Ethereum messages for wireline transmission; these are signed with the originator’s identity key for non-repudiation.</p>
+<section id="ethereum-messages">
+<h3>Ethereum messages<a class="headerlink" href="#ethereum-messages" title="Permalink to this heading"></a></h3>
+<p>Every Ethereum message is a JSON-stringified JavaScript object with the following properties:</p>
+<ul class="simple">
+<li><p><strong>owner</strong>: the public address of the message sender (i.e. identity address)</p></li>
+<li><p><strong>signature</strong>: a checksum of the message body, generated using the message sender’s private key (identity key).</p></li>
+<li><p><strong>body</strong>:   an object containing DCP-related properties, such as <code class="docutils literal notranslate"><span class="pre">type</span></code>, <code class="docutils literal notranslate"><span class="pre">payload</span></code>, <code class="docutils literal notranslate"><span class="pre">id</span></code>, <code class="docutils literal notranslate"><span class="pre">dcpsid</span></code>, <code class="docutils literal notranslate"><span class="pre">auth</span></code>, etc.</p></li>
+</ul>
+<p>Message types are differentiated during transmission with a <code class="docutils literal notranslate"><span class="pre">type</span></code> property in the message body, however at the API level, this property is not exposed and the <code class="docutils literal notranslate"><span class="pre">instanceof</span></code> operator should be used to determine message types if the need arises.</p>
+<p>Ethereum messages are created by the <code class="docutils literal notranslate"><span class="pre">Connection.Message.sign()</span></code> method, which is invoked by <code class="docutils literal notranslate"><span class="pre">Connection.send()</span></code>.</p>
+</section>
+<section id="message-grammar">
+<h3>Message Grammar<a class="headerlink" href="#message-grammar" title="Permalink to this heading"></a></h3>
+<p>This grammar describes JavaScript objects which are serialized with the usual JSON  semantics for transmission.</p>
+<section id="grammar-syntax">
+<h4>Grammar Syntax<a class="headerlink" href="#grammar-syntax" title="Permalink to this heading"></a></h4>
+<table class="colwidths-auto docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Syntax       </p></th>
+<th class="head"><p>meaning</p></th>
+<th class="head"><p></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>A → B | C</p></td>
+<td><p>“A is a B or a C”</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p>{}</p></td>
+<td><p>Object containing properties as defined by this syntax between braces:</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p></p></td>
+<td><p>a, b, c</p></td>
+<td><p>properties a, b, c</p></td>
+</tr>
+<tr class="row-odd"><td><p></p></td>
+<td><p>a: ‘abc’</p></td>
+<td><p>property a has string value ‘abc’</p></td>
+</tr>
+<tr class="row-even"><td><p></p></td>
+<td><p>b*</p></td>
+<td><p>property b is optional</p></td>
+</tr>
+<tr class="row-odd"><td><p></p></td>
+<td><p>…</p></td>
+<td><p>any number of arbitrary properties</p></td>
+</tr>
+<tr class="row-even"><td><p>[ things ]</p></td>
+<td><p>an array of things</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p>thing+</p></td>
+<td><p>One or more things</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p>thing*</p></td>
+<td><p>Zero or N things, where N is positive, whole, and finite.</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p>‘abc’</p></td>
+<td><p>the string literal, <code class="docutils literal notranslate"><span class="pre">abc</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p>integer</p></td>
+<td><p>the set of all integers in the range <code class="docutils literal notranslate"><span class="pre">(-(2^53</span></code>, 2^53)`</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p>string</p></td>
+<td><p>any Unicode String representable by the current engine; a minimum of 128 × 1024 × 1024 code points must be supported by a supported implementation.</p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="dcp-message-exchange-grammar">
+<h4>DCP Message Exchange Grammar<a class="headerlink" href="#dcp-message-exchange-grammar" title="Permalink to this heading"></a></h4>
+<p>DCP Messages are exchanged as Ethereum signed messages, which are objects serialized with JSON before transmission.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>signed-message → { owner, signature, body }
+
+body → request
+     | response
+     | batch
+
+request → { type: &#39;request&#39;, id, payload, auth*, dcpsid, nonce&lt;last&gt; }
+        
+response → { type: &#39;response&#39;, id&lt;request&gt;, time, success: boolean, payload, dcpsid, nonce }
+
+payload → { operation, validity, allow*, ... } /* request */
+        | anything /* response */
+
+allow → [ { accessor: address, guardian: address, resource: address }* ]
+
+auth → { &lt;resource-address&gt;: signature }
+
+time → integer
+
+ttl → integer
+
+stamp → string
+
+validity → { time, ttl, stamp  }
+ 
+boolean → true
+        | false
+
+ack → { type: &#39;ack&#39;, id, messageId, token }
+
+token → string
+
+requests → [ request+ ]
+
+responses → [ response+ ]
+</pre></div>
+</div>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">owner</span></code> is the identity address (public key) of the entity sending the message</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">signature</span></code> is a checksum of the message body or payload, calculated with the identity private key</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">body</span></code> is the body of the message</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">id</span></code> is a unique per-transmission message id</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">dcpsid</span></code> is the session id established during connection startup</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">id&lt;request&gt;</span></code> is the <code class="docutils literal notranslate"><span class="pre">id</span></code> of the request to which we’re responding</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">nonce&lt;last&gt;</span></code> is the <code class="docutils literal notranslate"><span class="pre">nonce</span></code> supplied by the most recent response</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">messageId</span></code> is the id of the message being ack’d</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">token</span></code> is like a nonce but for acks</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">operation</span></code> is the operation to perform</p></li>
+</ul>
+</section>
+</section>
+<section id="message-transmission-implementation-details">
+<h3>Message Transmission Implementation Details<a class="headerlink" href="#message-transmission-implementation-details" title="Permalink to this heading"></a></h3>
+<p>Message signing has significant overhead, as does establishing connections in the underlying protocol.  For this reason, we employ transparent opportunistic batching in DCPv4, with the following algorithm for <code class="docutils literal notranslate"><span class="pre">Connection.send</span></code>:</p>
+<ul class="simple">
+<li><p>Connection.send() invoked</p>
+<ul>
+<li><p>first send?</p>
+<ul>
+<li><p>Create Connection-specific batch message array <code class="docutils literal notranslate"><span class="pre">pending</span></code></p></li>
+<li><p>await Connection.connect()</p></li>
+</ul>
+</li>
+<li><p>push message into batch message array</p></li>
+<li><p>finish run-to-completion to give other messages opportunity to send; if <code class="docutils literal notranslate"><span class="pre">pending.length</span> <span class="pre">===</span> <span class="pre">1</span></code>, schedule an event-loop callback, <code class="docutils literal notranslate"><span class="pre">transmit()</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">transmit()</span> <span class="pre">=&gt;</span></code></p>
+<ul>
+<li><p>if this connection does not have a nonce to ready use (i.e. there is a pending request in flight), re-schedule <code class="docutils literal notranslate"><span class="pre">transmit()</span></code> and return immediately</p></li>
+<li><p>if <code class="docutils literal notranslate"><span class="pre">pending.length</span> <span class="pre">===</span> <span class="pre">1</span></code>, send <code class="docutils literal notranslate"><span class="pre">pending.pop().sign()</span></code></p></li>
+<li><p>else sign and send a Batch containing at most <code class="docutils literal notranslate"><span class="pre">connectionOptions.maxMessagesPerBatch</span></code> messages and unshift them from <code class="docutils literal notranslate"><span class="pre">pending</span></code></p></li>
+<li><p>if <code class="docutils literal notranslate"><span class="pre">pending.length</span> <span class="pre">!==</span> <span class="pre">0</span></code>, schedule another call to <code class="docutils literal notranslate"><span class="pre">transmit()</span></code></p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>The actual wire-protocol payload is given <code class="docutils literal notranslate"><span class="pre">message.sign()</span></code></p></li>
+<li><p>send wire-payload to connection peer</p></li>
+</ul>
+</section>
+<section id="message-receipt-implementation-details">
+<h3>Message Receipt Implementation Details<a class="headerlink" href="#message-receipt-implementation-details" title="Permalink to this heading"></a></h3>
+<p>When a Message is received from the peer we</p>
+<ul class="simple">
+<li><p>verify that it was signed with the same identity that responded to the initial connect message, when the session was established.  If the signature cannot be verified,</p>
+<ul>
+<li><p>details must be logged to <code class="docutils literal notranslate"><span class="pre">console.warn</span></code></p></li>
+<li><p>the connection must be closed in a way that it cannot be resurrected</p></li>
+<li><p>an exception must be thrown (or promise rejected)</p></li>
+</ul>
+</li>
+<li><p>Check the message type.</p>
+<ul>
+<li><p>If the message type is <code class="docutils literal notranslate"><span class="pre">batch</span></code>, each message in the batch is individually processed with the rules in this section</p></li>
+<li><p>If the message type is <code class="docutils literal notranslate"><span class="pre">request</span></code>, the message is dispatched via the <code class="docutils literal notranslate"><span class="pre">request</span></code> event name.</p></li>
+<li><p>If the message type is <code class="docutils literal notranslate"><span class="pre">response</span></code>, the message is used to resolve an outstanding request on this connection; if the request does not exist,</p>
+<ul>
+<li><p>details must be logged to <code class="docutils literal notranslate"><span class="pre">console.warn</span></code></p></li>
+<li><p>the connection must be closed in a way that it cannot be resurrected</p></li>
+<li><p>an exception must be thrown (or promise rejected)</p></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</section>
+</section>
+<section id="message-authentication-algorithm">
+<h2>Message Authentication Algorithm<a class="headerlink" href="#message-authentication-algorithm" title="Permalink to this heading"></a></h2>
+<p>Message authentication happens transparently and automatically at the protocol. No unauthenticated requests will ever be presented to the application layer under any circumstances.</p>
+<ul class="simple">
+<li><p>check dcpsid is correct  (if underlying protocol suitably stateful)</p></li>
+<li><p>check nonce is correct</p></li>
+<li><p>check signature against identity address</p></li>
+<li><p>used predominately for</p>
+<ul>
+<li><p>non-repudiation</p></li>
+<li><p>to prevent cross-site request forgeries (CSRF)</p></li>
+<li><p>to prevent replay attacks</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="request-authentication-algorithm">
+<h2>Request Authentication Algorithm<a class="headerlink" href="#request-authentication-algorithm" title="Permalink to this heading"></a></h2>
+<p>Request authentication is used to prevent unauthorized access to protected resources.  While it happens strictly at the application layer, the Protocol API provides the mechanisms for making this consistent and easy.</p>
+<p>This authentication is based on the following principles:</p>
+<ol class="arabic simple">
+<li><p>every protected resource has a unique Ethereum address</p></li>
+<li><p>only the entities that are authorized to use the resources know the corresponding private keys</p></li>
+<li><p>the guardian knows the public addresses of all protects resources that it protects</p></li>
+<li><p>the guardian can remember all payload validity stamps that it receives from anyone, for their entire validity period.</p></li>
+<li><p>100% of the information required to grant access to the resource is contained within the <code class="docutils literal notranslate"><span class="pre">payload</span></code> property of a Request</p></li>
+</ol>
+<section id="allow-and-auth">
+<h3>Allow and Auth<a class="headerlink" href="#allow-and-auth" title="Permalink to this heading"></a></h3>
+<p>The allow and auth fields work together to document what entity is allowed to make use of the protected resource (as described by the payload) and to document that authorization with a signature generated for the payload and with the private key corresponding to the public address identiying the protected resource.</p>
+<ul class="simple">
+<li><p>The <code class="docutils literal notranslate"><span class="pre">allow</span></code> property of the Request <code class="docutils literal notranslate"><span class="pre">payload</span></code> contains an array with entries in the form <code class="docutils literal notranslate"><span class="pre">{</span> <span class="pre">resource,</span> <span class="pre">guardian,</span> <span class="pre">accessor</span> <span class="pre">}</span></code> which describes which <code class="docutils literal notranslate"><span class="pre">resource</span></code> on which <code class="docutils literal notranslate"><span class="pre">guardian</span></code> is allowed to be modified by which <code class="docutils literal notranslate"><span class="pre">accessor</span></code>.</p></li>
+<li><p>The <code class="docutils literal notranslate"><span class="pre">auth</span></code> property of the Request contains a key/value pair lookup table of resource addresses and signatures</p></li>
+<li><p>These signatures were generated with the resource addresses’ corresponding private keys</p></li>
+</ul>
+<p>This gives the resource guardian the confidence that the entity with control of the protected resource authorized the entity making the request to make it, even if those two entities are not the same entity.</p>
+<section id="cheque-scenario">
+<h4>Cheque Scenario<a class="headerlink" href="#cheque-scenario" title="Permalink to this heading"></a></h4>
+<p>For example, Dan might write Wes a cheque for $1,000,000, which Wes would present to the Royal Bank, asking for permission to withdraw the money from Dan’s account, and Dan could hand this cheque to Jack to give to Wes.</p>
+<p>In this scenario,</p>
+<ul class="simple">
+<li><p>the Royal Bank is the guardian</p></li>
+<li><p>Dan’s bank account is the protected resource</p></li>
+<li><p>Wes is the entity making the request</p></li>
+<li><p>Dan’s signature has authorized the request, which specifies that</p>
+<ul>
+<li><p>Wes is allowed to make it</p></li>
+<li><p>It is drawn on Dan’s bank account</p></li>
+<li><p>Wes is only authorized to withdraw $1,000,000</p></li>
+</ul>
+</li>
+<li><p>The cheque is the Request</p></li>
+<li><p>Jack is an intermediary who has no part in the transaction other than to pass around the request</p></li>
+<li><p>There is no special relationship between Jack and Dan except that</p>
+<ul>
+<li><p>Dan trusts Jack to deliver the cheque to Wes</p></li>
+<li><p>Wes trusts that Jack isn’t going to give him a fake cheque</p></li>
+</ul>
+</li>
+</ul>
+</section>
+</section>
+<section id="validity">
+<h3>Validity<a class="headerlink" href="#validity" title="Permalink to this heading"></a></h3>
+<p>When a Request message is sent, the sender stamps the payload with the transmission time, according to either NTP or the clock on the target.</p>
+<p>Every entity has both minimum and maximum TTL values.  If the <code class="docutils literal notranslate"><span class="pre">ttl</span></code> property of the <code class="docutils literal notranslate"><span class="pre">validity</span></code> property of the Request’s <code class="docutils literal notranslate"><span class="pre">payload</span></code> is specified and between the minimum and maximum value, that value is used for the Request’s TTL.  Otherwise,</p>
+<ul class="simple">
+<li><p>if that <code class="docutils literal notranslate"><span class="pre">ttl</span></code> is specified but too short, the minimum value is used</p></li>
+<li><p>if that <code class="docutils literal notranslate"><span class="pre">ttl</span></code> is specified but too long, the maximum value is used</p></li>
+<li><p>if that <code class="docutils literal notranslate"><span class="pre">ttl</span></code> is not specified, the default value is used</p></li>
+<li><p>if the default value is was not specified on the Connection, then the minimum value is used</p></li>
+</ul>
+<p>The receiving entity then examines the <code class="docutils literal notranslate"><span class="pre">time</span></code> property of the <code class="docutils literal notranslate"><span class="pre">validity</span></code> object.</p>
+<ul class="simple">
+<li><p>if the <code class="docutils literal notranslate"><span class="pre">operation</span></code> is not <code class="docutils literal notranslate"><span class="pre">'connect'</span></code>:</p></li>
+<li><p>if the <code class="docutils literal notranslate"><span class="pre">operation.validity.time</span></code> property of the Request message is not defined, an error.code=EINVAL ErrorPayload response is sent</p></li>
+<li><p>if the <code class="docutils literal notranslate"><span class="pre">time</span></code> is in the future, an error.code=ETIMETRAVEL ErrorPayload response is sent</p></li>
+<li><p>if the <code class="docutils literal notranslate"><span class="pre">time</span></code> + the TTL is in the past, an error.code=EEXPIRED ErrorPayload response is sent</p></li>
+<li><p>if the receiver has ever seen a request with the same <code class="docutils literal notranslate"><span class="pre">stamp</span></code> on any connection from any source, an error.code=EDUP response is sent</p></li>
+<li><p>If no error response was sent, the ‘<code class="docutils literal notranslate"><span class="pre">request</span></code>’ event is fired.</p></li>
+</ul>
+<section id="cheque-scenario-contd">
+<h4>Cheque Scenario (cont’d)<a class="headerlink" href="#cheque-scenario-contd" title="Permalink to this heading"></a></h4>
+<p>Revisiting the cheque scenario above, the bank also needs to ensure that the cheque is being presented to the bank for the first time, and is not a digital or photo copy.</p>
+<p>Every cheque has a cheque number (<em>validity.stamp</em>) that accompanies the bank transit number (<em>guardian address</em>) and account number (<em>resource address</em>).  The bank keeps a list of all the cheque numbers that have been drawn on that account, but keeping a list of all cheques forever would be burdensome. The bank’s solution is to look at the date on the cheque (<em>validity.time</em>) and adds one year (<em>validity.ttl</em>) to that period. If that date is in the past, the cheque is more than a year old and will not be honoured.</p>
+</section>
+</section>
+<section id="target-startup-notes">
+<h3>Target Startup Notes<a class="headerlink" href="#target-startup-notes" title="Permalink to this heading"></a></h3>
+<p>In order to be fully secure against replay attacks, targets operating over DCPv4 must employ one of the two following algorithms to prevent message replays (purposeful or otherwise) from triggering a given behaviour more than once, including after a maintenance cycle or crash-recovery:</p>
+<ol class="arabic simple">
+<li><p>store all validity-checking information (eg. <code class="docutils literal notranslate"><span class="pre">payload.validity.stamp</span></code> and its expiry time) in an ACID-compliant storage system</p></li>
+</ol>
+<ul class="simple">
+<li><p>do not acknowledge message receipt until the backing store confirms the data has been permanently recorded</p></li>
+</ul>
+<ol class="arabic simple" start="2">
+<li><p>Wait for at least the maximal maximum TTL associated with any connection which the target may receive Requests on before accepting any new messages.</p></li>
+</ol>
+<p>Care must be taken by system administrators operating guardian entities when adjusting the system clock or extending validity times on established guardians, as this could open the system up to a replay attack.   For this reason, it is highly recommended that all time changes on systems hosting guardians be made via NTP.</p>
+</section>
+</section>
+<section id="response-authentication-algorithm">
+<h2>Response Authentication Algorithm<a class="headerlink" href="#response-authentication-algorithm" title="Permalink to this heading"></a></h2>
+<ul class="simple">
+<li><p>check that id matches an outstanding request on that connection</p></li>
+<li><p>same checks as Message Authentication, except no nonce</p></li>
+</ul>
+</section>
+<section id="reserved-operations">
+<h2>Reserved Operations<a class="headerlink" href="#reserved-operations" title="Permalink to this heading"></a></h2>
+<p>Certain payload.operation values in Request messages are reserved for use by the protocol itself;</p>
+<ul class="simple">
+<li><p>connect</p></li>
+<li><p>close</p></li>
+<li><p>keepalive</p></li>
+<li><p>v3</p></li>
+</ul>
+<p>The messages are sent by same-named methods of <code class="docutils literal notranslate"><span class="pre">Connection</span></code> instances, and automatically responded at the protocol level <em>without triggering the request callback</em>.</p>
+<section id="connect">
+<h3>connect<a class="headerlink" href="#connect" title="Permalink to this heading"></a></h3>
+<p>The connect operation is the only Request which must be sent from an initiator to a target; all other Request/Response pairs can be exchanged between peers.</p>
+<p>This operation establishes the initial DCPv4 connection, ensuring version compatibility, providing initial nonce/id values, and creates the DCP Session Identifier (<code class="docutils literal notranslate"><span class="pre">dcpsid</span></code>).  Both the initiator and the target provide half of <code class="docutils literal notranslate"><span class="pre">dcpsid</span></code>, which is of the form X-Y where X is provided by the initiator and Y is provided by the target.  Both X and Y must be absolutely unique in their environments.</p>
+<section id="request-connect-initiator-target-body">
+<h4>Request connect (initiator -&gt; target) Body<a class="headerlink" href="#request-connect-initiator-target-body" title="Permalink to this heading"></a></h4>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+  <span class="nx">id</span><span class="o">:</span> <span class="s1">&#39;f123&#39;</span><span class="p">,</span>
+  <span class="nx">nonce</span><span class="o">:</span> <span class="s1">&#39;aaabbbcccddd&#39;</span><span class="p">,</span>
+  <span class="nx">payload</span><span class="o">:</span>
+  <span class="p">{</span>
+    <span class="nx">operation</span><span class="o">:</span> <span class="s1">&#39;connect&#39;</span><span class="p">,</span>
+    <span class="nx">data</span><span class="o">:</span> <span class="p">{</span> <span class="nx">version</span><span class="o">:</span> <span class="s1">&#39;1.1.0&#39;</span><span class="p">,</span> <span class="nx">sid</span><span class="o">:</span> <span class="s1">&#39;INITIATOR_STRING//&#39;</span> <span class="p">},</span>
+    <span class="nx">validity</span><span class="o">:</span> <span class="p">{</span> <span class="nx">time</span><span class="o">:</span> <span class="s1">&#39;117082920&#39;</span><span class="p">,</span> <span class="nx">stamp</span><span class="o">:</span> <span class="s1">&#39;77d25ca91196ceb1c0b851660989b51a&#39;</span><span class="p">,</span> <span class="nx">ttl</span><span class="o">:</span> <span class="mf">15</span> <span class="p">},</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="response-connect-target-initiator-body">
+<h4>Response connect (target -&gt; initiator) Body<a class="headerlink" href="#response-connect-target-initiator-body" title="Permalink to this heading"></a></h4>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+  <span class="nx">id</span><span class="o">:</span> <span class="s1">&#39;f123&#39;</span><span class="p">,</span>
+  <span class="nx">time</span><span class="o">:</span> <span class="s1">&#39;1578683050&#39;</span><span class="p">,</span>
+  <span class="nx">success</span><span class="o">:</span> <span class="s1">&#39;true&#39;</span><span class="p">,</span>
+  <span class="nx">dcpsid</span><span class="o">:</span> <span class="s1">&#39;INITIATOR_STRING//TARGET_STRING&#39;</span><span class="p">,</span>
+  <span class="nx">nonce</span><span class="o">:</span> <span class="s1">&#39;1337c0ded00d&#39;</span><span class="p">,</span>
+  <span class="nx">payload</span><span class="o">:</span> <span class="p">{</span>
+      <span class="nx">version</span><span class="o">:</span> <span class="s1">&#39;4.0.0&#39;</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>or, in the case of a protocol version mismatch:</p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+  <span class="nx">id</span><span class="o">:</span>  <span class="s1">&#39;f123&#39;</span><span class="p">,</span>
+  <span class="nx">time</span><span class="o">:</span> <span class="s1">&#39;1578683050&#39;</span><span class="p">,</span>
+  <span class="nx">success</span><span class="o">:</span> <span class="s1">&#39;false&#39;</span><span class="p">,</span>
+  <span class="nx">payload</span><span class="o">:</span>
+  <span class="p">{</span>
+    <span class="nx">message</span><span class="o">:</span> <span class="s1">&#39;&gt;2.0.0&#39;</span><span class="p">,</span>
+    <span class="nx">code</span><span class="o">:</span> <span class="s1">&#39;EVERSION&#39;</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>A sample Request as sent ‘on the wire’, after being signed, including Ethereum envelope:</p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span>{
+  owner: &lt;initiator&#39;s identity.address&gt;,
+  signature: &lt;signature(body)&gt;
+  body: 
+  {
+    id: &lt;whatever but unique&gt;,
+    payload:
+    {
+      operation: &lt;name of operation&gt;,
+      data: /* JSONable whatever or undefined */,
+      allow: [ { resource: &lt;resource address&gt;, guardian: &lt;guardian address&gt;, accessor: &lt;accessor address&gt; }, ... ],
+      validity: { time, stamp, ttl }
+    }
+    auth: { &lt;resource address&gt;: signature(payload) },
+    dcpsid: /* unique per &quot;connection&quot;, assigned during connect */
+    nonce: /* last nonce received */
+  }
+}
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id3">
+<h3>close<a class="headerlink" href="#id3" title="Permalink to this heading"></a></h3>
+<p>Request: <code class="docutils literal notranslate"><span class="pre">{</span> <span class="pre">payload:</span> <span class="pre">{</span> <span class="pre">operation:</span> <span class="pre">'close'</span> <span class="pre">}</span> <span class="pre">}</span></code>
+Response: <code class="docutils literal notranslate"><span class="pre">{</span> <span class="pre">success:</span> <span class="pre">true</span> <span class="pre">}</span></code></p>
+</section>
+<section id="keepalive">
+<h3>keepalive<a class="headerlink" href="#keepalive" title="Permalink to this heading"></a></h3>
+<p>Request: <code class="docutils literal notranslate"><span class="pre">{</span> <span class="pre">payload:</span> <span class="pre">{</span> <span class="pre">operation:</span> <span class="pre">'keepalive'</span> <span class="pre">}</span> <span class="pre">}</span></code>
+Response: <code class="docutils literal notranslate"><span class="pre">{</span> <span class="pre">success:</span> <span class="pre">true</span> <span class="pre">}</span></code></p>
+</section>
+<section id="v3">
+<h3>v3<a class="headerlink" href="#v3" title="Permalink to this heading"></a></h3>
+<p>The v3 operation provides a v4 wrapper to access services provided via a v3 endpoint. The server must configure the v4 Dispatcher with a handle to the v3 router, then clients may use the <code class="docutils literal notranslate"><span class="pre">Connection.sendv3</span></code> method as a replacement for v3’s <code class="docutils literal notranslate"><span class="pre">protocol.send</span></code>; <code class="docutils literal notranslate"><span class="pre">sendv3</span></code> accepts the same basic parameters as <code class="docutils literal notranslate"><span class="pre">protocol.send</span></code> - <code class="docutils literal notranslate"><span class="pre">url</span></code>, <code class="docutils literal notranslate"><span class="pre">message</span></code>, and optional <code class="docutils literal notranslate"><span class="pre">key</span></code>.</p>
+<p>At the server side, the request will be shaped into a v3 SignedMessage format, with the owner set to the first <code class="docutils literal notranslate"><span class="pre">allow</span></code> resource if present or the Request’s <code class="docutils literal notranslate"><span class="pre">owner</span></code> otherwise.</p>
+<p>Request:</p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+ <span class="nx">payload</span><span class="o">:</span> <span class="p">{</span> 
+  <span class="nx">operation</span><span class="o">:</span> <span class="s1">&#39;v3&#39;</span><span class="p">,</span>
+  <span class="nx">data</span><span class="o">:</span> <span class="p">{</span>
+   <span class="nx">url</span><span class="o">:</span> <span class="s1">&#39;/example-url&#39;</span><span class="p">,</span>
+   <span class="nx">message</span><span class="o">:</span> <span class="p">{</span>
+    <span class="cm">/* message body */</span>
+   <span class="p">}</span>
+  <span class="p">},</span>
+        <span class="nx">allow</span><span class="o">:</span> <span class="p">[</span>
+            <span class="p">{</span> <span class="nx">resource</span><span class="o">:</span> <span class="nx">dcpId</span><span class="p">,</span> <span class="nx">guardian</span><span class="o">:</span> <span class="nx">dcpId</span><span class="p">,</span> <span class="nx">accessor</span><span class="o">:</span> <span class="nx">dcpId</span> <span class="p">}</span>
+        <span class="p">],</span>
+ <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Response:</p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+ <span class="nx">success</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+ <span class="nx">payload</span><span class="o">:</span> <span class="p">{</span>
+  <span class="nx">v3status</span><span class="o">:</span> <span class="s1">&#39;resolve&#39;</span> <span class="o">|</span> <span class="s1">&#39;reject&#39;</span><span class="p">,</span>
+  <span class="nx">v3rejection</span><span class="o">:</span> <span class="cm">/* if v3status is &#39;reject&#39;, then rejected Error */</span><span class="p">,</span>
+  <span class="nx">v3resolution</span><span class="o">:</span> <span class="cm">/* if v3status is &#39;resolve&#39;, then returned v3 message body */</span><span class="p">,</span>
+ <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="error-codes">
+<h2>Error Codes<a class="headerlink" href="#error-codes" title="Permalink to this heading"></a></h2>
+<p>The following error codes are defined by this specification for protocol-level errors:</p>
+<table class="colwidths-auto docutils align-default">
+<thead>
+<tr class="row-odd"><th class="text-left head"><p>error.code</p></th>
+<th class="text-left head"><p>Meaning</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p><em>ETARGETVERSION</em></p></td>
+<td class="text-left"><p>the target’s protocol version is not compatible (probably too old)</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><em>EVERSION</em></p></td>
+<td class="text-left"><p>the target has told the initiator that its version is not compatible (probably too old)</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><em>EADDRCHANGE</em></p></td>
+<td class="text-left"><p>the target’s address is not the same as it was the last time we connected to it</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><em>EEXPIRED</em></p></td>
+<td class="text-left"><p>the request has expired</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><em>ETIMETRAVEL</em></p></td>
+<td class="text-left"><p>the request’s timestamp is in the future</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><em>EDUP</em></p></td>
+<td class="text-left"><p>the request is a duplicate</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><em>EINVAL</em></p></td>
+<td class="text-left"><p>the message is invalid</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><em>ENOV3</em></p></td>
+<td class="text-left"><p>a request for a v3 route was sent to an entity with no v3 router</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="sample-code">
+<h2>Sample Code<a class="headerlink" href="#sample-code" title="Permalink to this heading"></a></h2>
+<section id="send-simple-message">
+<h3>Send Simple Message<a class="headerlink" href="#send-simple-message" title="Permalink to this heading"></a></h3>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="kd">let</span> <span class="nx">conn</span> <span class="o">=</span> <span class="ow">new</span> <span class="nx">protocol</span><span class="p">.</span><span class="nx">Connection</span><span class="p">(</span><span class="nx">peerURL</span><span class="p">);</span>
+<span class="kd">let</span> <span class="nx">response</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">conn</span><span class="p">.</span><span class="nx">send</span><span class="p">(</span><span class="s1">&#39;add&#39;</span><span class="p">,</span> <span class="p">[</span><span class="mf">1</span><span class="p">,</span> <span class="mf">2</span><span class="p">,</span> <span class="mf">3</span><span class="p">,</span> <span class="mf">4</span><span class="p">,</span> <span class="mf">5</span><span class="p">])</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;The answer is&#39;</span><span class="p">,</span> <span class="nx">response</span><span class="p">.</span><span class="nx">payload</span><span class="p">);</span>
+</pre></div>
+</div>
+</section>
+<section id="receive-simple-message">
+<h3>Receive Simple Message<a class="headerlink" href="#receive-simple-message" title="Permalink to this heading"></a></h3>
+<p>Setting up a target is a bit more complex. A target needs to be able to manage a pool of connections and transports and read messages coming in off of those transports to determine which connections they go to (or create one if an initial connect request comes in).</p>
+<p>Using socket.io as an example of a transport layer that could receive an initial connect request (and thus instantiate a <code class="docutils literal notranslate"><span class="pre">Connection</span></code> instance at a target) we can build a simple
+demo that doesn’t quite have all the error handling needed but shows the basic idea.</p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// build a pool of connections and transports</span>
+<span class="kd">let</span> <span class="nx">connections</span> <span class="o">=</span> <span class="p">[];</span>
+<span class="kd">let</span> <span class="nx">transports</span> <span class="o">=</span> <span class="p">[];</span>
+<span class="kd">const</span> <span class="nx">identity</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">wallet</span><span class="p">.</span><span class="nx">getId</span><span class="p">();</span>
+<span class="kd">const</span> <span class="nx">httpServer</span> <span class="o">=</span> <span class="nx">http</span><span class="p">.</span><span class="nx">createServer</span><span class="p">();</span>
+<span class="k">this</span><span class="p">.</span><span class="nx">socketIOServer</span> <span class="o">=</span> <span class="nx">socketio</span><span class="p">(</span><span class="nx">httpServer</span><span class="p">);</span>
+<span class="k">this</span><span class="p">.</span><span class="nx">socketIOServer</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;connection&#39;</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">socket</span><span class="p">)</span> <span class="p">{</span>
+  <span class="c1">// create a new transport using our SocketIOTransport class</span>
+  <span class="kd">const</span> <span class="nx">transport</span> <span class="o">=</span> <span class="ow">new</span> <span class="nx">SocketIOTransport</span><span class="p">(</span><span class="nx">socket</span><span class="p">);</span>
+  <span class="nx">transports</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">transport</span><span class="p">);</span>
+  <span class="nx">transport</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;message&#39;</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">message</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// determine if message should go to an existing connection or create a new one</span>
+    <span class="kd">let</span> <span class="nx">conn</span><span class="p">;</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">isConnectMessage</span><span class="p">(</span><span class="nx">message</span><span class="p">))</span> <span class="p">{</span>
+      <span class="nx">conn</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">Connection</span><span class="p">.</span><span class="nx">newTarget</span><span class="p">(</span><span class="nx">identity</span><span class="p">,</span> <span class="nx">transport</span><span class="p">);</span>
+      <span class="c1">// respond to a new connection being created so that when it emits a &#39;request&#39; event you can do something with it.</span>
+      <span class="nx">registerNewConnection</span><span class="p">(</span><span class="nx">conn</span><span class="p">);</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+      <span class="nx">conn</span> <span class="o">=</span> <span class="nx">connections</span><span class="p">.</span><span class="nx">find</span><span class="p">(</span> <span class="p">(</span><span class="nx">conn</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="nx">conn</span><span class="p">.</span><span class="nx">dcpsid</span> <span class="o">===</span> <span class="nx">message</span><span class="p">.</span><span class="nx">body</span><span class="p">.</span><span class="nx">dcpsid</span> <span class="p">);</span>
+      <span class="c1">// handle case where no connection was found</span>
+    <span class="p">}</span>
+    <span class="nx">conn</span><span class="p">.</span><span class="nx">transport</span> <span class="o">=</span> <span class="nx">transport</span><span class="p">;</span>
+    <span class="nx">conn</span><span class="p">.</span><span class="nx">onMessage</span><span class="p">(</span><span class="nx">message</span><span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">});</span>
+<span class="nx">httpServer</span><span class="p">.</span><span class="nx">listen</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">url</span><span class="p">.</span><span class="nx">port</span><span class="p">);</span>
+</pre></div>
+</div>
+</section>
+<section id="send-message-via-third-party">
+<h3>Send Message via Third-Party<a class="headerlink" href="#send-message-via-third-party" title="Permalink to this heading"></a></h3>
+<p>A message which is handed to the scheduler to allow the scheduler to escrow some funds from a bank account without multiple round trips might looks like this:</p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="kd">let</span> <span class="nx">schedulerConn</span> <span class="o">=</span> <span class="ow">new</span> <span class="nx">protocol</span><span class="p">.</span><span class="nx">Connection</span><span class="p">(</span><span class="nx">schedulerLocation</span><span class="p">,</span> <span class="nx">idKS</span><span class="p">);</span>
+<span class="kd">let</span> <span class="nx">bankAddress</span> <span class="o">=</span> <span class="p">(</span><span class="k">await</span> <span class="nx">schedulerConn</span><span class="p">.</span><span class="nx">send</span><span class="p">(</span><span class="s1">&#39;getLocalBankAddress&#39;</span><span class="p">));</span>
+<span class="kd">let</span> <span class="nx">bankAccountKS</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">wallet</span><span class="p">.</span><span class="nx">get</span><span class="p">();</span>
+<span class="kd">let</span> <span class="nx">idKS</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">wallet</span><span class="p">.</span><span class="nx">getId</span><span class="p">();</span>
+<span class="kd">let</span> <span class="nx">request</span> <span class="o">=</span> <span class="ow">new</span> <span class="nx">schedulerConn</span><span class="p">.</span><span class="nx">Request</span><span class="p">({</span><span class="nx">operation</span><span class="o">:</span> <span class="s1">&#39;escrow&#39;</span><span class="p">});</span>
+
+<span class="nx">request</span><span class="p">.</span><span class="nx">payload</span><span class="p">.</span><span class="nx">data</span> <span class="o">=</span> <span class="p">{</span> <span class="nx">source</span><span class="o">:</span> <span class="nx">bankAccountKS</span><span class="p">.</span><span class="nx">address</span><span class="p">,</span> <span class="nx">amount</span><span class="o">:</span> <span class="mf">100</span> <span class="p">};</span>
+<span class="nx">request</span><span class="p">.</span><span class="nx">authorize</span><span class="p">(</span><span class="nx">bankAccountKS</span><span class="p">);</span>
+<span class="nx">response</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">schedulerConn</span><span class="p">.</span><span class="nx">send</span><span class="p">(</span><span class="nx">message</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>Note that the bank/scheduler message payload details are beyond the scope of this specification.</p>
+</section>
+<section id="send-message-using-protected-resource">
+<h3>Send Message using protected resource<a class="headerlink" href="#send-message-using-protected-resource" title="Permalink to this heading"></a></h3>
+<p>In this example, the bank might understand an operation named ‘transfer’, which transfers funds from one account to another.  The source account would require the message sender to have the authority to do this.</p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="kd">let</span> <span class="nx">bank</span> <span class="o">=</span> <span class="ow">new</span> <span class="nx">protocol</span><span class="p">.</span><span class="nx">Connection</span><span class="p">(</span><span class="nx">bankURL</span><span class="p">);</span>
+<span class="kd">let</span> <span class="nx">fundsSourceKS</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">wallet</span><span class="p">.</span><span class="nx">get</span><span class="p">();</span>
+<span class="kd">let</span> <span class="nx">fundsTarget</span> <span class="o">=</span> <span class="ow">new</span> <span class="nx">wallet</span><span class="p">.</span><span class="nx">Address</span><span class="p">(</span><span class="s1">&#39;0xc0ffee&#39;</span><span class="p">);</span>
+<span class="kd">let</span> <span class="nx">request</span> <span class="o">=</span> <span class="ow">new</span> <span class="nx">bank</span><span class="p">.</span><span class="nx">Request</span><span class="p">(</span><span class="s1">&#39;transfer&#39;</span><span class="p">,</span> <span class="p">{</span> 
+  <span class="nx">amount</span><span class="o">:</span> <span class="mf">123.45</span><span class="p">,</span>
+  <span class="nx">source</span><span class="o">:</span> <span class="nx">fundsSourceKS</span><span class="p">.</span><span class="nx">address</span><span class="p">,</span>
+  <span class="nx">target</span><span class="o">:</span> <span class="nx">fundsTarget</span>
+<span class="p">});</span>
+<span class="nx">request</span><span class="p">.</span><span class="nx">authorize</span><span class="p">(</span><span class="nx">fundsSourceKS</span><span class="p">);</span>
+<span class="kd">let</span> <span class="nx">result</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">request</span><span class="p">.</span><span class="nx">send</span><span class="p">();</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;Funds were successfully transferred; receipt:&#39;</span><span class="p">,</span> <span class="nx">result</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="receive-message-requesting-use-of-protected-resource">
+<h3>Receive Message requesting use of protected resource<a class="headerlink" href="#receive-message-requesting-use-of-protected-resource" title="Permalink to this heading"></a></h3>
+<p>Using the example from before, let’s look at what <code class="docutils literal notranslate"><span class="pre">registerNewConnection</span></code> might do.</p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="k">async</span> <span class="kd">function</span> <span class="nx">registerNewConnection</span> <span class="p">(</span><span class="nx">conn</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">conn</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;request&#39;</span><span class="p">,</span> <span class="p">(</span><span class="nx">request</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="p">{</span>
+    <span class="k">switch</span> <span class="p">(</span><span class="nx">request</span><span class="p">.</span><span class="nx">payload</span><span class="p">.</span><span class="nx">operation</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">case</span> <span class="s1">&#39;transfer&#39;</span><span class="o">:</span>
+        <span class="nx">response</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">oper_transfer</span><span class="p">(</span><span class="nx">request</span><span class="p">);</span> 
+        <span class="k">break</span><span class="p">;</span>
+      <span class="k">default</span><span class="o">:</span> 
+        <span class="nx">response</span> <span class="o">=</span> <span class="ow">new</span> <span class="ne">Error</span><span class="p">(</span><span class="s1">&#39;Invalid Request&#39;</span><span class="p">);</span>
+        <span class="k">break</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="nx">request</span><span class="p">.</span><span class="nx">respond</span><span class="p">(</span><span class="nx">response</span><span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="k">async</span> <span class="kd">function</span> <span class="nx">oper_transfer</span><span class="p">(</span><span class="nx">request</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kd">let</span> <span class="p">{</span><span class="nx">amount</span><span class="p">,</span> <span class="nx">source</span><span class="p">,</span> <span class="nx">target</span><span class="p">}</span> <span class="o">=</span> <span class="nx">request</span><span class="p">.</span><span class="nx">payload</span><span class="p">.</span><span class="nx">data</span><span class="p">;</span>
+
+  <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">request</span><span class="p">.</span><span class="nx">doesAuthorize</span><span class="p">(</span><span class="nx">source</span><span class="p">))</span>
+    <span class="k">return</span> <span class="p">{</span> <span class="nx">status</span><span class="o">:</span> <span class="s1">&#39;not authorized&#39;</span> <span class="p">};</span>
+     
+  <span class="kd">let</span> <span class="nx">result</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;./bank_guts&#39;</span><span class="p">).</span><span class="nx">transfer</span><span class="p">(</span><span class="nx">amount</span><span class="p">,</span> <span class="nx">source</span><span class="p">,</span> <span class="nx">target</span><span class="p">);</span>
+  <span class="k">if</span> <span class="p">(</span><span class="nx">result</span> <span class="o">!==</span> <span class="kc">true</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">{</span> <span class="nx">status</span><span class="o">:</span> <span class="s1">&#39;fail&#39;</span><span class="p">,</span> <span class="nx">error</span><span class="o">:</span> <span class="nx">result</span> <span class="p">};</span>
+  <span class="k">return</span> <span class="p">{</span> <span class="nx">status</span><span class="o">:</span> <span class="s1">&#39;ok&#39;</span> <span class="p">};</span>
+<span class="p">}</span>  
+</pre></div>
+</div>
+<!--stackedit_data:
+eyJoaXN0b3J5IjpbLTEzNjM4MjYwMzYsLTI3MjMwNzc5MiwtMT
+c0NDM0OTAwNiwtMTI4Nzk0Mjk0LDQzNzk1NzMzNiw0NjI2Njg3
+MDcsLTEzODExMjgwNTAsNjk5NTY5MTIxLDIwNDk1NTI4NzUsMT
+E4MzQwNzU2OCwxODQ1MDc1Njg3LDk4MTM1Nzg4NSwtMTk0ODg2
+NzA1MSwxMjM1MDk2MTM0LC0xMzExMDYxNjYxLDEwNTY2NzM1NT
+csLTIzOTk5NTAzNiwxMTA3MzYwMjc3LC0xNjM1MTg5ODUxLC0x
+NzY4NjI5NDA1XX0=
+-->
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="compute-api.html" class="btn btn-neutral float-left" title="Compute API" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="wallet-api.html" class="btn btn-neutral float-right" title="Wallet API" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Distributive.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+    <!-- Theme Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-0N557JP49X"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-0N557JP49X', {
+          'anonymize_ip': false,
+      });
+    </script> 
+
+</body>
+</html>

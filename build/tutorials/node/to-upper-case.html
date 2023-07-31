@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>toUpperCase &mdash; Distributive Compute Protocol  documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/tabs.css" type="text/css" />
+    <link rel="shortcut icon" href="../../_static/favicon.ico"/>
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Web tutorials" href="../web/index.html" />
+    <link rel="prev" title="The mandelbrot set" href="mandelbrot.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #0e2439" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            Distributive Compute Protocol
+              <img src="../../_static/dcl-logo.svg" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Introduction</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../intro/getting-setup.html">Getting setup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../intro/getting-started.html">Getting started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../intro/workers.html">Setting up <code class="docutils literal notranslate"><span class="pre">DCP</span> <span class="pre">workers</span></code></a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">DCP on Node.js</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="dcp-sort.html"><code class="docutils literal notranslate"><span class="pre">dcp-sort</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="mandelbrot.html">The mandelbrot set</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#"><code class="docutils literal notranslate"><span class="pre">toUpperCase</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#a-refresher">A refresher</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#setup">Setup</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#input-data">Input data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#work-function">Work function</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#compute-for">Compute for</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#compute-group">Compute Group</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#process-results">Process results</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#run-it">Run it</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#full-code">Full code</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#tutorial-descriptions">Tutorial descriptions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#environment">Environment</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../web/index.html">DCP on the Web</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../colab.html">DCP on Google Colabs</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Advanced Guides</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../advanced/data-uri.html">Deploying jobs with remote input data</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../api/dcp-client/index.html"><code class="docutils literal notranslate"><span class="pre">dcp-client</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/compute/index.html"><code class="docutils literal notranslate"><span class="pre">dcp/compute</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/wallet/index.html"><code class="docutils literal notranslate"><span class="pre">dcp/wallet</span></code></a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Support</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../support/faq.html">FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../support/contact.html">Contact us</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Indices and tables</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../glossary.html">Glossary</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Full DCP Specifications</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../specs/compute-api.html">   Compute</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../specs/protocol-api.html">   Protocol</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../specs/wallet-api.html">   Wallet</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../specs/worker-api.html">   Worker</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #0e2439" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Distributive Compute Protocol</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Node.js tutorials</a></li>
+      <li class="breadcrumb-item active"><code class="docutils literal notranslate"><span class="pre">toUpperCase</span></code></li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="touppercase">
+<h1><code class="docutils literal notranslate"><span class="pre">toUpperCase</span></code><a class="headerlink" href="#touppercase" title="Permalink to this heading"></a></h1>
+<p>This app demonstrates how to turn lowercase characters into uppercase characters using the Distributive Compute Protocol (DCP). If you have a good understanding of how DCP works and the terminology already please feel free to skip the refresher and jump straight to the set up.</p>
+<section id="a-refresher">
+<h2>A refresher<a class="headerlink" href="#a-refresher" title="Permalink to this heading"></a></h2>
+<details><summary>Click to see the refresher</summary>
+<p>DCP is a distributed computing framework made from web-based technology.</p>
+<p>Computers and devices in classrooms, computer labs, households, and enterprises can be turned into computing clusters with a single click with DCP. The computational workload, a <strong>job</strong>, is sub-divided into smaller parts. These smaller parts are called <strong>slices</strong>. Slices are executed in parallel using DCP. Each slice of the job will correspond to a value in an array that we wish to make uppercase. Slices will be sent to different <strong>Workers</strong> (for example, laptops, desktops, cell phones, etc.) which contain sandboxes. A <strong>sandbox</strong> is a clean environment on your Worker that runs your work function.</p>
+<p>DCP is a powerful parallel computing framework that allows users to express a computational job as effortlessly as:</p>
+<div class="highlight-js notranslate"><div class="highlight"><pre><span></span><span class="nx">job</span> <span class="o">=</span> <span class="nx">compute</span><span class="p">.</span><span class="k">for</span><span class="p">(</span><span class="nx">inputSet</span><span class="p">,</span> <span class="nx">workFunction</span><span class="p">);</span>
+
+<span class="nx">resultSet</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">job</span><span class="p">.</span><span class="nx">exec</span><span class="p">();</span>
+</pre></div>
+</div>
+<p>A workFunction is mapped onto each element in an <code class="docutils literal notranslate"><span class="pre">inputSet</span></code>. Each mapping represents a slice. Slices are distributed across DCP networks for computation. Results are returned to the user from DCP networks coherently.</p>
+<p>Remember, the work function must contain <code class="docutils literal notranslate"><span class="pre">progress();</span></code>. Progress is a call made to tell the scheduler that the job is still alive and running. Progress is considered the heart beat of the job, without it the job would die and no results would be returned.</p>
+<ol class="arabic">
+<li><p>Create compute nodes: go to <a class="reference external" href="https://dcp.work">https://dcp.work</a> on as many devices as you want and click Start to join the public Compute Group, or to dcp.work/<code class="docutils literal notranslate"><span class="pre">joinKey</span></code> if you have a private Compute Group <code class="docutils literal notranslate"><span class="pre">joinKey</span></code> and <code class="docutils literal notranslate"><span class="pre">joinSecret</span></code>.</p></li>
+<li><p>Configure dev environment: load <code class="docutils literal notranslate"><span class="pre">dcp-client</span></code> and any required packages.</p></li>
+<li><p>Specify the <code class="docutils literal notranslate"><span class="pre">inputSet</span></code>: an arbitrary, but enumerable input dataset (parameters, mp3 files, images, blender project file, etc)</p></li>
+<li><p>Specify the <code class="docutils literal notranslate"><span class="pre">workFunction</span></code>: an arbitrary work function (physics simulation, inference model, rendering process, etc)</p></li>
+<li><p>Express the job: Map the <code class="docutils literal notranslate"><span class="pre">workFunction</span></code> onto the <code class="docutils literal notranslate"><span class="pre">inputSet</span></code> with</p>
+<div class="highlight-js notranslate"><div class="highlight"><pre><span></span><span class="nx">job</span> <span class="o">=</span> <span class="nx">compute</span><span class="p">.</span><span class="k">for</span><span class="p">(</span><span class="nx">inputSet</span><span class="p">,</span> <span class="nx">workFunction</span><span class="p">);</span>
+</pre></div>
+</div>
+</li>
+<li><p>(optional) Specify a Compute Group with</p>
+<div class="highlight-js notranslate"><div class="highlight"><pre><span></span><span class="nx">job</span><span class="p">.</span><span class="nx">computeGroups</span> <span class="o">=</span> <span class="p">[{</span> <span class="nx">joinKey</span><span class="o">:</span> <span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="nx">joinSecret</span><span class="o">:</span> <span class="s1">&#39;passphrase&#39;</span> <span class="p">}];</span>
+</pre></div>
+</div>
+</li>
+<li><p>Await the <code class="docutils literal notranslate"><span class="pre">resultSet</span></code>: Execute the job in parallel on DCP via</p>
+<div class="highlight-js notranslate"><div class="highlight"><pre><span></span><span class="nx">resultSet</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">job</span><span class="p">.</span><span class="nx">exec</span><span class="p">();</span>
+</pre></div>
+</div>
+</li>
+</ol>
+</details>
+<br/>
+<p><strong>A plain node example of using distributed computing to capitalize a string:</strong></p>
+<p>First, sign up for a DCP account at <a class="reference external" href="https://portal.distributed.computer">https://portal.distributed.computer</a>. After signing up, download the <code class="docutils literal notranslate"><span class="pre">id.keystore</span></code> and <code class="docutils literal notranslate"><span class="pre">default.keystore</span></code> associated with your account. <a class="reference internal" href="../../intro/getting-setup.html"><span class="doc std std-doc">Refer to this tutorial</span></a> for more information on how to download your keystores.</p>
+<p>In this example, the DCP app takes a string and splits it into characters. Each character is sent to a Worker who capitalizes it, and reports the results. You typically wouldn’t distribute such a small task, but this example helps show DCP-specific code without worrying about application details.</p>
+</section>
+<section id="setup">
+<h2>Setup<a class="headerlink" href="#setup" title="Permalink to this heading"></a></h2>
+<p>Create a directory for your project, and download the DCP packages by running the below command.</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>npm i dcp-client
+</pre></div>
+</div>
+<p>Next, make a JavaScript file and create the asynchronous <code class="docutils literal notranslate"><span class="pre">main</span></code> function. The program requires the <code class="docutils literal notranslate"><span class="pre">dcp-client</span></code> module to initialize access to the <code class="docutils literal notranslate"><span class="pre">Compute</span> <span class="pre">API</span></code>.</p>
+<div class="highlight-js notranslate"><div class="highlight"><pre><span></span><span class="k">async</span> <span class="kd">function</span> <span class="nx">main</span><span class="p">()</span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="nx">compute</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;dcp/compute&#39;</span><span class="p">);</span>
+  <span class="c1">// Rest of the code will go in the following sections:</span>
+  <span class="cm">/* INPUT DATA */</span>
+
+  <span class="cm">/* WORK FUNCTION */</span>
+
+  <span class="cm">/* COMPUTE FOR */</span>
+
+  <span class="cm">/* PROCESS RESULTS */</span>
+<span class="p">}</span>
+<span class="nx">require</span><span class="p">(</span><span class="s1">&#39;dcp-client&#39;</span><span class="p">).</span><span class="nx">init</span><span class="p">(</span><span class="s1">&#39;https://scheduler.distributed.computer&#39;</span><span class="p">).</span><span class="nx">then</span><span class="p">(</span><span class="nx">main</span><span class="p">);</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p><a class="reference internal" href="../../api/dcp-client/functions/init.html"><span class="doc std std-doc">init()</span></a></p></li>
+</ul>
+</section>
+<section id="input-data">
+<h2>Input data<a class="headerlink" href="#input-data" title="Permalink to this heading"></a></h2>
+<p>In this example, the input set is an array of characters, taken from the input string <code class="docutils literal notranslate"><span class="pre">&quot;yelling!&quot;</span></code>.</p>
+<div class="highlight-js notranslate"><div class="highlight"><pre><span></span><span class="cm">/* INPUT SET */</span>
+<span class="kd">const</span> <span class="nx">inputSet</span> <span class="o">=</span> <span class="nb">Array</span><span class="p">.</span><span class="kr">from</span><span class="p">(</span><span class="s1">&#39;yelling!&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+</section>
+<section id="work-function">
+<h2>Work function<a class="headerlink" href="#work-function" title="Permalink to this heading"></a></h2>
+<p>The work function is what each Worker runs. In this case, each Worker takes one input character, and turns it to upper case.</p>
+<div class="highlight-js notranslate"><div class="highlight"><pre><span></span><span class="cm">/* WORK FUNCTION */</span>
+<span class="k">async</span> <span class="kd">function</span> <span class="nx">workFunction</span><span class="p">(</span><span class="nx">letter</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">progress</span><span class="p">();</span>
+  <span class="k">return</span> <span class="nx">letter</span><span class="p">.</span><span class="nx">toUpperCase</span><span class="p">();</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p><a class="reference internal" href="../../api/compute/functions/progress.html"><span class="doc std std-doc">progress()</span></a></p></li>
+</ul>
+</section>
+<section id="compute-for">
+<h2>Compute for<a class="headerlink" href="#compute-for" title="Permalink to this heading"></a></h2>
+<p>Now set up the DCP job. DCP sends each value from the <code class="docutils literal notranslate"><span class="pre">inputSet</span></code> to a sandbox. A sandbox is a clean environment on your Worker that runs your work function. The work function capitalizes every value in the <code class="docutils literal notranslate"><span class="pre">inputSet</span></code>.</p>
+<div class="highlight-js notranslate"><div class="highlight"><pre><span></span><span class="cm">/* COMPUTE FOR */</span>
+<span class="kd">const</span> <span class="nx">job</span> <span class="o">=</span> <span class="nx">compute</span><span class="p">.</span><span class="k">for</span><span class="p">(</span><span class="nx">inputSet</span><span class="p">,</span> <span class="nx">workFunction</span><span class="p">);</span>
+<span class="nx">job</span><span class="p">.</span><span class="kr">public</span><span class="p">.</span><span class="nx">name</span> <span class="o">=</span> <span class="s1">&#39;toUpperCase&#39;</span><span class="p">;</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p><a class="reference internal" href="../../api/compute/functions/for.html"><span class="doc std std-doc">compute.for()</span></a></p></li>
+<li><p><a class="reference internal" href="../../api/compute/classes/job.html"><span class="doc std std-doc">job</span></a></p></li>
+</ul>
+<section id="compute-group">
+<h3>Compute Group<a class="headerlink" href="#compute-group" title="Permalink to this heading"></a></h3>
+<p>If you don’t need a Compute Group, skip this section. If you do, enter this line with the key information to join that group.</p>
+<div class="highlight-js notranslate"><div class="highlight"><pre><span></span><span class="c1">// SKIP IF: you do not need a Compute Group</span>
+<span class="nx">job</span><span class="p">.</span><span class="nx">computeGroups</span> <span class="o">=</span> <span class="p">[{</span> <span class="nx">joinKey</span><span class="o">:</span> <span class="s1">&#39;Your Key&#39;</span><span class="p">,</span> <span class="nx">joinSecret</span><span class="o">:</span> <span class="s1">&#39;Your Key&#39;</span> <span class="p">}];</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="process-results">
+<h2>Process results<a class="headerlink" href="#process-results" title="Permalink to this heading"></a></h2>
+<p>Next, await the results. The result is an array of capitalized characters. Put the capitalized characters back into one string and print them.</p>
+<div class="highlight-js notranslate"><div class="highlight"><pre><span></span><span class="cm">/* PROCESS RESULTS */</span>
+<span class="kd">let</span> <span class="nx">resultSet</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">job</span><span class="p">.</span><span class="nx">exec</span><span class="p">();</span>
+<span class="nx">resultSet</span> <span class="o">=</span> <span class="nb">Array</span><span class="p">.</span><span class="kr">from</span><span class="p">(</span><span class="nx">resultSet</span><span class="p">);</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">resultSet</span><span class="p">.</span><span class="nx">toString</span><span class="p">().</span><span class="nx">replace</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">));</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p><a class="reference internal" href="../../api/compute/classes/job.html"><span class="doc std std-doc">job.exec()</span></a></p></li>
+</ul>
+</section>
+<section id="run-it">
+<h2>Run it<a class="headerlink" href="#run-it" title="Permalink to this heading"></a></h2>
+<p>Run <code class="docutils literal notranslate"><span class="pre">node</span> <span class="pre">your-file.js</span></code>, and watch as your work distributes.</p>
+</section>
+<section id="full-code">
+<h2>Full code<a class="headerlink" href="#full-code" title="Permalink to this heading"></a></h2>
+<details><summary>Click to see full code.</summary>
+<div class="highlight-js notranslate"><div class="highlight"><pre><span></span><span class="k">async</span> <span class="kd">function</span> <span class="nx">main</span><span class="p">()</span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="nx">compute</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;dcp/compute&#39;</span><span class="p">);</span>
+
+  <span class="cm">/* INPUT SET */</span>
+  <span class="kd">const</span> <span class="nx">inputSet</span> <span class="o">=</span> <span class="nb">Array</span><span class="p">.</span><span class="kr">from</span><span class="p">(</span><span class="s1">&#39;yelling!&#39;</span><span class="p">);</span>
+
+  <span class="cm">/* WORK FUNCTION */</span>
+  <span class="k">async</span> <span class="kd">function</span> <span class="nx">workFunction</span><span class="p">(</span><span class="nx">letter</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">progress</span><span class="p">();</span>
+    <span class="k">return</span> <span class="nx">letter</span><span class="p">.</span><span class="nx">toUpperCase</span><span class="p">();</span>
+  <span class="p">}</span>
+
+  <span class="cm">/* COMPUTE FOR */</span>
+  <span class="kd">const</span> <span class="nx">job</span> <span class="o">=</span> <span class="nx">compute</span><span class="p">.</span><span class="k">for</span><span class="p">(</span><span class="nx">inputSet</span><span class="p">,</span> <span class="nx">workFunction</span><span class="p">);</span>
+  <span class="nx">job</span><span class="p">.</span><span class="kr">public</span><span class="p">.</span><span class="nx">name</span> <span class="o">=</span> <span class="s1">&#39;toUpperCompute&#39;</span><span class="p">;</span>
+
+  <span class="c1">// SKIP IF: you do not need a Compute Group</span>
+  <span class="c1">// job.computeGroups = [{ joinKey: &#39;KEY&#39;, joinSecret: &#39;SECRET&#39; }];</span>
+
+  <span class="c1">// Not mandatory console logs for status updates</span>
+  <span class="nx">job</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;accepted&#39;</span><span class="p">,</span> <span class="p">()</span> <span class="p">=&gt;</span> <span class="p">{</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="sb">` - Job accepted with id: </span><span class="si">${</span><span class="nx">job</span><span class="p">.</span><span class="nx">id</span><span class="si">}</span><span class="sb">`</span><span class="p">);</span>
+  <span class="p">});</span>
+  <span class="nx">job</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;result&#39;</span><span class="p">,</span> <span class="p">(</span><span class="nx">ev</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="p">{</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="sb">` - Received result </span><span class="si">${</span><span class="nx">ev</span><span class="si">}</span><span class="sb">`</span><span class="p">);</span>
+  <span class="p">});</span>
+
+  <span class="cm">/* PROCESS RESULTS */</span>
+  <span class="kd">let</span> <span class="nx">resultSet</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">job</span><span class="p">.</span><span class="nx">exec</span><span class="p">();</span>
+  <span class="nx">resultSet</span> <span class="o">=</span> <span class="nb">Array</span><span class="p">.</span><span class="kr">from</span><span class="p">(</span><span class="nx">resultSet</span><span class="p">);</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">resultSet</span><span class="p">.</span><span class="nx">toString</span><span class="p">().</span><span class="nx">replace</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">));</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39; - Job Complete&#39;</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="nx">require</span><span class="p">(</span><span class="s1">&#39;dcp-client&#39;</span><span class="p">).</span><span class="nx">init</span><span class="p">(</span><span class="s1">&#39;https://scheduler.distributed.computer&#39;</span><span class="p">).</span><span class="nx">then</span><span class="p">(</span><span class="nx">main</span><span class="p">);</span>
+</pre></div>
+</div>
+</details>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="mandelbrot.html" class="btn btn-neutral float-left" title="The mandelbrot set" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../web/index.html" class="btn btn-neutral float-right" title="Web tutorials" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Distributive.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+    <!-- Theme Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-0N557JP49X"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-0N557JP49X', {
+          'anonymize_ip': false,
+      });
+    </script> 
+
+</body>
+</html>

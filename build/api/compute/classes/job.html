@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Job &mdash; Distributive Compute Protocol  documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/tabs.css" type="text/css" />
+    <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="MultiRangeObject" href="multi-range-object.html" />
+    <link rel="prev" title="Classes" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #0e2439" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            Distributive Compute Protocol
+              <img src="../../../_static/dcl-logo.svg" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Introduction</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../intro/getting-setup.html">Getting setup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../intro/getting-started.html">Getting started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../intro/workers.html">Setting up <code class="docutils literal notranslate"><span class="pre">DCP</span> <span class="pre">workers</span></code></a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorials/node/index.html">DCP on Node.js</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorials/web/index.html">DCP on the Web</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorials/colab.html">DCP on Google Colabs</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Advanced Guides</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced/data-uri.html">Deploying jobs with remote input data</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../dcp-client/index.html"><code class="docutils literal notranslate"><span class="pre">dcp-client</span></code></a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html"><code class="docutils literal notranslate"><span class="pre">dcp/compute</span></code></a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../functions/index.html">Functions</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Classes</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#"><code class="docutils literal notranslate"><span class="pre">Job</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#attributes">Attributes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#methods">Methods</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#events">Events</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="multi-range-object.html"><code class="docutils literal notranslate"><span class="pre">MultiRangeObject</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="range-object.html"><code class="docutils literal notranslate"><span class="pre">RangeObject</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="result-handle.html"><code class="docutils literal notranslate"><span class="pre">ResultHandle</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="super-range-object.html"><code class="docutils literal notranslate"><span class="pre">SuperRangeObject</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../wallet/index.html"><code class="docutils literal notranslate"><span class="pre">dcp/wallet</span></code></a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Support</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../support/faq.html">FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../support/contact.html">Contact us</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Indices and tables</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../glossary.html">Glossary</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Full DCP Specifications</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../specs/compute-api.html">   Compute</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../specs/protocol-api.html">   Protocol</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../specs/wallet-api.html">   Wallet</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../specs/worker-api.html">   Worker</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #0e2439" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">Distributive Compute Protocol</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html"><code class="docutils literal notranslate"><span class="pre">dcp/compute</span></code></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Classes</a></li>
+      <li class="breadcrumb-item active"><code class="docutils literal notranslate"><span class="pre">Job</span></code></li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="job">
+<h1><code class="docutils literal notranslate"><span class="pre">Job</span></code><a class="headerlink" href="#job" title="Permalink to this heading"></a></h1>
+<dl class="js class">
+<dt class="sig sig-object js" id="Job">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="n"><span class="pre">Job</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Job" title="Permalink to this definition"></a></dt>
+<dd><p>The Compute API’s Job Handle (see <a class="reference external" href="mailto:{&#37;&#52;&#48;link">{<span>&#64;</span>link</a> <a class="reference external" href="https://docs.dcp.dev/specs/compute-api.html#job">https://docs.dcp.dev/specs/compute-api.html#job</a>-handles|Compute API spec})
+Job handles are objects which correspond to jobs.
+They are created by some exports of the compute module, such as <a class="reference external" href="mailto:{&#37;&#52;&#48;link">{<span>&#64;</span>link</a> module:dcp/compute.do|compute.do} and {&#64;link module:dcp/compute.for|compute.for}.</p>
+</dd></dl>
+
+<section id="attributes">
+<h2>Attributes<a class="headerlink" href="#attributes" title="Permalink to this heading"></a></h2>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><code class="docutils literal notranslate"><span class="pre">job.id</span></code> is a getter for <code class="docutils literal notranslate"><span class="pre">job.address</span></code>, so they’re effectively the same.</p>
+</div>
+<dl class="js attribute">
+<dt class="sig sig-object js" id="Job.localWorker">
+<span class="sig-prename descclassname"><span class="n"><span class="pre">Job</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">localWorker</span></span></span><a class="headerlink" href="#Job.localWorker" title="Permalink to this definition"></a></dt>
+<dd><p>A Worker object that describes the local worker if one is used for a job.</p>
+</dd></dl>
+
+<section id="requirements">
+<h3><code class="docutils literal notranslate"><span class="pre">requirements</span></code><a class="headerlink" href="#requirements" title="Permalink to this heading"></a></h3>
+<!-- TODO(bryan-hoang): Add specs section. e.g. for "See https://docs.dcp.dev/specs/compute-api.html#requirements for more information on the requirements object." -->
+<dl class="js attribute">
+<dt class="sig sig-object js" id="Job.requirements">
+<span class="sig-prename descclassname"><span class="n"><span class="pre">Job</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">requirements</span></span></span><a class="headerlink" href="#Job.requirements" title="Permalink to this definition"></a></dt>
+<dd><p>An object that describes the requirements a worker must have to be eligible for the job.</p>
+<dl class="simple">
+<dt>Requirements include:</dt><dd><ul class="simple">
+<li><p><cite>fdlibm</cite> capability</p></li>
+<li><p><cite>offscreenCampus</cite> definition</p></li>
+<li><p>WebGL <cite>MAX_TEXTURE_SIZE</cite></p></li>
+<li><p>JavaScript engine type</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="public">
+<h3><code class="docutils literal notranslate"><span class="pre">public</span></code><a class="headerlink" href="#public" title="Permalink to this heading"></a></h3>
+<!-- TODO(bryan-hoang): See (link to sandboxEnv.work) for more information. -->
+<dl class="js attribute">
+<dt class="sig sig-object js" id="Job.public">
+<span class="sig-prename descclassname"><span class="n"><span class="pre">Job</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">public</span></span></span><a class="headerlink" href="#Job.public" title="Permalink to this definition"></a></dt>
+<dd><p>An object to store public-facing attributes of a job. Anything stored in this object will be available for use inside the work function. Properties of this object can be seen by the worker in order to display what job it is currently working on.</p>
+</dd></dl>
+
+<dl class="js attribute">
+<dt class="sig sig-object js" id="Job.public.name">
+<span class="sig-prename descclassname"><span class="n"><span class="pre">Job</span></span><span class="p"><span class="pre">.</span></span><span class="n"><span class="pre">public</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">name</span></span></span><a class="headerlink" href="#Job.public.name" title="Permalink to this definition"></a></dt>
+<dd><p>Public-facing name of the job.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>string</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="js attribute">
+<dt class="sig sig-object js" id="Job.public.description">
+<span class="sig-prename descclassname"><span class="n"><span class="pre">Job</span></span><span class="p"><span class="pre">.</span></span><span class="n"><span class="pre">public</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">description</span></span></span><a class="headerlink" href="#Job.public.description" title="Permalink to this definition"></a></dt>
+<dd><p>Public-facing description of the job.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>string</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="js attribute">
+<dt class="sig sig-object js" id="Job.public.link">
+<span class="sig-prename descclassname"><span class="n"><span class="pre">Job</span></span><span class="p"><span class="pre">.</span></span><span class="n"><span class="pre">public</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">link</span></span></span><a class="headerlink" href="#Job.public.link" title="Permalink to this definition"></a></dt>
+<dd><p>Public-facing link to an external resource about the job.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>string</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p><strong>Example:</strong></p>
+<div class="highlight-js notranslate"><div class="highlight"><pre><span></span><span class="kd">const</span> <span class="nx">job</span> <span class="o">=</span> <span class="nx">compute</span><span class="p">.</span><span class="k">for</span><span class="p">(</span><span class="nx">inputSet</span><span class="p">,</span> <span class="nx">workFn</span><span class="p">);</span>
+<span class="nx">job</span><span class="p">.</span><span class="kr">public</span><span class="p">.</span><span class="nx">name</span> <span class="o">=</span> <span class="sb">`DCP for Physics!`</span><span class="p">;</span>
+<span class="nx">job</span><span class="p">.</span><span class="kr">public</span><span class="p">.</span><span class="nx">description</span> <span class="o">=</span> <span class="sb">`Using DCP for electromagnetic force calculations`</span><span class="p">;</span>
+<span class="nx">job</span><span class="p">.</span><span class="kr">public</span><span class="p">.</span><span class="nx">link</span> <span class="o">=</span> <span class="nx">MY_RESEARCH_URL</span><span class="p">;</span>
+</pre></div>
+</div>
+</section>
+<section id="usestrict">
+<h3><code class="docutils literal notranslate"><span class="pre">useStrict</span></code><a class="headerlink" href="#usestrict" title="Permalink to this heading"></a></h3>
+<div class="highlight-Javascript notranslate"><div class="highlight"><pre><span></span><span class="kd">const</span> <span class="nx">job</span> <span class="o">=</span> <span class="nx">compute</span><span class="p">.</span><span class="k">for</span><span class="p">(</span><span class="nx">inputSet</span><span class="p">,</span> <span class="nx">workFn</span><span class="p">);</span>
+<span class="nx">job</span><span class="p">.</span><span class="nx">useStrict</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+</pre></div>
+</div>
+<dl class="js attribute">
+<dt class="sig sig-object js" id="Job.useStrict">
+<span class="sig-prename descclassname"><span class="n"><span class="pre">Job</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">useStrict</span></span></span><a class="headerlink" href="#Job.useStrict" title="Permalink to this definition"></a></dt>
+<dd><p>Setting Job.useStrict true runs the work function in the strict mode.
+:type: boolean</p>
+</dd></dl>
+
+<p><strong>Tutorials:</strong></p>
+<ul class="simple">
+<li><p>Node: <a class="reference internal" href="../../../tutorials/node/dcp-sort.html"><span class="doc std std-doc"><code class="docutils literal notranslate"><span class="pre">dSort</span></code></span></a>, <a class="reference internal" href="../../../tutorials/node/to-upper-case.html"><span class="doc std std-doc"><code class="docutils literal notranslate"><span class="pre">toUpperCase</span></code></span></a></p></li>
+<li><p>Web: <a class="reference internal" href="../../../tutorials/web/dcp-sort.html"><span class="doc std std-doc"><code class="docutils literal notranslate"><span class="pre">dSort</span></code></span></a>, <a class="reference internal" href="../../../tutorials/web/to-upper-case.html"><span class="doc std std-doc"><code class="docutils literal notranslate"><span class="pre">toUpperCase</span></code></span></a></p></li>
+</ul>
+</section>
+</section>
+<section id="methods">
+<h2>Methods<a class="headerlink" href="#methods" title="Permalink to this heading"></a></h2>
+<div class="admonition-job-on admonition">
+<p class="admonition-title">job.on</p>
+<p>The Job Handle class extends Node.js’ <cite>EventEmitter</cite> class, thus <cite>emitter.on</cite> is available on an instance of a Job Handle.</p>
+<p>See <a class="reference external" href="https://nodejs.org/api/events.html#events_emitter_on_eventname_listener">https://nodejs.org/api/events.html#events_emitter_on_eventname_listener</a> for more info.</p>
+</div>
+<p>These are the following events that <code class="docutils literal notranslate"><span class="pre">job.on()</span></code> can listen for:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">accepted</span></code></p>
+<ul>
+<li><p>emitted when the job gets accepted by the <code class="docutils literal notranslate"><span class="pre">DCP</span> <span class="pre">Scheduler</span></code></p></li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">complete</span></code></p>
+<ul>
+<li><p>emitted when the job finishes</p></li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">readystatechange</span></code></p>
+<ul>
+<li><p>emitted leading up to deployment of the job</p></li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">console</span></code></p>
+<ul>
+<li><p>used to collect the console output of the workers</p></li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">result</span></code></p>
+<ul>
+<li><p>emitted when a slice completes and returns</p></li>
+</ul>
+</li>
+</ul>
+<p><strong>Example:</strong></p>
+<div class="highlight-Javascript notranslate"><div class="highlight"><pre><span></span><span class="nx">job</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;readystatechange&#39;</span><span class="p">,</span> <span class="p">(</span><span class="nx">ev</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="p">{</span>
+   <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="sb">`Ready state: </span><span class="si">${</span><span class="nx">ev</span><span class="si">}</span><span class="sb">`</span><span class="p">);</span>
+<span class="p">});</span>
+</pre></div>
+</div>
+<p><strong>Tutorials:</strong></p>
+<ul class="simple">
+<li><p>Web: <a class="reference internal" href="../../../tutorials/web/times-two.html"><span class="doc std std-doc">Times Two</span></a></p></li>
+</ul>
+<section id="exec">
+<h3><code class="docutils literal notranslate"><span class="pre">exec</span></code><a class="headerlink" href="#exec" title="Permalink to this heading"></a></h3>
+<dl class="js method">
+<dt class="sig sig-object js" id="Job.exec">
+<span class="sig-prename descclassname"><span class="n"><span class="pre">Job</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">exec</span></span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">slicePaymentOffer=compute.marketValue</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">paymentAccountKeystore=wallet.get()</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">initialSliceProfile=undefined</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Job.exec" title="Permalink to this definition"></a></dt>
+<dd><p>Deploys the job to the scheduler for work to be done by distributed workers all throughout the DCP network.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Arguments</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>slicePaymentOffer</strong> (<em>number|object</em>) – The amount of DCC user is willing to pay per slice.</p></li>
+<li><p><strong>paymentAccountKeystore</strong> (<em>Keystore</em>) – Instance of Wallet API Keystore being used as the payment account for executing a job.</p></li>
+<li><p><strong>initialSliceProfile</strong> (<em>object</em>) – Object describing the cost the user believes the average slice will incur in terms of CPU/GPU and I/O.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>Promise&lt;<a class="reference internal" href="result-handle.html#ResultHandle" title="ResultHandle"><code class="xref js js-class docutils literal notranslate"><span class="pre">ResultHandle()</span></code></a>&gt;</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p><strong>Example:</strong></p>
+<div class="highlight-js notranslate"><div class="highlight"><pre><span></span><span class="kd">const</span> <span class="p">{</span> <span class="nx">init</span> <span class="p">}</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;dcp-client&#39;</span><span class="p">);</span>
+
+<span class="nx">init</span><span class="p">().</span><span class="nx">then</span><span class="p">(</span><span class="k">async</span> <span class="p">(</span><span class="nx">dcp</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="nx">compute</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;dcp/compute&#39;</span><span class="p">);</span>
+  <span class="c1">// or</span>
+  <span class="c1">// const { compute } = dcp;</span>
+  <span class="kd">const</span> <span class="nx">iterable</span> <span class="o">=</span> <span class="p">[</span><span class="mf">1</span><span class="p">,</span> <span class="mf">2</span><span class="p">,</span> <span class="mf">3</span><span class="p">,</span> <span class="mf">4</span><span class="p">,</span> <span class="mf">5</span><span class="p">];</span>
+  <span class="kd">const</span> <span class="nx">job</span> <span class="o">=</span> <span class="nx">compute</span><span class="p">.</span><span class="k">for</span><span class="p">(</span>
+    <span class="nx">iterable</span><span class="p">,</span>
+    <span class="k">async</span> <span class="p">(</span><span class="nx">sliceIndex</span><span class="p">,</span> <span class="nx">data</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="p">{</span>
+      <span class="nx">progress</span><span class="p">();</span>
+      <span class="k">return</span> <span class="nx">sliceIndex</span> <span class="o">**</span> <span class="mf">2</span> <span class="o">+</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">sqrt</span><span class="p">(</span><span class="nx">data</span><span class="p">);</span>
+    <span class="p">},</span>
+    <span class="p">[</span><span class="mf">100</span><span class="p">],</span>
+  <span class="p">);</span>
+  <span class="kd">const</span> <span class="nx">results</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">job</span><span class="p">.</span><span class="nx">exec</span><span class="p">();</span>
+<span class="p">});</span>
+</pre></div>
+</div>
+<p><strong>Tutorials:</strong></p>
+<ul class="simple">
+<li><p>Node: <a class="reference internal" href="../../../tutorials/node/dcp-sort.html"><span class="doc std std-doc"><code class="docutils literal notranslate"><span class="pre">dSort</span></code></span></a>, <a class="reference internal" href="../../../tutorials/node/to-upper-case.html"><span class="doc std std-doc"><code class="docutils literal notranslate"><span class="pre">toUpperCase</span></code></span></a></p></li>
+<li><p>Web: <a class="reference internal" href="../../../tutorials/web/dcp-sort.html"><span class="doc std std-doc"><code class="docutils literal notranslate"><span class="pre">dSort</span></code></span></a>, <a class="reference internal" href="../../../tutorials/web/to-upper-case.html"><span class="doc std std-doc"><code class="docutils literal notranslate"><span class="pre">toUpperCase</span></code></span></a>, <a class="reference internal" href="../../../tutorials/web/times-two.html"><span class="doc std std-doc">Times Two</span></a></p></li>
+</ul>
+</section>
+<section id="localexec">
+<h3><code class="docutils literal notranslate"><span class="pre">localExec</span></code><a class="headerlink" href="#localexec" title="Permalink to this heading"></a></h3>
+<dl class="js method">
+<dt class="sig sig-object js" id="Job.localExec">
+<span class="sig-prename descclassname"><span class="n"><span class="pre">Job</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">localExec</span></span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cores=1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">slicePaymentOffer=compute.marketValue</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">paymentAccountKeystore=wallet.get()</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">initialSliceProfile=undefined</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Job.localExec" title="Permalink to this definition"></a></dt>
+<dd><p>Deploys the job for work to be done in locally in the client.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Arguments</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>cores</strong> (<em>number</em>) – The number of local cores to be used to execute the job.</p></li>
+<li><p><strong>slicePaymentOffer</strong> (<em>number|object</em>) – The amount of DCC user is willing to pay per slice. However, localExec jobs don’t take DCC.</p></li>
+<li><p><strong>paymentAccountKeystore</strong> (<em>Keystore</em>) – Instance of Wallet API Keystore being used as the payment account for executing a job.</p></li>
+<li><p><strong>initialSliceProfile</strong> (<em>object</em>) – Object describing the cost the user believes the average slice will incur in terms of CPU/CPU and I/O.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>Promise&lt;<a class="reference internal" href="result-handle.html#ResultHandle" title="ResultHandle"><code class="xref js js-class docutils literal notranslate"><span class="pre">ResultHandle()</span></code></a>&gt;</p>
+</dd>
+</dl>
+</dd></dl>
+
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>2021-12-14: We are aware of an issue where <code class="docutils literal notranslate"><span class="pre">localExec()</span></code> does not work on Windows systems. We are working to resolve this.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Running a DCP job on <code class="docutils literal notranslate"><span class="pre">localExec()</span></code> requires <code class="docutils literal notranslate"><span class="pre">dcp-worker</span></code> to be installed in the project repository.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>npm i dcp-worker
+</pre></div>
+</div>
+</div>
+<p><strong>Example:</strong></p>
+<div class="highlight-js notranslate"><div class="highlight"><pre><span></span><span class="kd">const</span> <span class="p">{</span> <span class="nx">init</span> <span class="p">}</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;dcp-client&#39;</span><span class="p">);</span>
+
+<span class="nx">init</span><span class="p">().</span><span class="nx">then</span><span class="p">(</span><span class="k">async</span> <span class="p">(</span><span class="nx">dcp</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="nx">compute</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;dcp/compute&#39;</span><span class="p">);</span>
+  <span class="c1">// or</span>
+  <span class="c1">// const { compute } = dcp;</span>
+  <span class="kd">const</span> <span class="nx">iterable</span> <span class="o">=</span> <span class="p">[</span><span class="mf">1</span><span class="p">,</span> <span class="mf">2</span><span class="p">,</span> <span class="mf">3</span><span class="p">,</span> <span class="mf">4</span><span class="p">,</span> <span class="mf">5</span><span class="p">];</span>
+  <span class="kd">const</span> <span class="nx">job</span> <span class="o">=</span> <span class="nx">compute</span><span class="p">.</span><span class="k">for</span><span class="p">(</span>
+    <span class="nx">iterable</span><span class="p">,</span>
+    <span class="k">async</span> <span class="p">(</span><span class="nx">sliceIndex</span><span class="p">,</span> <span class="nx">data</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="p">{</span>
+      <span class="nx">progress</span><span class="p">();</span>
+      <span class="k">return</span> <span class="nx">sliceIndex</span> <span class="o">**</span> <span class="mf">2</span> <span class="o">+</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">sqrt</span><span class="p">(</span><span class="nx">data</span><span class="p">);</span>
+    <span class="p">},</span>
+    <span class="p">[</span><span class="mf">100</span><span class="p">],</span>
+  <span class="p">);</span>
+  <span class="kd">const</span> <span class="nx">results</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">job</span><span class="p">.</span><span class="nx">localExec</span><span class="p">();</span>
+<span class="p">});</span>
+</pre></div>
+</div>
+</section>
+<section id="cancel">
+<h3><code class="docutils literal notranslate"><span class="pre">cancel</span></code><a class="headerlink" href="#cancel" title="Permalink to this heading"></a></h3>
+<dl class="js function">
+<dt class="sig sig-object js" id="Job.cancel">
+<span class="sig-prename descclassname"><span class="n"><span class="pre">Job</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">cancel</span></span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">reason=''</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Job.cancel" title="Permalink to this definition"></a></dt>
+<dd><p>Cancels the job on the scheduler end. No additional slices from the job will be sent to any workers.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Arguments</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>reason</strong> (<em>string</em>) – The reason for job cancellation, sent to client if provided.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>Promise&lt;void&gt;</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p>This can be used to cancel jobs returning unpredictable, or incorrect results. This can save DCCs if you cancel a job before all the slices are complete, but after you know that the results won’t be useful in some way. <strong>Example:</strong></p>
+<div class="highlight-js notranslate"><div class="highlight"><pre><span></span><span class="cm">/*</span>
+<span class="cm"> * Example that cancels a job if any result that gets returned is not a number.</span>
+<span class="cm"> */</span>
+<span class="kd">const</span> <span class="nx">job</span> <span class="o">=</span> <span class="nx">compute</span><span class="p">.</span><span class="k">for</span><span class="p">(</span><span class="nx">inputSet</span><span class="p">,</span> <span class="nx">workFn</span><span class="p">);</span>
+
+<span class="nx">job</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;result&#39;</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">ev</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">if</span> <span class="p">(</span><span class="ow">typeof</span> <span class="nx">ev</span> <span class="o">!==</span> <span class="s1">&#39;number&#39;</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">job</span><span class="p">.</span><span class="nx">cancel</span><span class="p">(</span><span class="s1">&#39;Unexpected results, expected number&#39;</span><span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">});</span>
+</pre></div>
+</div>
+</section>
+<section id="resume">
+<h3><code class="docutils literal notranslate"><span class="pre">resume</span></code><a class="headerlink" href="#resume" title="Permalink to this heading"></a></h3>
+<dl class="js function">
+<dt class="sig sig-object js" id="Job.resume">
+<span class="sig-prename descclassname"><span class="n"><span class="pre">Job</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">resume</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Job.resume" title="Permalink to this definition"></a></dt>
+<dd><p>Resumes the job.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Promise&lt;void&gt;</p>
+</dd>
+</dl>
+</dd></dl>
+
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p><code class="docutils literal notranslate"><span class="pre">job.resume()</span></code> is not yet implemented in v4.</p>
+</div>
+</section>
+<section id="requires">
+<h3><code class="docutils literal notranslate"><span class="pre">requires</span></code><a class="headerlink" href="#requires" title="Permalink to this heading"></a></h3>
+<dl class="js function">
+<dt class="sig sig-object js" id="Job.requires">
+<span class="sig-prename descclassname"><span class="n"><span class="pre">Job</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">requires</span></span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">modulePaths</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Job.requires" title="Permalink to this definition"></a></dt>
+<dd><p>Specifies module dependencies of the work function.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Arguments</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>modulePaths</strong> (<em>string|Array&lt;string&gt;</em>) – Either a string or a list of strings that represent the module dependency path.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><code class="docutils literal notranslate"><span class="pre">modulePaths</span></code> should not have <code class="docutils literal notranslate"><span class="pre">.js</span></code> extension at the end of the path. For more information on <code class="docutils literal notranslate"><span class="pre">moduleIdentifiers</span></code>, view the CommonJs specification <a class="reference external" href="http://wiki.commonjs.org/wiki/Modules/1.1#Module_Identifiers">here</a></p>
+</div>
+<p><strong>Example:</strong></p>
+<div class="highlight-Javascript notranslate"><div class="highlight"><pre><span></span><span class="kd">const</span> <span class="nx">job</span> <span class="o">=</span> <span class="nx">compute</span><span class="p">.</span><span class="k">for</span><span class="p">([</span><span class="s1">&#39;apple&#39;</span><span class="p">,</span> <span class="s1">&#39;banana&#39;</span><span class="p">,</span> <span class="s1">&#39;pineapple&#39;</span><span class="p">],</span> <span class="kd">function</span> <span class="nx">work</span><span class="p">(</span><span class="nx">data</span><span class="p">)</span> <span class="p">{</span>
+
+   <span class="kd">let</span> <span class="nx">mid</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="sb">`./reverser`</span><span class="p">)</span>
+   <span class="nx">progress</span><span class="p">();</span>
+   <span class="k">return</span> <span class="nx">mid</span><span class="p">.</span><span class="nx">reverse</span><span class="p">(</span><span class="nx">data</span><span class="p">)</span>
+  <span class="p">});</span>
+
+<span class="nx">job</span><span class="p">.</span><span class="nx">requires</span><span class="p">(</span><span class="s1">&#39;./reverser&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="events">
+<h2>Events<a class="headerlink" href="#events" title="Permalink to this heading"></a></h2>
+<section id="status">
+<h3><code class="docutils literal notranslate"><span class="pre">&quot;status&quot;</span></code><a class="headerlink" href="#status" title="Permalink to this heading"></a></h3>
+<dl class="js attribute">
+<dt class="sig sig-object js" id="event">
+<span class="sig-name descname"><span class="n"><span class="pre">event</span></span></span><a class="headerlink" href="#event" title="Permalink to this definition"></a></dt>
+<dd><p>An object that contains relevant information about the job and its slices.</p>
+</dd></dl>
+
+<dl class="js attribute">
+<dt class="sig sig-object js" id="event.total">
+<span class="sig-prename descclassname"><span class="n"><span class="pre">event</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">total</span></span></span><a class="headerlink" href="#event.total" title="Permalink to this definition"></a></dt>
+<dd><p>Total number of slices in the job.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>number</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="js attribute">
+<dt class="sig sig-object js" id="event.distributed">
+<span class="sig-prename descclassname"><span class="n"><span class="pre">event</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">distributed</span></span></span><a class="headerlink" href="#event.distributed" title="Permalink to this definition"></a></dt>
+<dd><p>Number of slices that have been distributed.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>number</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="js attribute">
+<dt class="sig sig-object js" id="event.computed">
+<span class="sig-prename descclassname"><span class="n"><span class="pre">event</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">computed</span></span></span><a class="headerlink" href="#event.computed" title="Permalink to this definition"></a></dt>
+<dd><p>Number of slices that have completed execution and returned a result.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>number</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="js attribute">
+<dt class="sig sig-object js" id="event.runStatus">
+<span class="sig-prename descclassname"><span class="n"><span class="pre">event</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">runStatus</span></span></span><a class="headerlink" href="#event.runStatus" title="Permalink to this definition"></a></dt>
+<dd><p>The current run status of the job (e.g. estimation, running, finished, etc.).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>string</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p><strong>Example:</strong></p>
+<div class="highlight-js notranslate"><div class="highlight"><pre><span></span><span class="kd">const</span> <span class="nx">job</span> <span class="o">=</span> <span class="nx">compute</span><span class="p">.</span><span class="k">for</span><span class="p">(</span><span class="nx">inputSet</span><span class="p">,</span> <span class="nx">workFn</span><span class="p">);</span>
+
+<span class="nx">job</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;status&#39;</span><span class="p">,</span> <span class="p">()</span> <span class="p">=&gt;</span> <span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">job</span><span class="p">.</span><span class="nx">status</span><span class="p">);</span>
+<span class="p">});</span>
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="Classes" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="multi-range-object.html" class="btn btn-neutral float-right" title="MultiRangeObject" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Distributive.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+    <!-- Theme Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-0N557JP49X"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-0N557JP49X', {
+          'anonymize_ip': false,
+      });
+    </script> 
+
+</body>
+</html>
